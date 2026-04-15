@@ -15,7 +15,7 @@ on:
       - 'stl-preview-base/**'
 
 env:
-  GOPRIVATE: github.com/stainless-sdks/clear-street-go
+  GOPRIVATE: github.com/clear-street/clear-street-go,github.com/stainless-sdks/clear-street-go
 
 jobs:
   lint:
