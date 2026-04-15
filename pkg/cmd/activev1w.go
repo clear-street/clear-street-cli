@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-go"
-	"github.com/stainless-sdks/clear-street-cli/internal/apiquery"
 	"github.com/urfave/cli/v3"
 )
 

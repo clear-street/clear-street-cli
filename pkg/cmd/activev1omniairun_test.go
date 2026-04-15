@@ -5,7 +5,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/stainless-sdks/clear-street-cli/internal/mocktest"
+	"github.com/clear-street/clear-street-cli/internal/mocktest"
 )
 
 func TestActiveV1OmniAIRunsCancelRun(t *testing.T) {

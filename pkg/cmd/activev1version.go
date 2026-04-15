@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-go"
 	"github.com/clear-street/clear-street-go/option"
-	"github.com/stainless-sdks/clear-street-cli/internal/apiquery"
 	"github.com/tidwall/gjson"
 	"github.com/urfave/cli/v3"
 )

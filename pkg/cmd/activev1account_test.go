@@ -5,8 +5,8 @@ package cmd
 import (
 	"testing"
 
-	"github.com/stainless-sdks/clear-street-cli/internal/mocktest"
-	"github.com/stainless-sdks/clear-street-cli/internal/requestflag"
+	"github.com/clear-street/clear-street-cli/internal/mocktest"
+	"github.com/clear-street/clear-street-cli/internal/requestflag"
 )
 
 func TestActiveV1AccountsGetAccountByID(t *testing.T) {
