@@ -10,8 +10,8 @@ import (
 	"os"
 	"slices"
 
+	"github.com/clear-street/clear-street-cli/pkg/cmd"
 	"github.com/clear-street/clear-street-go"
-	"github.com/stainless-sdks/clear-street-cli/pkg/cmd"
 	"github.com/tidwall/gjson"
 	"github.com/urfave/cli/v3"
 )

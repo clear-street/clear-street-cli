@@ -16,8 +16,8 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/clear-street/clear-street-cli/internal/jsonview"
 	"github.com/clear-street/clear-street-go/option"
-	"github.com/stainless-sdks/clear-street-cli/internal/jsonview"
 
 	"github.com/charmbracelet/x/term"
 	"github.com/itchyny/json2yaml"
