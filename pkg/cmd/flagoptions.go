@@ -14,11 +14,11 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/clear-street/clear-street-go/option"
 	"github.com/stainless-sdks/clear-street-cli/internal/apiform"
 	"github.com/stainless-sdks/clear-street-cli/internal/apiquery"
 	"github.com/stainless-sdks/clear-street-cli/internal/debugmiddleware"
 	"github.com/stainless-sdks/clear-street-cli/internal/requestflag"
-	"github.com/stainless-sdks/clear-street-go/option"
 
 	"github.com/goccy/go-yaml"
 	"github.com/urfave/cli/v3"
