@@ -379,6 +379,7 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&activeV1ScreenerGetScreener,
+					&activeV1ScreenerSearchScreener,
 				},
 			},
 			{
