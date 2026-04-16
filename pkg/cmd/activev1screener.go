@@ -31,12 +31,12 @@ var activeV1ScreenerGetScreener = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "Number of items to return per page (default: 100, max: 10000)",
+			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state.",
+			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 		&requestflag.Flag[string]{
