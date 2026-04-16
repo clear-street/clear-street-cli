@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -100,7 +99,12 @@ func handleActiveV1WatchlistsCreateWatchlist(ctx context.Context, cmd *cli.Comma
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:watchlists create-watchlist", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:watchlists create-watchlist",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1WatchlistsDeleteWatchlist(ctx context.Context, cmd *cli.Command) error {
@@ -161,7 +165,12 @@ func handleActiveV1WatchlistsGetWatchlistByID(ctx context.Context, cmd *cli.Comm
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:watchlists get-watchlist-by-id", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:watchlists get-watchlist-by-id",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command) error {
@@ -194,5 +203,10 @@ func handleActiveV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:watchlists get-watchlists", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:watchlists get-watchlists",
+		Transform:      transform,
+	})
 }

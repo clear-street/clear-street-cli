@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -194,7 +193,12 @@ func handleActiveV1SavedScreenersCreateScreener(ctx context.Context, cmd *cli.Co
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:saved-screeners create-screener", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:saved-screeners create-screener",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1SavedScreenersDeleteScreener(ctx context.Context, cmd *cli.Command) error {
@@ -255,7 +259,12 @@ func handleActiveV1SavedScreenersGetScreenerByID(ctx context.Context, cmd *cli.C
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:saved-screeners get-screener-by-id", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:saved-screeners get-screener-by-id",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1SavedScreenersListScreeners(ctx context.Context, cmd *cli.Command) error {
@@ -288,7 +297,12 @@ func handleActiveV1SavedScreenersListScreeners(ctx context.Context, cmd *cli.Com
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:saved-screeners list-screeners", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:saved-screeners list-screeners",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1SavedScreenersUpdateScreener(ctx context.Context, cmd *cli.Command) error {
@@ -331,5 +345,10 @@ func handleActiveV1SavedScreenersUpdateScreener(ctx context.Context, cmd *cli.Co
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:saved-screeners update-screener", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:saved-screeners update-screener",
+		Transform:      transform,
+	})
 }

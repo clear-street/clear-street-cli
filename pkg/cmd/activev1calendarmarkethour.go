@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -68,5 +67,10 @@ func handleActiveV1CalendarsMarketHoursGetMarketHoursCalendar(ctx context.Contex
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:calendars:market-hours get-market-hours-calendar", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:calendars:market-hours get-market-hours-calendar",
+		Transform:      transform,
+	})
 }

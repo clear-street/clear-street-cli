@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -147,7 +146,12 @@ func handleActiveV1IrisRunsCancelRunDeprecated(ctx context.Context, cmd *cli.Com
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:iris:runs cancel-run-deprecated", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:iris:runs cancel-run-deprecated",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1IrisRunsGetRunDeprecated(ctx context.Context, cmd *cli.Command) error {
@@ -190,7 +194,12 @@ func handleActiveV1IrisRunsGetRunDeprecated(ctx context.Context, cmd *cli.Comman
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:iris:runs get-run-deprecated", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:iris:runs get-run-deprecated",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1IrisRunsStartRunDeprecated(ctx context.Context, cmd *cli.Command) error {
@@ -225,5 +234,10 @@ func handleActiveV1IrisRunsStartRunDeprecated(ctx context.Context, cmd *cli.Comm
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:iris:runs start-run-deprecated", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:iris:runs start-run-deprecated",
+		Transform:      transform,
+	})
 }
