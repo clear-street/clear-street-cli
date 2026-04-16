@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -101,7 +100,12 @@ func handleActiveV1IrisThreadsGetThreadDeprecated(ctx context.Context, cmd *cli.
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:iris:threads get-thread-deprecated", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:iris:threads get-thread-deprecated",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1IrisThreadsListThreadsDeprecated(ctx context.Context, cmd *cli.Command) error {
@@ -136,5 +140,10 @@ func handleActiveV1IrisThreadsListThreadsDeprecated(ctx context.Context, cmd *cl
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:iris:threads list-threads-deprecated", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:iris:threads list-threads-deprecated",
+		Transform:      transform,
+	})
 }

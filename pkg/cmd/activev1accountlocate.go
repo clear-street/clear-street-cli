@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -151,7 +150,12 @@ func handleActiveV1AccountsLocatesCreateLocateRequest(ctx context.Context, cmd *
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:locates create-locate-request", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:locates create-locate-request",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsLocatesGetLocateRequests(ctx context.Context, cmd *cli.Command) error {
@@ -194,7 +198,12 @@ func handleActiveV1AccountsLocatesGetLocateRequests(ctx context.Context, cmd *cl
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:locates get-locate-requests", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:locates get-locate-requests",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsLocatesUpdateLocateRequest(ctx context.Context, cmd *cli.Command) error {
@@ -237,5 +246,10 @@ func handleActiveV1AccountsLocatesUpdateLocateRequest(ctx context.Context, cmd *
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:locates update-locate-request", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:locates update-locate-request",
+		Transform:      transform,
+	})
 }

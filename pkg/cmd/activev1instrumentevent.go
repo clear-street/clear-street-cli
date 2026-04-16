@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -116,7 +115,12 @@ func handleActiveV1InstrumentsEventsGetAllInstrumentEvents(ctx context.Context, 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:instruments:events get-all-instrument-events", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:instruments:events get-all-instrument-events",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1InstrumentsEventsGetInstrumentEvents(ctx context.Context, cmd *cli.Command) error {
@@ -161,5 +165,10 @@ func handleActiveV1InstrumentsEventsGetInstrumentEvents(ctx context.Context, cmd
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:instruments:events get-instrument-events", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:instruments:events get-instrument-events",
+		Transform:      transform,
+	})
 }

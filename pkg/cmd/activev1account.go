@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -109,7 +108,12 @@ func handleActiveV1AccountsGetAccountByID(ctx context.Context, cmd *cli.Command)
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts get-account-by-id", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts get-account-by-id",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsGetAccounts(ctx context.Context, cmd *cli.Command) error {
@@ -144,7 +148,12 @@ func handleActiveV1AccountsGetAccounts(ctx context.Context, cmd *cli.Command) er
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts get-accounts", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts get-accounts",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsPatchAccountByID(ctx context.Context, cmd *cli.Command) error {
@@ -187,5 +196,10 @@ func handleActiveV1AccountsPatchAccountByID(ctx context.Context, cmd *cli.Comman
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts patch-account-by-id", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts patch-account-by-id",
+		Transform:      transform,
+	})
 }

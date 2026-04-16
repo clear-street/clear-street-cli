@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -147,7 +146,12 @@ func handleActiveV1OmniAIRunsCancelRun(ctx context.Context, cmd *cli.Command) er
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:omni-ai:runs cancel-run", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:omni-ai:runs cancel-run",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1OmniAIRunsGetRun(ctx context.Context, cmd *cli.Command) error {
@@ -190,7 +194,12 @@ func handleActiveV1OmniAIRunsGetRun(ctx context.Context, cmd *cli.Command) error
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:omni-ai:runs get-run", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:omni-ai:runs get-run",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1OmniAIRunsStartRun(ctx context.Context, cmd *cli.Command) error {
@@ -225,5 +234,10 @@ func handleActiveV1OmniAIRunsStartRun(ctx context.Context, cmd *cli.Command) err
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:omni-ai:runs start-run", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:omni-ai:runs start-run",
+		Transform:      transform,
+	})
 }

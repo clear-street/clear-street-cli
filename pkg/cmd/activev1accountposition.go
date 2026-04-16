@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -147,7 +146,12 @@ func handleActiveV1AccountsPositionsClosePosition(ctx context.Context, cmd *cli.
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:positions close-position", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:positions close-position",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsPositionsClosePositions(ctx context.Context, cmd *cli.Command) error {
@@ -190,7 +194,12 @@ func handleActiveV1AccountsPositionsClosePositions(ctx context.Context, cmd *cli
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:positions close-positions", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:positions close-positions",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsPositionsGetPositions(ctx context.Context, cmd *cli.Command) error {
@@ -233,5 +242,10 @@ func handleActiveV1AccountsPositionsGetPositions(ctx context.Context, cmd *cli.C
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:positions get-positions", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:positions get-positions",
+		Transform:      transform,
+	})
 }

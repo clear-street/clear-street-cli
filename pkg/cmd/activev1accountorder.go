@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
@@ -246,7 +245,12 @@ func handleActiveV1AccountsOrdersCancelAllOrders(ctx context.Context, cmd *cli.C
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:orders cancel-all-orders", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:orders cancel-all-orders",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsOrdersCancelOrder(ctx context.Context, cmd *cli.Command) error {
@@ -291,7 +295,12 @@ func handleActiveV1AccountsOrdersCancelOrder(ctx context.Context, cmd *cli.Comma
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:orders cancel-order", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:orders cancel-order",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsOrdersGetOrderByID(ctx context.Context, cmd *cli.Command) error {
@@ -336,7 +345,12 @@ func handleActiveV1AccountsOrdersGetOrderByID(ctx context.Context, cmd *cli.Comm
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:orders get-order-by-id", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:orders get-order-by-id",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsOrdersGetOrders(ctx context.Context, cmd *cli.Command) error {
@@ -379,7 +393,12 @@ func handleActiveV1AccountsOrdersGetOrders(ctx context.Context, cmd *cli.Command
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:orders get-orders", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:orders get-orders",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsOrdersReplaceOrder(ctx context.Context, cmd *cli.Command) error {
@@ -424,7 +443,12 @@ func handleActiveV1AccountsOrdersReplaceOrder(ctx context.Context, cmd *cli.Comm
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:orders replace-order", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:orders replace-order",
+		Transform:      transform,
+	})
 }
 
 func handleActiveV1AccountsOrdersSubmitOrders(ctx context.Context, cmd *cli.Command) error {
@@ -467,5 +491,10 @@ func handleActiveV1AccountsOrdersSubmitOrders(ctx context.Context, cmd *cli.Comm
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "active:v1:accounts:orders submit-orders", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "active:v1:accounts:orders submit-orders",
+		Transform:      transform,
+	})
 }
