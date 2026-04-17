@@ -16,7 +16,7 @@ import (
 
 var activeV1AccountsOrdersCancelAllOrders = cli.Command{
 	Name:    "cancel-all-orders",
-	Usage:   "All filter parameters can be used independently or combined. The only constraint\nis that `security_id` and `security_id_source` must be provided together if\neither is specified.",
+	Usage:   "Cancel all orders for an account",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -73,7 +73,7 @@ var activeV1AccountsOrdersCancelOrder = cli.Command{
 
 var activeV1AccountsOrdersGetOrderByID = cli.Command{
 	Name:    "get-order-by-id",
-	Usage:   "Get order by ID",
+	Usage:   "Get Order By ID",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{

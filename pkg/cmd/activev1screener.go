@@ -16,7 +16,7 @@ import (
 
 var activeV1ScreenerGetScreener = cli.Command{
 	Name:    "get-screener",
-	Usage:   "Searches for instruments matching specified criteria.",
+	Usage:   "Screen instruments.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{
@@ -56,7 +56,7 @@ var activeV1ScreenerGetScreener = cli.Command{
 
 var activeV1ScreenerSearchScreener = requestflag.WithInnerFlags(cli.Command{
 	Name:    "search-screener",
-	Usage:   "Returns a columnar response where each row is an array of column objects. Each\ncolumn contains a human-readable name, a field reference, an optional type hint\n(e.g. `CURR_USD`, `PERCENT`), and the value.",
+	Usage:   "Search instruments using structured filters.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[any]{

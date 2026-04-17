@@ -41,7 +41,7 @@ var activeV1OmniAIRunsCancelRun = cli.Command{
 
 var activeV1OmniAIRunsGetRun = cli.Command{
 	Name:    "get-run",
-	Usage:   "Poll for the current status of a run and any new events since the last poll.",
+	Usage:   "Get run status and events.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -71,7 +71,7 @@ var activeV1OmniAIRunsGetRun = cli.Command{
 
 var activeV1OmniAIRunsStartRun = cli.Command{
 	Name:    "start-run",
-	Usage:   "Begins an agentic conversation run. If thread_id is provided, continues an\nexisting conversation; otherwise creates a new thread.",
+	Usage:   "Start a new assistant run.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{

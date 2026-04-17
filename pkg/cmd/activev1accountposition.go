@@ -16,7 +16,7 @@ import (
 
 var activeV1AccountsPositionsClosePosition = cli.Command{
 	Name:    "close-position",
-	Usage:   "Retrieves all positions for the specified trading account.",
+	Usage:   "Delete a position within an account for an instrument.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -43,7 +43,7 @@ var activeV1AccountsPositionsClosePosition = cli.Command{
 
 var activeV1AccountsPositionsClosePositions = cli.Command{
 	Name:    "close-positions",
-	Usage:   "Closes all positions for the specified trading account.",
+	Usage:   "Delete all positions within an account.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{

@@ -16,7 +16,7 @@ import (
 
 var activeV1InstrumentsOptionsContractsGetOptionContracts = cli.Command{
 	Name:    "get-option-contracts",
-	Usage:   "Returns options contracts for a given underlier with options-specific metadata.\nExactly one underlier identifier must be provided.",
+	Usage:   "List options contracts.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
