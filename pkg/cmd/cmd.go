@@ -281,6 +281,41 @@ func init() {
 				},
 			},
 			{
+				Name:     "active:v1:iris:feedback",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1IrisFeedbackCreateFeedbackDeprecated,
+				},
+			},
+			{
+				Name:     "active:v1:iris:runs",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1IrisRunsCancelRunDeprecated,
+					&activeV1IrisRunsGetRunDeprecated,
+					&activeV1IrisRunsStartRunDeprecated,
+				},
+			},
+			{
+				Name:     "active:v1:iris:threads",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1IrisThreadsGetThreadDeprecated,
+					&activeV1IrisThreadsListThreadsDeprecated,
+				},
+			},
+			{
+				Name:     "active:v1:iris:threads:messages",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1IrisThreadsMessagesListMessagesDeprecated,
+				},
+			},
+			{
 				Name:     "active:v1:market-data:snapshot",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -297,28 +332,21 @@ func init() {
 				},
 			},
 			{
-				Name:     "active:v1:omni-ai:messages",
+				Name:     "active:v1:omni-ai:feedback",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1OmniAIMessagesGetMessage,
+					&activeV1OmniAIFeedbackCreateFeedback,
 				},
 			},
 			{
-				Name:     "active:v1:omni-ai:messages:feedback",
+				Name:     "active:v1:omni-ai:runs",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1OmniAIMessagesFeedbackCreateFeedback,
-				},
-			},
-			{
-				Name:     "active:v1:omni-ai:responses",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1OmniAIResponsesCancelResponse,
-					&activeV1OmniAIResponsesGetResponse,
+					&activeV1OmniAIRunsCancelRun,
+					&activeV1OmniAIRunsGetRun,
+					&activeV1OmniAIRunsStartRun,
 				},
 			},
 			{
@@ -326,7 +354,6 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1OmniAIThreadsCreateThread,
 					&activeV1OmniAIThreadsGetThread,
 					&activeV1OmniAIThreadsListThreads,
 				},
@@ -336,16 +363,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1OmniAIThreadsMessagesCreateMessage,
 					&activeV1OmniAIThreadsMessagesListMessages,
-				},
-			},
-			{
-				Name:     "active:v1:omni-ai:threads:response",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1OmniAIThreadsResponseGetThreadResponse,
 				},
 			},
 			{
