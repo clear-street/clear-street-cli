@@ -14,8 +14,8 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var activeV1AccountsOrdersCancelAllOrders = cli.Command{
-	Name:    "cancel-all-orders",
+var activeV1AccountsOrdersCancelAllOpenOrders = cli.Command{
+	Name:    "cancel-all-open-orders",
 	Usage:   "Cancel all orders for an account",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -49,12 +49,12 @@ var activeV1AccountsOrdersCancelAllOrders = cli.Command{
 			QueryPath: "type",
 		},
 	},
-	Action:          handleActiveV1AccountsOrdersCancelAllOrders,
+	Action:          handleActiveV1AccountsOrdersCancelAllOpenOrders,
 	HideHelpCommand: true,
 }
 
-var activeV1AccountsOrdersCancelOrder = cli.Command{
-	Name:    "cancel-order",
+var activeV1AccountsOrdersCancelOpenOrder = cli.Command{
+	Name:    "cancel-open-order",
 	Usage:   "Cancel a specific order",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -67,7 +67,7 @@ var activeV1AccountsOrdersCancelOrder = cli.Command{
 			Required: true,
 		},
 	},
-	Action:          handleActiveV1AccountsOrdersCancelOrder,
+	Action:          handleActiveV1AccountsOrdersCancelOpenOrder,
 	HideHelpCommand: true,
 }
 
@@ -205,7 +205,7 @@ var activeV1AccountsOrdersSubmitOrders = cli.Command{
 	HideHelpCommand: true,
 }
 
-func handleActiveV1AccountsOrdersCancelAllOrders(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1AccountsOrdersCancelAllOpenOrders(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
@@ -216,7 +216,7 @@ func handleActiveV1AccountsOrdersCancelAllOrders(ctx context.Context, cmd *cli.C
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountOrderCancelAllOrdersParams{}
+	params := clearstreet.ActiveV1AccountOrderCancelAllOpenOrdersParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -231,7 +231,7 @@ func handleActiveV1AccountsOrdersCancelAllOrders(ctx context.Context, cmd *cli.C
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.Accounts.Orders.CancelAllOrders(
+	_, err = client.Active.V1.Accounts.Orders.CancelAllOpenOrders(
 		ctx,
 		cmd.Value("account-id").(int64),
 		params,
@@ -249,12 +249,12 @@ func handleActiveV1AccountsOrdersCancelAllOrders(ctx context.Context, cmd *cli.C
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "active:v1:accounts:orders cancel-all-orders",
+		Title:          "active:v1:accounts:orders cancel-all-open-orders",
 		Transform:      transform,
 	})
 }
 
-func handleActiveV1AccountsOrdersCancelOrder(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1AccountsOrdersCancelOpenOrder(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("order-id") && len(unusedArgs) > 0 {
@@ -265,7 +265,7 @@ func handleActiveV1AccountsOrdersCancelOrder(ctx context.Context, cmd *cli.Comma
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountOrderCancelOrderParams{
+	params := clearstreet.ActiveV1AccountOrderCancelOpenOrderParams{
 		AccountID: cmd.Value("account-id").(int64),
 	}
 
@@ -282,7 +282,7 @@ func handleActiveV1AccountsOrdersCancelOrder(ctx context.Context, cmd *cli.Comma
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.Accounts.Orders.CancelOrder(
+	_, err = client.Active.V1.Accounts.Orders.CancelOpenOrder(
 		ctx,
 		cmd.Value("order-id").(string),
 		params,
@@ -300,7 +300,7 @@ func handleActiveV1AccountsOrdersCancelOrder(ctx context.Context, cmd *cli.Comma
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "active:v1:accounts:orders cancel-order",
+		Title:          "active:v1:accounts:orders cancel-open-order",
 		Transform:      transform,
 	})
 }

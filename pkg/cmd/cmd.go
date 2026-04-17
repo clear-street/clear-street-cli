@@ -129,8 +129,8 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1AccountsOrdersCancelAllOrders,
-					&activeV1AccountsOrdersCancelOrder,
+					&activeV1AccountsOrdersCancelAllOpenOrders,
+					&activeV1AccountsOrdersCancelOpenOrder,
 					&activeV1AccountsOrdersGetOrderByID,
 					&activeV1AccountsOrdersGetOrders,
 					&activeV1AccountsOrdersReplaceOrder,
@@ -374,8 +374,8 @@ func init() {
 					&activeV1SavedScreenersCreateScreener,
 					&activeV1SavedScreenersDeleteScreener,
 					&activeV1SavedScreenersGetScreenerByID,
-					&activeV1SavedScreenersListScreeners,
-					&activeV1SavedScreenersUpdateScreener,
+					&activeV1SavedScreenersGetScreeners,
+					&activeV1SavedScreenersReplaceScreener,
 				},
 			},
 			{

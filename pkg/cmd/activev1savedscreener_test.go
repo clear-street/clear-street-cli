@@ -87,24 +87,24 @@ func TestActiveV1SavedScreenersGetScreenerByID(t *testing.T) {
 	})
 }
 
-func TestActiveV1SavedScreenersListScreeners(t *testing.T) {
+func TestActiveV1SavedScreenersGetScreeners(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"active:v1:saved-screeners", "list-screeners",
+			"active:v1:saved-screeners", "get-screeners",
 		)
 	})
 }
 
-func TestActiveV1SavedScreenersUpdateScreener(t *testing.T) {
+func TestActiveV1SavedScreenersReplaceScreener(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"active:v1:saved-screeners", "update-screener",
+			"active:v1:saved-screeners", "replace-screener",
 			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
 			"--field-filter", "[string]",
 			"--filter", "[{field_name: field_name, operation: operation, value: value}]",
@@ -116,13 +116,13 @@ func TestActiveV1SavedScreenersUpdateScreener(t *testing.T) {
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(activeV1SavedScreenersUpdateScreener)
+		requestflag.CheckInnerFlags(activeV1SavedScreenersReplaceScreener)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"active:v1:saved-screeners", "update-screener",
+			"active:v1:saved-screeners", "replace-screener",
 			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
 			"--field-filter", "[string]",
 			"--filter.field-name", "field_name",
@@ -149,7 +149,7 @@ func TestActiveV1SavedScreenersUpdateScreener(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"active:v1:saved-screeners", "update-screener",
+			"active:v1:saved-screeners", "replace-screener",
 			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
 		)
 	})
