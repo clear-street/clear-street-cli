@@ -14,26 +14,34 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var activeV1OmniAIMessagesFeedbackCreateFeedback = cli.Command{
+var activeV1OmniAIFeedbackCreateFeedback = cli.Command{
 	Name:    "create-feedback",
-	Usage:   "Attaches a score and optional comment to a finalized assistant message. Feedback\nis only valid for messages with role `ASSISTANT` that have reached a terminal\noutcome.",
+	Usage:   "Submit user feedback (thumbs up/down, rating, comment) for an assistant message.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "message-id",
-			Required: true,
-		},
-		&requestflag.Flag[int64]{
 			Name:     "account-id",
 			Usage:    "Account ID for the request",
 			Required: true,
 			BodyPath: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:     "message-id",
+			Usage:    "Message to provide feedback on",
+			Required: true,
+			BodyPath: "message_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:     "score",
 			Usage:    "Feedback score (-1, 0, +1 or 1-5)",
 			Required: true,
 			BodyPath: "score",
+		},
+		&requestflag.Flag[string]{
+			Name:     "thread-id",
+			Usage:    "Thread containing the message",
+			Required: true,
+			BodyPath: "thread_id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "comment",
@@ -46,22 +54,19 @@ var activeV1OmniAIMessagesFeedbackCreateFeedback = cli.Command{
 			BodyPath: "metadata",
 		},
 	},
-	Action:          handleActiveV1OmniAIMessagesFeedbackCreateFeedback,
+	Action:          handleActiveV1OmniAIFeedbackCreateFeedback,
 	HideHelpCommand: true,
 }
 
-func handleActiveV1OmniAIMessagesFeedbackCreateFeedback(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1OmniAIFeedbackCreateFeedback(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("message-id") && len(unusedArgs) > 0 {
-		cmd.Set("message-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
+
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIMessageFeedbackNewFeedbackParams{}
+	params := clearstreet.ActiveV1OmniAIFeedbackNewFeedbackParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -76,12 +81,7 @@ func handleActiveV1OmniAIMessagesFeedbackCreateFeedback(ctx context.Context, cmd
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.OmniAI.Messages.Feedback.NewFeedback(
-		ctx,
-		cmd.Value("message-id").(string),
-		params,
-		options...,
-	)
+	_, err = client.Active.V1.OmniAI.Feedback.NewFeedback(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -94,7 +94,7 @@ func handleActiveV1OmniAIMessagesFeedbackCreateFeedback(ctx context.Context, cmd
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "active:v1:omni-ai:messages:feedback create-feedback",
+		Title:          "active:v1:omni-ai:feedback create-feedback",
 		Transform:      transform,
 	})
 }

@@ -14,44 +14,65 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var activeV1OmniAIThreadsResponseGetThreadResponse = cli.Command{
-	Name:    "get-thread-response",
-	Usage:   "Convenience endpoint to look up the currently active response for a thread\nwithout knowing the `response_id`. Useful when reloading a thread whose last\nfinalized message is a `USER` message — this indicates an assistant turn is\nlikely in progress.",
+var activeV1IrisFeedbackCreateFeedbackDeprecated = cli.Command{
+	Name:    "create-feedback-deprecated",
+	Usage:   "**Deprecated**: Use `POST /omni-ai/feedback` instead.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "thread-id",
+			Name:     "account-id",
+			Usage:    "Account ID for the request",
 			Required: true,
+			BodyPath: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:     "message-id",
+			Usage:    "Message to provide feedback on",
+			Required: true,
+			BodyPath: "message_id",
 		},
 		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
-			QueryPath: "account_id",
+			Name:     "score",
+			Usage:    "Feedback score (-1, 0, +1 or 1-5)",
+			Required: true,
+			BodyPath: "score",
+		},
+		&requestflag.Flag[string]{
+			Name:     "thread-id",
+			Usage:    "Thread containing the message",
+			Required: true,
+			BodyPath: "thread_id",
+		},
+		&requestflag.Flag[string]{
+			Name:     "comment",
+			Usage:    "Optional feedback comment",
+			BodyPath: "comment",
+		},
+		&requestflag.Flag[any]{
+			Name:     "metadata",
+			Usage:    "Optional metadata",
+			BodyPath: "metadata",
 		},
 	},
-	Action:          handleActiveV1OmniAIThreadsResponseGetThreadResponse,
+	Action:          handleActiveV1IrisFeedbackCreateFeedbackDeprecated,
 	HideHelpCommand: true,
 }
 
-func handleActiveV1OmniAIThreadsResponseGetThreadResponse(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1IrisFeedbackCreateFeedbackDeprecated(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("thread-id") && len(unusedArgs) > 0 {
-		cmd.Set("thread-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
+
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIThreadResponseGetThreadResponseParams{}
+	params := clearstreet.ActiveV1IrisFeedbackNewFeedbackDeprecatedParams{}
 
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
 		apiquery.ArrayQueryFormatIndices,
-		EmptyBody,
+		ApplicationJSON,
 		false,
 	)
 	if err != nil {
@@ -60,12 +81,7 @@ func handleActiveV1OmniAIThreadsResponseGetThreadResponse(ctx context.Context, c
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.OmniAI.Threads.Response.GetThreadResponse(
-		ctx,
-		cmd.Value("thread-id").(string),
-		params,
-		options...,
-	)
+	_, err = client.Active.V1.Iris.Feedback.NewFeedbackDeprecated(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -78,7 +94,7 @@ func handleActiveV1OmniAIThreadsResponseGetThreadResponse(ctx context.Context, c
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "active:v1:omni-ai:threads:response get-thread-response",
+		Title:          "active:v1:iris:feedback create-feedback-deprecated",
 		Transform:      transform,
 	})
 }
