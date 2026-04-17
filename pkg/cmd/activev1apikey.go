@@ -95,6 +95,7 @@ func handleActiveV1APIKeysCreate(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:api-keys create",
 		Transform:      transform,
 	})
@@ -133,6 +134,7 @@ func handleActiveV1APIKeysList(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:api-keys list",
 		Transform:      transform,
 	})
@@ -174,6 +176,7 @@ func handleActiveV1APIKeysRevoke(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:api-keys revoke",
 		Transform:      transform,
 	})
@@ -212,6 +215,7 @@ func handleActiveV1APIKeysRevokeAll(ctx context.Context, cmd *cli.Command) error
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:api-keys revoke-all",
 		Transform:      transform,
 	})

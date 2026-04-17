@@ -77,6 +77,7 @@ func handleActiveV1OmniAIMessagesGetMessage(ctx context.Context, cmd *cli.Comman
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:messages get-message",
 		Transform:      transform,
 	})

@@ -111,6 +111,7 @@ func handleActiveV1AccountsGetAccountByID(ctx context.Context, cmd *cli.Command)
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts get-account-by-id",
 		Transform:      transform,
 	})
@@ -151,6 +152,7 @@ func handleActiveV1AccountsGetAccounts(ctx context.Context, cmd *cli.Command) er
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts get-accounts",
 		Transform:      transform,
 	})
@@ -199,6 +201,7 @@ func handleActiveV1AccountsPatchAccountByID(ctx context.Context, cmd *cli.Comman
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts patch-account-by-id",
 		Transform:      transform,
 	})

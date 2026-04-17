@@ -115,6 +115,7 @@ func handleActiveV1OmniAIThreadsMessagesCreateMessage(ctx context.Context, cmd *
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:threads:messages create-message",
 		Transform:      transform,
 	})
@@ -163,6 +164,7 @@ func handleActiveV1OmniAIThreadsMessagesListMessages(ctx context.Context, cmd *c
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:threads:messages list-messages",
 		Transform:      transform,
 	})

@@ -104,6 +104,7 @@ func handleActiveV1WatchlistsItemsAddWatchlistItem(ctx context.Context, cmd *cli
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:watchlists:items add-watchlist-item",
 		Transform:      transform,
 	})

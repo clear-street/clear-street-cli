@@ -149,6 +149,7 @@ func handleActiveV1AccountsPositionsClosePosition(ctx context.Context, cmd *cli.
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts:positions close-position",
 		Transform:      transform,
 	})
@@ -197,6 +198,7 @@ func handleActiveV1AccountsPositionsClosePositions(ctx context.Context, cmd *cli
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts:positions close-positions",
 		Transform:      transform,
 	})
@@ -245,6 +247,7 @@ func handleActiveV1AccountsPositionsGetPositions(ctx context.Context, cmd *cli.C
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts:positions get-positions",
 		Transform:      transform,
 	})

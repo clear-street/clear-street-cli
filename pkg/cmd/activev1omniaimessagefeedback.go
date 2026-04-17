@@ -93,6 +93,7 @@ func handleActiveV1OmniAIMessagesFeedbackCreateFeedback(ctx context.Context, cmd
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:messages:feedback create-feedback",
 		Transform:      transform,
 	})

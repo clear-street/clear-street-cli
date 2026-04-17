@@ -77,6 +77,7 @@ func handleActiveV1OmniAIThreadsResponseGetThreadResponse(ctx context.Context, c
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:threads:response get-thread-response",
 		Transform:      transform,
 	})

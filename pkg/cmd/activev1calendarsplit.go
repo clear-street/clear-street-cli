@@ -69,6 +69,7 @@ func handleActiveV1CalendarsSplitsGetSplitsCalendar(ctx context.Context, cmd *cl
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:calendars:splits get-splits-calendar",
 		Transform:      transform,
 	})
