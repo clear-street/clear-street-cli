@@ -8,13 +8,13 @@ import (
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
 )
 
-func TestActiveV1AccountsOrdersCancelAllOrders(t *testing.T) {
+func TestActiveV1AccountsOrdersCancelAllOpenOrders(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"active:v1:accounts:orders", "cancel-all-orders",
+			"active:v1:accounts:orders", "cancel-all-open-orders",
 			"--account-id", "0",
 			"--security-id", "string",
 			"--security-id-source", "string",
@@ -25,13 +25,13 @@ func TestActiveV1AccountsOrdersCancelAllOrders(t *testing.T) {
 	})
 }
 
-func TestActiveV1AccountsOrdersCancelOrder(t *testing.T) {
+func TestActiveV1AccountsOrdersCancelOpenOrder(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"active:v1:accounts:orders", "cancel-order",
+			"active:v1:accounts:orders", "cancel-open-order",
 			"--account-id", "0",
 			"--order-id", "order_id",
 		)

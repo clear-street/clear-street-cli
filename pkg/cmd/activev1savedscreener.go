@@ -95,17 +95,17 @@ var activeV1SavedScreenersGetScreenerByID = cli.Command{
 	HideHelpCommand: true,
 }
 
-var activeV1SavedScreenersListScreeners = cli.Command{
-	Name:            "list-screeners",
+var activeV1SavedScreenersGetScreeners = cli.Command{
+	Name:            "get-screeners",
 	Usage:           "List saved screener configurations.",
 	Suggest:         true,
 	Flags:           []cli.Flag{},
-	Action:          handleActiveV1SavedScreenersListScreeners,
+	Action:          handleActiveV1SavedScreenersGetScreeners,
 	HideHelpCommand: true,
 }
 
-var activeV1SavedScreenersUpdateScreener = requestflag.WithInnerFlags(cli.Command{
-	Name:    "update-screener",
+var activeV1SavedScreenersReplaceScreener = requestflag.WithInnerFlags(cli.Command{
+	Name:    "replace-screener",
 	Usage:   "Update a saved screener configuration.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -139,7 +139,7 @@ var activeV1SavedScreenersUpdateScreener = requestflag.WithInnerFlags(cli.Comman
 			BodyPath: "sort_direction",
 		},
 	},
-	Action:          handleActiveV1SavedScreenersUpdateScreener,
+	Action:          handleActiveV1SavedScreenersReplaceScreener,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"filter": {
@@ -269,7 +269,7 @@ func handleActiveV1SavedScreenersGetScreenerByID(ctx context.Context, cmd *cli.C
 	})
 }
 
-func handleActiveV1SavedScreenersListScreeners(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1SavedScreenersGetScreeners(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -290,7 +290,7 @@ func handleActiveV1SavedScreenersListScreeners(ctx context.Context, cmd *cli.Com
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.SavedScreeners.ListScreeners(ctx, options...)
+	_, err = client.Active.V1.SavedScreeners.GetScreeners(ctx, options...)
 	if err != nil {
 		return err
 	}
@@ -303,12 +303,12 @@ func handleActiveV1SavedScreenersListScreeners(ctx context.Context, cmd *cli.Com
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "active:v1:saved-screeners list-screeners",
+		Title:          "active:v1:saved-screeners get-screeners",
 		Transform:      transform,
 	})
 }
 
-func handleActiveV1SavedScreenersUpdateScreener(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1SavedScreenersReplaceScreener(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("screener-id") && len(unusedArgs) > 0 {
@@ -319,7 +319,7 @@ func handleActiveV1SavedScreenersUpdateScreener(ctx context.Context, cmd *cli.Co
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1SavedScreenerUpdateScreenerParams{}
+	params := clearstreet.ActiveV1SavedScreenerReplaceScreenerParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -334,7 +334,7 @@ func handleActiveV1SavedScreenersUpdateScreener(ctx context.Context, cmd *cli.Co
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.SavedScreeners.UpdateScreener(
+	_, err = client.Active.V1.SavedScreeners.ReplaceScreener(
 		ctx,
 		cmd.Value("screener-id").(string),
 		params,
@@ -352,7 +352,7 @@ func handleActiveV1SavedScreenersUpdateScreener(ctx context.Context, cmd *cli.Co
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "active:v1:saved-screeners update-screener",
+		Title:          "active:v1:saved-screeners replace-screener",
 		Transform:      transform,
 	})
 }
