@@ -23,6 +23,7 @@ func TestActiveV1NewsGetNews(t *testing.T) {
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--search-query", "search_query",
+			"--sector", "BASIC_MATERIALS",
 			"--security-id", "string",
 			"--security-id-source", "string",
 			"--to", "to",

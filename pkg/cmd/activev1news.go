@@ -60,6 +60,11 @@ var activeV1NewsGetNews = cli.Command{
 			QueryPath: "search_query",
 		},
 		&requestflag.Flag[[]string]{
+			Name:      "sector",
+			Usage:     "Comma-separated sector values to filter by.",
+			QueryPath: "sectors",
+		},
+		&requestflag.Flag[[]string]{
 			Name:      "security-id",
 			Usage:     "Filter by security ID(s). Accepts single value or indexed array.\n\nExamples:\n- Single: `security_id=037833100`\n- Multiple: `security_id[0]=037833100&security_id[1]=594918104`",
 			QueryPath: "security_id",
