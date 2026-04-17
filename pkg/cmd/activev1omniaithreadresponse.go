@@ -14,42 +14,27 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var activeV1IrisThreadsMessagesListMessagesDeprecated = cli.Command{
-	Name:    "list-messages-deprecated",
-	Usage:   "**Deprecated**: Use `GET /omni-ai/threads/{thread_id}/messages` instead.",
+var activeV1OmniAIThreadsResponseGetThreadResponse = cli.Command{
+	Name:    "get-thread-response",
+	Usage:   "Convenience endpoint to look up the currently active response for a thread\nwithout knowing the `response_id`. Useful when reloading a thread whose last\nfinalized message is a `USER` message — this indicates an assistant turn is\nlikely in progress.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:     "thread-id",
 			Required: true,
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[int64]{
 			Name:      "account-id",
 			Usage:     "Account ID for the request",
 			Required:  true,
 			QueryPath: "account_id",
 		},
-		&requestflag.Flag[int64]{
-			Name:      "after-seq",
-			Usage:     "Return messages after this sequence number",
-			QueryPath: "after_seq",
-		},
-		&requestflag.Flag[int64]{
-			Name:      "page-size",
-			Usage:     "Maximum messages to return",
-			QueryPath: "page_size",
-		},
-		&requestflag.Flag[string]{
-			Name:      "page-token",
-			Usage:     "Page token for pagination",
-			QueryPath: "page_token",
-		},
 	},
-	Action:          handleActiveV1IrisThreadsMessagesListMessagesDeprecated,
+	Action:          handleActiveV1OmniAIThreadsResponseGetThreadResponse,
 	HideHelpCommand: true,
 }
 
-func handleActiveV1IrisThreadsMessagesListMessagesDeprecated(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1OmniAIThreadsResponseGetThreadResponse(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("thread-id") && len(unusedArgs) > 0 {
@@ -60,7 +45,7 @@ func handleActiveV1IrisThreadsMessagesListMessagesDeprecated(ctx context.Context
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1IrisThreadMessageListMessagesDeprecatedParams{}
+	params := clearstreet.ActiveV1OmniAIThreadResponseGetThreadResponseParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -75,7 +60,7 @@ func handleActiveV1IrisThreadsMessagesListMessagesDeprecated(ctx context.Context
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.Iris.Threads.Messages.ListMessagesDeprecated(
+	_, err = client.Active.V1.OmniAI.Threads.Response.GetThreadResponse(
 		ctx,
 		cmd.Value("thread-id").(string),
 		params,
@@ -92,7 +77,7 @@ func handleActiveV1IrisThreadsMessagesListMessagesDeprecated(ctx context.Context
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
-		Title:          "active:v1:iris:threads:messages list-messages-deprecated",
+		Title:          "active:v1:omni-ai:threads:response get-thread-response",
 		Transform:      transform,
 	})
 }
