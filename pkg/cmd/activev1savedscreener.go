@@ -16,7 +16,7 @@ import (
 
 var activeV1SavedScreenersCreateScreener = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create-screener",
-	Usage:   "Persists a screener configuration for the authenticated user.",
+	Usage:   "Create a saved screener configuration.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[any]{
@@ -69,7 +69,7 @@ var activeV1SavedScreenersCreateScreener = requestflag.WithInnerFlags(cli.Comman
 
 var activeV1SavedScreenersDeleteScreener = cli.Command{
 	Name:    "delete-screener",
-	Usage:   "Deletes the screener configuration for the authenticated user.",
+	Usage:   "Delete a saved screener configuration.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -83,7 +83,7 @@ var activeV1SavedScreenersDeleteScreener = cli.Command{
 
 var activeV1SavedScreenersGetScreenerByID = cli.Command{
 	Name:    "get-screener-by-id",
-	Usage:   "Returns a single screener configuration for the authenticated user.",
+	Usage:   "Get a saved screener configuration by ID.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -97,7 +97,7 @@ var activeV1SavedScreenersGetScreenerByID = cli.Command{
 
 var activeV1SavedScreenersListScreeners = cli.Command{
 	Name:            "list-screeners",
-	Usage:           "Returns all screener configurations for the authenticated user.",
+	Usage:           "List saved screener configurations.",
 	Suggest:         true,
 	Flags:           []cli.Flag{},
 	Action:          handleActiveV1SavedScreenersListScreeners,
@@ -106,7 +106,7 @@ var activeV1SavedScreenersListScreeners = cli.Command{
 
 var activeV1SavedScreenersUpdateScreener = requestflag.WithInnerFlags(cli.Command{
 	Name:    "update-screener",
-	Usage:   "Replaces the screener configuration for the authenticated user. If `name` is\nnull, the existing name is preserved.",
+	Usage:   "Update a saved screener configuration.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{

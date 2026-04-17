@@ -16,7 +16,7 @@ import (
 
 var activeV1OmniAIFeedbackCreateFeedback = cli.Command{
 	Name:    "create-feedback",
-	Usage:   "Submit user feedback (thumbs up/down, rating, comment) for an assistant message.",
+	Usage:   "Create feedback on a message.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{

@@ -16,7 +16,7 @@ import (
 
 var activeV1InstrumentsEventsGetAllInstrumentEvents = cli.Command{
 	Name:    "get-all-instrument-events",
-	Usage:   "Retrieves all instrument events grouped by date.",
+	Usage:   "List instrument events across all securities.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{

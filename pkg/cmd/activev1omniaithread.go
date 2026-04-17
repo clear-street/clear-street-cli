@@ -36,7 +36,7 @@ var activeV1OmniAIThreadsGetThread = cli.Command{
 
 var activeV1OmniAIThreadsListThreads = cli.Command{
 	Name:    "list-threads",
-	Usage:   "Retrieves threads for the authenticated user.",
+	Usage:   "List conversation threads.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{

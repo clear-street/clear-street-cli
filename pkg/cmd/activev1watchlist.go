@@ -16,7 +16,7 @@ import (
 
 var activeV1WatchlistsCreateWatchlist = cli.Command{
 	Name:    "create-watchlist",
-	Usage:   "Create a new watchlist",
+	Usage:   "Create Watchlist",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
