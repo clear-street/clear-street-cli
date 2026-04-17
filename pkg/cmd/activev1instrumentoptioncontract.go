@@ -99,6 +99,7 @@ func handleActiveV1InstrumentsOptionsContractsGetOptionContracts(ctx context.Con
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments:options:contracts get-option-contracts",
 		Transform:      transform,
 	})

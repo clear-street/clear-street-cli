@@ -153,6 +153,7 @@ func handleActiveV1InstrumentsGetInstrumentByID(ctx context.Context, cmd *cli.Co
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments get-instrument-by-id",
 		Transform:      transform,
 	})
@@ -193,6 +194,7 @@ func handleActiveV1InstrumentsGetInstruments(ctx context.Context, cmd *cli.Comma
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments get-instruments",
 		Transform:      transform,
 	})

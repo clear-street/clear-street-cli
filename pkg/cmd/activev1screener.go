@@ -213,6 +213,7 @@ func handleActiveV1ScreenerGetScreener(ctx context.Context, cmd *cli.Command) er
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:screener get-screener",
 		Transform:      transform,
 	})
@@ -253,6 +254,7 @@ func handleActiveV1ScreenerSearchScreener(ctx context.Context, cmd *cli.Command)
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:screener search-screener",
 		Transform:      transform,
 	})

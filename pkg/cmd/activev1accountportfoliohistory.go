@@ -81,6 +81,7 @@ func handleActiveV1AccountsPortfolioHistoryGetPortfolioHistory(ctx context.Conte
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts:portfolio-history get-portfolio-history",
 		Transform:      transform,
 	})

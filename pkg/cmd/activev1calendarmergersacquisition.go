@@ -69,6 +69,7 @@ func handleActiveV1CalendarsMergersAcquisitionsGetMergersAndAcquisitionsCalendar
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:calendars:mergers-acquisitions get-mergers-and-acquisitions-calendar",
 		Transform:      transform,
 	})

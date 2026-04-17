@@ -55,6 +55,7 @@ func handleActiveV1InstrumentsVenuesGetVenues(ctx context.Context, cmd *cli.Comm
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments:venues get-venues",
 		Transform:      transform,
 	})

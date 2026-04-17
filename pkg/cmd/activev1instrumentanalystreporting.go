@@ -88,6 +88,7 @@ func handleActiveV1InstrumentsAnalystReportingGetInstrumentAnalystConsensus(ctx 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments:analyst-reporting get-instrument-analyst-consensus",
 		Transform:      transform,
 	})

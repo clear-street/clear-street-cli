@@ -118,6 +118,7 @@ func handleActiveV1InstrumentsEventsGetAllInstrumentEvents(ctx context.Context, 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments:events get-all-instrument-events",
 		Transform:      transform,
 	})
@@ -168,6 +169,7 @@ func handleActiveV1InstrumentsEventsGetInstrumentEvents(ctx context.Context, cmd
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments:events get-instrument-events",
 		Transform:      transform,
 	})

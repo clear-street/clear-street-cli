@@ -77,6 +77,7 @@ func handleActiveV1AccountsLocatesInventoryGetLocateInventory(ctx context.Contex
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts:locates:inventory get-locate-inventory",
 		Transform:      transform,
 	})

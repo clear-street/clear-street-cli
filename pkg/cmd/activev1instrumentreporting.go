@@ -88,6 +88,7 @@ func handleActiveV1InstrumentsReportingGetInstrumentReporting(ctx context.Contex
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments:reporting get-instrument-reporting",
 		Transform:      transform,
 	})

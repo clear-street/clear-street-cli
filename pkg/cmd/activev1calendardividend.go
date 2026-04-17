@@ -69,6 +69,7 @@ func handleActiveV1CalendarsDividendsGetDividendsCalendar(ctx context.Context, c
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:calendars:dividends get-dividends-calendar",
 		Transform:      transform,
 	})

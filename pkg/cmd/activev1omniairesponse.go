@@ -97,6 +97,7 @@ func handleActiveV1OmniAIResponsesCancelResponse(ctx context.Context, cmd *cli.C
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:responses cancel-response",
 		Transform:      transform,
 	})
@@ -145,6 +146,7 @@ func handleActiveV1OmniAIResponsesGetResponse(ctx context.Context, cmd *cli.Comm
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:responses get-response",
 		Transform:      transform,
 	})

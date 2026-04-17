@@ -153,6 +153,7 @@ func handleActiveV1AccountsLocatesCreateLocateRequest(ctx context.Context, cmd *
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts:locates create-locate-request",
 		Transform:      transform,
 	})
@@ -201,6 +202,7 @@ func handleActiveV1AccountsLocatesGetLocateRequests(ctx context.Context, cmd *cl
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts:locates get-locate-requests",
 		Transform:      transform,
 	})
@@ -249,6 +251,7 @@ func handleActiveV1AccountsLocatesUpdateLocateRequest(ctx context.Context, cmd *
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:accounts:locates update-locate-request",
 		Transform:      transform,
 	})

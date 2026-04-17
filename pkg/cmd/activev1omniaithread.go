@@ -145,6 +145,7 @@ func handleActiveV1OmniAIThreadsCreateThread(ctx context.Context, cmd *cli.Comma
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:threads create-thread",
 		Transform:      transform,
 	})
@@ -193,6 +194,7 @@ func handleActiveV1OmniAIThreadsGetThread(ctx context.Context, cmd *cli.Command)
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:threads get-thread",
 		Transform:      transform,
 	})
@@ -233,6 +235,7 @@ func handleActiveV1OmniAIThreadsListThreads(ctx context.Context, cmd *cli.Comman
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:threads list-threads",
 		Transform:      transform,
 	})

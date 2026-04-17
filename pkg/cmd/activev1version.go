@@ -64,6 +64,7 @@ func handleActiveV1VersionGetVersion(ctx context.Context, cmd *cli.Command) erro
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:version get-version",
 		Transform:      transform,
 	})
@@ -102,6 +103,7 @@ func handleActiveV1VersionUpdateVersion(ctx context.Context, cmd *cli.Command) e
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:version update-version",
 		Transform:      transform,
 	})

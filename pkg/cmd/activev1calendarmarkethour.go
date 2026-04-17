@@ -70,6 +70,7 @@ func handleActiveV1CalendarsMarketHoursGetMarketHoursCalendar(ctx context.Contex
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:calendars:market-hours get-market-hours-calendar",
 		Transform:      transform,
 	})

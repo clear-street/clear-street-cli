@@ -196,6 +196,7 @@ func handleActiveV1SavedScreenersCreateScreener(ctx context.Context, cmd *cli.Co
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:saved-screeners create-screener",
 		Transform:      transform,
 	})
@@ -262,6 +263,7 @@ func handleActiveV1SavedScreenersGetScreenerByID(ctx context.Context, cmd *cli.C
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:saved-screeners get-screener-by-id",
 		Transform:      transform,
 	})
@@ -300,6 +302,7 @@ func handleActiveV1SavedScreenersListScreeners(ctx context.Context, cmd *cli.Com
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:saved-screeners list-screeners",
 		Transform:      transform,
 	})
@@ -348,6 +351,7 @@ func handleActiveV1SavedScreenersUpdateScreener(ctx context.Context, cmd *cli.Co
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:saved-screeners update-screener",
 		Transform:      transform,
 	})

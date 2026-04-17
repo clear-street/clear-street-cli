@@ -102,6 +102,7 @@ func handleActiveV1WatchlistsCreateWatchlist(ctx context.Context, cmd *cli.Comma
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:watchlists create-watchlist",
 		Transform:      transform,
 	})
@@ -168,6 +169,7 @@ func handleActiveV1WatchlistsGetWatchlistByID(ctx context.Context, cmd *cli.Comm
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:watchlists get-watchlist-by-id",
 		Transform:      transform,
 	})
@@ -206,6 +208,7 @@ func handleActiveV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:watchlists get-watchlists",
 		Transform:      transform,
 	})
