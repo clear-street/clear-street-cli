@@ -18,14 +18,3 @@ func TestActiveV1VersionGetVersion(t *testing.T) {
 		)
 	})
 }
-
-func TestActiveV1VersionUpdateVersion(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	t.Run("regular flags", func(t *testing.T) {
-		mocktest.TestRunMockTestWithFlags(
-			t,
-			"--api-key", "string",
-			"active:v1:version", "update-version",
-		)
-	})
-}
