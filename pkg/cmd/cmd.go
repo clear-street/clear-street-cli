@@ -297,6 +297,24 @@ func init() {
 				},
 			},
 			{
+				Name:     "active:v1:omni-ai:entitlement-agreements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1OmniAIEntitlementAgreementsListEntitlementAgreements,
+				},
+			},
+			{
+				Name:     "active:v1:omni-ai:entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1OmniAIEntitlementsCreateEntitlements,
+					&activeV1OmniAIEntitlementsDeleteEntitlement,
+					&activeV1OmniAIEntitlementsListEntitlements,
+				},
+			},
+			{
 				Name:     "active:v1:omni-ai:messages",
 				Category: "API RESOURCE",
 				Suggest:  true,
