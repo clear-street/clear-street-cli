@@ -22,6 +22,15 @@ var activeV1VersionGetVersion = cli.Command{
 	HideHelpCommand: true,
 }
 
+var activeV1VersionUpdateVersion = cli.Command{
+	Name:            "update-version",
+	Usage:           "Allows clients to set their preferred API version.",
+	Suggest:         true,
+	Flags:           []cli.Flag{},
+	Action:          handleActiveV1VersionUpdateVersion,
+	HideHelpCommand: true,
+}
+
 func handleActiveV1VersionGetVersion(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
@@ -57,6 +66,45 @@ func handleActiveV1VersionGetVersion(ctx context.Context, cmd *cli.Command) erro
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:version get-version",
+		Transform:      transform,
+	})
+}
+
+func handleActiveV1VersionUpdateVersion(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.Active.V1.Version.UpdateVersion(ctx, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "active:v1:version update-version",
 		Transform:      transform,
 	})
 }

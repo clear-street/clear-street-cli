@@ -107,6 +107,24 @@ func init() {
 				},
 			},
 			{
+				Name:     "active:v1:accounts:locates",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1AccountsLocatesCreateLocateRequest,
+					&activeV1AccountsLocatesGetLocateRequests,
+					&activeV1AccountsLocatesUpdateLocateRequest,
+				},
+			},
+			{
+				Name:     "active:v1:accounts:locates:inventory",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1AccountsLocatesInventoryGetLocateInventory,
+				},
+			},
+			{
 				Name:     "active:v1:accounts:orders",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -149,11 +167,59 @@ func init() {
 				},
 			},
 			{
+				Name:     "active:v1:calendars:dividends",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1CalendarsDividendsGetDividendsCalendar,
+				},
+			},
+			{
+				Name:     "active:v1:calendars:earnings",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1CalendarsEarningsGetEarningsCalendar,
+				},
+			},
+			{
+				Name:     "active:v1:calendars:economic",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1CalendarsEconomicGetEconomicCalendar,
+				},
+			},
+			{
 				Name:     "active:v1:calendars:market-hours",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&activeV1CalendarsMarketHoursGetMarketHoursCalendar,
+				},
+			},
+			{
+				Name:     "active:v1:calendars:mergers-acquisitions",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1CalendarsMergersAcquisitionsGetMergersAndAcquisitionsCalendar,
+				},
+			},
+			{
+				Name:     "active:v1:calendars:splits",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1CalendarsSplitsGetSplitsCalendar,
+				},
+			},
+			{
+				Name:     "active:v1:calendars:summary",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1CalendarsSummaryGetCalendarSummary,
 				},
 			},
 			{
@@ -196,6 +262,22 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&activeV1InstrumentsOptionsContractsGetOptionContracts,
+				},
+			},
+			{
+				Name:     "active:v1:instruments:reporting",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1InstrumentsReportingGetInstrumentReporting,
+				},
+			},
+			{
+				Name:     "active:v1:instruments:venues",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1InstrumentsVenuesGetVenues,
 				},
 			},
 			{
@@ -311,6 +393,7 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&activeV1VersionGetVersion,
+					&activeV1VersionUpdateVersion,
 				},
 			},
 			{
