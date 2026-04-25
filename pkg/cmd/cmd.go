@@ -191,11 +191,27 @@ func init() {
 				},
 			},
 			{
+				Name:     "active:v1:instruments:fundamentals",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1InstrumentsFundamentalsGetInstrumentFundamentals,
+				},
+			},
+			{
 				Name:     "active:v1:instruments:options:contracts",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&activeV1InstrumentsOptionsContractsGetOptionContracts,
+				},
+			},
+			{
+				Name:     "active:v1:market-data:daily-summary",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1MarketDataDailySummaryGetDailySummaries,
 				},
 			},
 			{
