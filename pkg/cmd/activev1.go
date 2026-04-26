@@ -11,16 +11,16 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var activeV1WsWebsocketHandler = cli.Command{
-	Name:            "websocket-handler",
+var activeV1Ws = cli.Command{
+	Name:            "ws",
 	Usage:           "Upgrade the HTTP connection to a WebSocket and echo incoming messages.",
 	Suggest:         true,
 	Flags:           []cli.Flag{},
-	Action:          handleActiveV1WsWebsocketHandler,
+	Action:          handleActiveV1Ws,
 	HideHelpCommand: true,
 }
 
-func handleActiveV1WsWebsocketHandler(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1Ws(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -39,5 +39,5 @@ func handleActiveV1WsWebsocketHandler(ctx context.Context, cmd *cli.Command) err
 		return err
 	}
 
-	return client.Active.V1.Ws.WebsocketHandler(ctx, options...)
+	return client.Active.V1.Ws(ctx, options...)
 }

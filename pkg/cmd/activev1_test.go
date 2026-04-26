@@ -8,15 +8,13 @@ import (
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
 )
 
-func TestActiveV1OmniAIThreadsResponseGetThreadResponse(t *testing.T) {
+func TestActiveV1Ws(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"active:v1:omni-ai:threads:response", "get-thread-response",
-			"--thread-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-			"--account-id", "0",
+			"active:v1", "ws",
 		)
 	})
 }

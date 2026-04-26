@@ -89,6 +89,14 @@ func init() {
 		},
 		Commands: []*cli.Command{
 			{
+				Name:     "active:v1",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1Ws,
+				},
+			},
+			{
 				Name:     "active:v1:accounts",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -171,6 +179,7 @@ func init() {
 				Commands: []*cli.Command{
 					&activeV1InstrumentsGetInstrumentByID,
 					&activeV1InstrumentsGetInstruments,
+					&activeV1InstrumentsSearch,
 				},
 			},
 			{
@@ -199,11 +208,11 @@ func init() {
 				},
 			},
 			{
-				Name:     "active:v1:instruments:options:contracts",
+				Name:     "active:v1:instruments:options",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1InstrumentsOptionsContractsGetOptionContracts,
+					&activeV1InstrumentsOptionsContracts,
 				},
 			},
 			{
@@ -253,15 +262,8 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
+					&activeV1OmniAIMessagesFeedback,
 					&activeV1OmniAIMessagesGetMessage,
-				},
-			},
-			{
-				Name:     "active:v1:omni-ai:messages:feedback",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1OmniAIMessagesFeedbackCreateFeedback,
 				},
 			},
 			{
@@ -281,6 +283,7 @@ func init() {
 					&activeV1OmniAIThreadsCreateThread,
 					&activeV1OmniAIThreadsGetThread,
 					&activeV1OmniAIThreadsListThreads,
+					&activeV1OmniAIThreadsResponse,
 				},
 			},
 			{
@@ -290,14 +293,6 @@ func init() {
 				Commands: []*cli.Command{
 					&activeV1OmniAIThreadsMessagesCreateMessage,
 					&activeV1OmniAIThreadsMessagesListMessages,
-				},
-			},
-			{
-				Name:     "active:v1:omni-ai:threads:response",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1OmniAIThreadsResponseGetThreadResponse,
 				},
 			},
 			{
@@ -347,14 +342,6 @@ func init() {
 				Commands: []*cli.Command{
 					&activeV1WatchlistsItemsAddWatchlistItem,
 					&activeV1WatchlistsItemsDeleteWatchlistItem,
-				},
-			},
-			{
-				Name:     "active:v1:ws",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1WsWebsocketHandler,
 				},
 			},
 			{
