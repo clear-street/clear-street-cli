@@ -8,13 +8,13 @@ import (
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
 )
 
-func TestActiveV1InstrumentsOptionsContractsGetOptionContracts(t *testing.T) {
+func TestActiveV1InstrumentsOptionsContracts(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"active:v1:instruments:options:contracts", "get-option-contracts",
+			"active:v1:instruments:options", "contracts",
 			"--contract-type", "CALL",
 			"--expiry", "'2019-12-27'",
 			"--page-size", "1",

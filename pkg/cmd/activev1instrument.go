@@ -108,6 +108,57 @@ var activeV1InstrumentsGetInstruments = cli.Command{
 	HideHelpCommand: true,
 }
 
+var activeV1InstrumentsSearch = cli.Command{
+	Name:    "search",
+	Usage:   "Fast in-memory typeahead search over the loaded instrument universe.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "q",
+			Usage:     "Search term applied case-insensitively to ticker symbols, alt-IDs (CUSIP/ISIN/OPRA-root/CMS), and company names.",
+			Required:  true,
+			QueryPath: "q",
+		},
+		&requestflag.Flag[string]{
+			Name:      "asset-class",
+			Usage:     "Comma-separated asset classes (EQUITY|OPTION|WARRANT|BOND|FX|OTHER). Defaults to EQUITY.",
+			QueryPath: "asset_class",
+		},
+		&requestflag.Flag[string]{
+			Name:      "country",
+			Usage:     "Optional listing-country filter (e.g., US).",
+			QueryPath: "country",
+		},
+		&requestflag.Flag[string]{
+			Name:      "currency",
+			Usage:     "Optional ISO currency filter (e.g., USD).",
+			QueryPath: "currency",
+		},
+		&requestflag.Flag[string]{
+			Name:      "cursor",
+			Usage:     "Opaque continuation cursor for show-more paging — pass the `next_page_token` from a prior response. Same wire format as `page_token` on other paginated endpoints.",
+			QueryPath: "cursor",
+		},
+		&requestflag.Flag[bool]{
+			Name:      "include-inactive",
+			Usage:     "Include inactive instruments. Default false.",
+			QueryPath: "include_inactive",
+		},
+		&requestflag.Flag[bool]{
+			Name:      "include-restricted",
+			Usage:     "Include restricted instruments. Default true (penalized in ranking).",
+			QueryPath: "include_restricted",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum hits to return. Bounded [1, 100]. Default 20.",
+			QueryPath: "limit",
+		},
+	},
+	Action:          handleActiveV1InstrumentsSearch,
+	HideHelpCommand: true,
+}
+
 func handleActiveV1InstrumentsGetInstrumentByID(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
@@ -196,6 +247,47 @@ func handleActiveV1InstrumentsGetInstruments(ctx context.Context, cmd *cli.Comma
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:instruments get-instruments",
+		Transform:      transform,
+	})
+}
+
+func handleActiveV1InstrumentsSearch(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	params := clearstreet.ActiveV1InstrumentSearchParams{}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.Active.V1.Instruments.Search(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "active:v1:instruments search",
 		Transform:      transform,
 	})
 }

@@ -110,6 +110,26 @@ var activeV1OmniAIThreadsListThreads = cli.Command{
 	HideHelpCommand: true,
 }
 
+var activeV1OmniAIThreadsResponse = cli.Command{
+	Name:    "response",
+	Usage:   "Get the active response for a thread.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "thread-id",
+			Required: true,
+		},
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Usage:     "Account ID for the request",
+			Required:  true,
+			QueryPath: "account_id",
+		},
+	},
+	Action:          handleActiveV1OmniAIThreadsResponse,
+	HideHelpCommand: true,
+}
+
 func handleActiveV1OmniAIThreadsCreateThread(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
@@ -237,6 +257,55 @@ func handleActiveV1OmniAIThreadsListThreads(ctx context.Context, cmd *cli.Comman
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "active:v1:omni-ai:threads list-threads",
+		Transform:      transform,
+	})
+}
+
+func handleActiveV1OmniAIThreadsResponse(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("thread-id") && len(unusedArgs) > 0 {
+		cmd.Set("thread-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	params := clearstreet.ActiveV1OmniAIThreadResponseParams{}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.Active.V1.OmniAI.Threads.Response(
+		ctx,
+		cmd.Value("thread-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "active:v1:omni-ai:threads response",
 		Transform:      transform,
 	})
 }

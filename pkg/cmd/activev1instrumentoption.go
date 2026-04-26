@@ -14,8 +14,8 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var activeV1InstrumentsOptionsContractsGetOptionContracts = cli.Command{
-	Name:    "get-option-contracts",
+var activeV1InstrumentsOptionsContracts = cli.Command{
+	Name:    "contracts",
 	Usage:   "List options contracts.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -60,11 +60,11 @@ var activeV1InstrumentsOptionsContractsGetOptionContracts = cli.Command{
 			QueryPath: "underlier_security_id_source",
 		},
 	},
-	Action:          handleActiveV1InstrumentsOptionsContractsGetOptionContracts,
+	Action:          handleActiveV1InstrumentsOptionsContracts,
 	HideHelpCommand: true,
 }
 
-func handleActiveV1InstrumentsOptionsContractsGetOptionContracts(ctx context.Context, cmd *cli.Command) error {
+func handleActiveV1InstrumentsOptionsContracts(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -72,7 +72,7 @@ func handleActiveV1InstrumentsOptionsContractsGetOptionContracts(ctx context.Con
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1InstrumentOptionContractGetOptionContractsParams{}
+	params := clearstreet.ActiveV1InstrumentOptionContractsParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -87,7 +87,7 @@ func handleActiveV1InstrumentsOptionsContractsGetOptionContracts(ctx context.Con
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.Instruments.Options.Contracts.GetOptionContracts(ctx, params, options...)
+	_, err = client.Active.V1.Instruments.Options.Contracts(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -100,7 +100,7 @@ func handleActiveV1InstrumentsOptionsContractsGetOptionContracts(ctx context.Con
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "active:v1:instruments:options:contracts get-option-contracts",
+		Title:          "active:v1:instruments:options contracts",
 		Transform:      transform,
 	})
 }
