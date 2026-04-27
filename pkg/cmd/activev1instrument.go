@@ -50,8 +50,13 @@ var activeV1InstrumentsGetInstruments = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "id-filter",
-			Usage:     "Filter IDs to those containing this substring. For options, and when security_type is omitted and no security_id/security_id_source filters are provided, this is required.",
+			Usage:     "Filter IDs to those containing this substring. For options, and when instrument_type is omitted and no security_id/security_id_source filters are provided, this is required.",
 			QueryPath: "id_filter",
+		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-type",
+			Usage:     "Filter by instrument type. If omitted, returns all types.",
+			QueryPath: "instrument_type",
 		},
 		&requestflag.Flag[bool]{
 			Name:      "is-liquidation-only",
@@ -97,11 +102,6 @@ var activeV1InstrumentsGetInstruments = cli.Command{
 			Name:      "security-id-source",
 			Usage:     "Source(s) for the security ID filter. Must match the count and order of security_id.\n\nExamples:\n- Single: `security_id_source=CUSIP`\n- Multiple: `security_id_source[0]=CUSIP&security_id_source[1]=FIGI`",
 			QueryPath: "security_id_source",
-		},
-		&requestflag.Flag[string]{
-			Name:      "security-type",
-			Usage:     "Filter by security type. If omitted, returns all types.",
-			QueryPath: "security_type",
 		},
 	},
 	Action:          handleActiveV1InstrumentsGetInstruments,
