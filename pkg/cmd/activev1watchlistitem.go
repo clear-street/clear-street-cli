@@ -136,10 +136,27 @@ func handleActiveV1WatchlistsItemsDeleteWatchlistItem(ctx context.Context, cmd *
 		return err
 	}
 
-	return client.Active.V1.Watchlists.Items.DeleteWatchlistItem(
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.Active.V1.Watchlists.Items.DeleteWatchlistItem(
 		ctx,
 		cmd.Value("item-id").(string),
 		params,
 		options...,
 	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "active:v1:watchlists:items delete-watchlist-item",
+		Transform:      transform,
+	})
 }
