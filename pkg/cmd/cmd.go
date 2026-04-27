@@ -146,6 +146,17 @@ func init() {
 				},
 			},
 			{
+				Name:     "active:v1:api-keys",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&activeV1APIKeysCreate,
+					&activeV1APIKeysList,
+					&activeV1APIKeysRevoke,
+					&activeV1APIKeysRevokeAll,
+				},
+			},
+			{
 				Name:     "active:v1:calendars:market-hours",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -180,22 +191,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "active:v1:instruments:balance-sheets",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsBalanceSheetsGetInstrumentBalanceSheetStatements,
-				},
-			},
-			{
-				Name:     "active:v1:instruments:cash-flow-statements",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsCashFlowStatementsGetInstrumentCashFlowStatements,
-				},
-			},
-			{
 				Name:     "active:v1:instruments:events",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -210,14 +205,6 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&activeV1InstrumentsFundamentalsGetInstrumentFundamentals,
-				},
-			},
-			{
-				Name:     "active:v1:instruments:income-statements",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsIncomeStatementsGetInstrumentIncomeStatements,
 				},
 			},
 			{
