@@ -146,17 +146,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "active:v1:api-keys",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1APIKeysCreate,
-					&activeV1APIKeysList,
-					&activeV1APIKeysRevoke,
-					&activeV1APIKeysRevokeAll,
-				},
-			},
-			{
 				Name:     "active:v1:calendars:market-hours",
 				Category: "API RESOURCE",
 				Suggest:  true,
