@@ -23,6 +23,11 @@ var activeV1AccountsOrdersCancelAllOpenOrders = cli.Command{
 			Name:     "account-id",
 			Required: true,
 		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-type",
+			Usage:     "Filter by instrument type (e.g., COMMON_STOCK, OPTION)",
+			QueryPath: "instrument_type",
+		},
 		&requestflag.Flag[[]string]{
 			Name:      "security-id",
 			Usage:     "Filter by security ID(s). Accepts single value or indexed array.\n\nExamples:\n- Single: `security_id=037833100`\n- Multiple: `security_id[0]=037833100&security_id[1]=594918104`",
@@ -32,11 +37,6 @@ var activeV1AccountsOrdersCancelAllOpenOrders = cli.Command{
 			Name:      "security-id-source",
 			Usage:     "Source(s) for the security ID filter. Must match the count and order of security_id.\n\nExamples:\n- Single: `security_id_source=CUSIP`\n- Multiple: `security_id_source[0]=CUSIP&security_id_source[1]=FIGI`",
 			QueryPath: "security_id_source",
-		},
-		&requestflag.Flag[string]{
-			Name:      "security-type",
-			Usage:     "Filter by security type (e.g., COMMON_STOCK, OPTION)",
-			QueryPath: "security_type",
 		},
 		&requestflag.Flag[string]{
 			Name:      "side",
@@ -103,6 +103,11 @@ var activeV1AccountsOrdersGetOrders = cli.Command{
 			Usage:     "The start date and time for the query range, inclusive (ISO 8601 format)",
 			QueryPath: "from",
 		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-type",
+			Usage:     "Instrument type filter (e.g., COMMON_STOCK, OPTION)",
+			QueryPath: "instrument_type",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
 			Default:   1000,
@@ -122,11 +127,6 @@ var activeV1AccountsOrdersGetOrders = cli.Command{
 			Name:      "security-id-source",
 			Usage:     "Source(s) for the security ID filter. Must match the count and order of security_id.\n\nExamples:\n- Single: `security_id_source=CUSIP`\n- Multiple: `security_id_source[0]=CUSIP&security_id_source[1]=FIGI`",
 			QueryPath: "security_id_source",
-		},
-		&requestflag.Flag[string]{
-			Name:      "security-type",
-			Usage:     "Security type filter (e.g., COMMON_STOCK, PREFERRED_STOCK)",
-			QueryPath: "security_type",
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "status",

@@ -31,6 +31,7 @@ func TestActiveV1InstrumentsGetInstruments(t *testing.T) {
 			"active:v1:instruments", "get-instruments",
 			"--easy-to-borrow=true",
 			"--id-filter", "id_filter",
+			"--instrument-type", "COMMON_STOCK",
 			"--is-liquidation-only=true",
 			"--is-marginable=true",
 			"--is-restricted=true",
@@ -40,7 +41,6 @@ func TestActiveV1InstrumentsGetInstruments(t *testing.T) {
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--security-id", "string",
 			"--security-id-source", "string",
-			"--security-type", "COMMON_STOCK",
 		)
 	})
 }
