@@ -59,10 +59,21 @@ var activeV1WatchlistsGetWatchlistByID = cli.Command{
 }
 
 var activeV1WatchlistsGetWatchlists = cli.Command{
-	Name:            "get-watchlists",
-	Usage:           "List watchlists for the authenticated user",
-	Suggest:         true,
-	Flags:           []cli.Flag{},
+	Name:    "get-watchlists",
+	Usage:   "List watchlists for the authenticated user",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "page-size",
+			Default:   1000,
+			QueryPath: "page_size",
+		},
+		&requestflag.Flag[string]{
+			Name:      "page-token",
+			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			QueryPath: "page_token",
+		},
+	},
 	Action:          handleActiveV1WatchlistsGetWatchlists,
 	HideHelpCommand: true,
 }
@@ -200,6 +211,8 @@ func handleActiveV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
+	params := clearstreet.ActiveV1WatchlistGetWatchlistsParams{}
+
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -213,7 +226,7 @@ func handleActiveV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.Active.V1.Watchlists.GetWatchlists(ctx, options...)
+	_, err = client.Active.V1.Watchlists.GetWatchlists(ctx, params, options...)
 	if err != nil {
 		return err
 	}

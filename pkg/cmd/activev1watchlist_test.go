@@ -61,6 +61,8 @@ func TestActiveV1WatchlistsGetWatchlists(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"active:v1:watchlists", "get-watchlists",
+			"--page-size", "1",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 		)
 	})
 }
