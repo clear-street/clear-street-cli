@@ -21,7 +21,7 @@ var activeV1MarketDataSnapshotGetSnapshots = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "ids",
-			Usage:     "Comma-separated OEMS instrument UUIDs",
+			Usage:     "Comma-separated OEMS instrument UUIDs.",
 			QueryPath: "ids",
 		},
 		&requestflag.Flag[[]string]{
