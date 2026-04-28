@@ -196,7 +196,7 @@ var activeV1AccountsOrdersSubmitOrders = cli.Command{
 			Required: true,
 		},
 		&requestflag.Flag[[]map[string]any]{
-			Name:     "body",
+			Name:     "order",
 			Required: true,
 			BodyRoot: true,
 		},
