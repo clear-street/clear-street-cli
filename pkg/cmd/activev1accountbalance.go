@@ -20,8 +20,9 @@ var activeV1AccountsBalancesGetAccountBalances = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "top-margin-contributors-limit",
@@ -44,8 +45,6 @@ func handleActiveV1AccountsBalancesGetAccountBalances(ctx context.Context, cmd *
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountBalanceGetAccountBalancesParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -56,6 +55,8 @@ func handleActiveV1AccountsBalancesGetAccountBalances(ctx context.Context, cmd *
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountBalanceGetAccountBalancesParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

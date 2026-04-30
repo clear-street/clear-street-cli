@@ -20,8 +20,9 @@ var activeV1AccountsOrdersCancelAllOpenOrders = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-type",
@@ -59,12 +60,14 @@ var activeV1AccountsOrdersCancelOpenOrder = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "order-id",
-			Required: true,
+			Name:      "order-id",
+			Required:  true,
+			PathParam: "order_id",
 		},
 	},
 	Action:          handleActiveV1AccountsOrdersCancelOpenOrder,
@@ -77,12 +80,14 @@ var activeV1AccountsOrdersGetOrderByID = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "order-id",
-			Required: true,
+			Name:      "order-id",
+			Required:  true,
+			PathParam: "order_id",
 		},
 	},
 	Action:          handleActiveV1AccountsOrdersGetOrderByID,
@@ -95,8 +100,9 @@ var activeV1AccountsOrdersGetOrders = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[any]{
 			Name:      "from",
@@ -154,12 +160,14 @@ var activeV1AccountsOrdersReplaceOrder = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "order-id",
-			Required: true,
+			Name:      "order-id",
+			Required:  true,
+			PathParam: "order_id",
 		},
 		&requestflag.Flag[*string]{
 			Name:     "limit-price",
@@ -192,8 +200,9 @@ var activeV1AccountsOrdersSubmitOrders = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[[]map[string]any]{
 			Name:     "order",
@@ -216,8 +225,6 @@ func handleActiveV1AccountsOrdersCancelAllOpenOrders(ctx context.Context, cmd *c
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountOrderCancelAllOpenOrdersParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -228,6 +235,8 @@ func handleActiveV1AccountsOrdersCancelAllOpenOrders(ctx context.Context, cmd *c
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountOrderCancelAllOpenOrdersParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -265,10 +274,6 @@ func handleActiveV1AccountsOrdersCancelOpenOrder(ctx context.Context, cmd *cli.C
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountOrderCancelOpenOrderParams{
-		AccountID: cmd.Value("account-id").(int64),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -278,6 +283,10 @@ func handleActiveV1AccountsOrdersCancelOpenOrder(ctx context.Context, cmd *cli.C
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1AccountOrderCancelOpenOrderParams{
+		AccountID: cmd.Value("account-id").(int64),
 	}
 
 	var res []byte
@@ -316,10 +325,6 @@ func handleActiveV1AccountsOrdersGetOrderByID(ctx context.Context, cmd *cli.Comm
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountOrderGetOrderByIDParams{
-		AccountID: cmd.Value("account-id").(int64),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -329,6 +334,10 @@ func handleActiveV1AccountsOrdersGetOrderByID(ctx context.Context, cmd *cli.Comm
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1AccountOrderGetOrderByIDParams{
+		AccountID: cmd.Value("account-id").(int64),
 	}
 
 	var res []byte
@@ -367,8 +376,6 @@ func handleActiveV1AccountsOrdersGetOrders(ctx context.Context, cmd *cli.Command
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountOrderGetOrdersParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -379,6 +386,8 @@ func handleActiveV1AccountsOrdersGetOrders(ctx context.Context, cmd *cli.Command
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountOrderGetOrdersParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -416,10 +425,6 @@ func handleActiveV1AccountsOrdersReplaceOrder(ctx context.Context, cmd *cli.Comm
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountOrderReplaceOrderParams{
-		AccountID: cmd.Value("account-id").(int64),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -429,6 +434,10 @@ func handleActiveV1AccountsOrdersReplaceOrder(ctx context.Context, cmd *cli.Comm
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1AccountOrderReplaceOrderParams{
+		AccountID: cmd.Value("account-id").(int64),
 	}
 
 	var res []byte
@@ -467,8 +476,6 @@ func handleActiveV1AccountsOrdersSubmitOrders(ctx context.Context, cmd *cli.Comm
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountOrderSubmitOrdersParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -479,6 +486,8 @@ func handleActiveV1AccountsOrdersSubmitOrders(ctx context.Context, cmd *cli.Comm
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountOrderSubmitOrdersParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

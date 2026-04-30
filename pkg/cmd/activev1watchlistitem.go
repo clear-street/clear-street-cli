@@ -20,8 +20,9 @@ var activeV1WatchlistsItemsAddWatchlistItem = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "watchlist-id",
-			Required: true,
+			Name:      "watchlist-id",
+			Required:  true,
+			PathParam: "watchlist_id",
 		},
 		&requestflag.Flag[*string]{
 			Name:     "instrument-id",
@@ -49,12 +50,14 @@ var activeV1WatchlistsItemsDeleteWatchlistItem = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "watchlist-id",
-			Required: true,
+			Name:      "watchlist-id",
+			Required:  true,
+			PathParam: "watchlist_id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "item-id",
-			Required: true,
+			Name:      "item-id",
+			Required:  true,
+			PathParam: "item_id",
 		},
 	},
 	Action:          handleActiveV1WatchlistsItemsDeleteWatchlistItem,
@@ -72,8 +75,6 @@ func handleActiveV1WatchlistsItemsAddWatchlistItem(ctx context.Context, cmd *cli
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1WatchlistItemAddWatchlistItemParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -84,6 +85,8 @@ func handleActiveV1WatchlistsItemsAddWatchlistItem(ctx context.Context, cmd *cli
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1WatchlistItemAddWatchlistItemParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -121,10 +124,6 @@ func handleActiveV1WatchlistsItemsDeleteWatchlistItem(ctx context.Context, cmd *
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1WatchlistItemDeleteWatchlistItemParams{
-		WatchlistID: cmd.Value("watchlist-id").(string),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -134,6 +133,10 @@ func handleActiveV1WatchlistsItemsDeleteWatchlistItem(ctx context.Context, cmd *
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1WatchlistItemDeleteWatchlistItemParams{
+		WatchlistID: cmd.Value("watchlist-id").(string),
 	}
 
 	var res []byte

@@ -20,13 +20,15 @@ var activeV1InstrumentsBalanceSheetsGetInstrumentBalanceSheetStatements = cli.Co
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "security-id-source",
-			Usage:    "Security identifier source",
-			Required: true,
+			Name:      "security-id-source",
+			Usage:     "Security identifier source",
+			Required:  true,
+			PathParam: "security_id_source",
 		},
 		&requestflag.Flag[string]{
-			Name:     "security-id",
-			Required: true,
+			Name:      "security-id",
+			Required:  true,
+			PathParam: "security_id",
 		},
 		&requestflag.Flag[string]{
 			Name:      "from-date",
@@ -64,10 +66,6 @@ func handleActiveV1InstrumentsBalanceSheetsGetInstrumentBalanceSheetStatements(c
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1InstrumentBalanceSheetGetInstrumentBalanceSheetStatementsParams{
-		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -77,6 +75,10 @@ func handleActiveV1InstrumentsBalanceSheetsGetInstrumentBalanceSheetStatements(c
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1InstrumentBalanceSheetGetInstrumentBalanceSheetStatementsParams{
+		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
 	}
 
 	var res []byte

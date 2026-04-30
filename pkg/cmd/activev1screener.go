@@ -195,8 +195,6 @@ func handleActiveV1ScreenerGetScreener(ctx context.Context, cmd *cli.Command) er
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1ScreenerGetScreenerParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -207,6 +205,8 @@ func handleActiveV1ScreenerGetScreener(ctx context.Context, cmd *cli.Command) er
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1ScreenerGetScreenerParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -236,8 +236,6 @@ func handleActiveV1ScreenerSearchScreener(ctx context.Context, cmd *cli.Command)
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1ScreenerSearchScreenerParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -248,6 +246,8 @@ func handleActiveV1ScreenerSearchScreener(ctx context.Context, cmd *cli.Command)
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1ScreenerSearchScreenerParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

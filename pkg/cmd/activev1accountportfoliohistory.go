@@ -20,8 +20,9 @@ var activeV1AccountsPortfolioHistoryGetPortfolioHistory = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[any]{
 			Name:      "start-date",
@@ -49,8 +50,6 @@ func handleActiveV1AccountsPortfolioHistoryGetPortfolioHistory(ctx context.Conte
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountPortfolioHistoryGetPortfolioHistoryParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -61,6 +60,8 @@ func handleActiveV1AccountsPortfolioHistoryGetPortfolioHistory(ctx context.Conte
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountPortfolioHistoryGetPortfolioHistoryParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

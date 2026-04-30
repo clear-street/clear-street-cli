@@ -36,8 +36,9 @@ var activeV1WatchlistsDeleteWatchlist = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "watchlist-id",
-			Required: true,
+			Name:      "watchlist-id",
+			Required:  true,
+			PathParam: "watchlist_id",
 		},
 	},
 	Action:          handleActiveV1WatchlistsDeleteWatchlist,
@@ -50,8 +51,9 @@ var activeV1WatchlistsGetWatchlistByID = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "watchlist-id",
-			Required: true,
+			Name:      "watchlist-id",
+			Required:  true,
+			PathParam: "watchlist_id",
 		},
 	},
 	Action:          handleActiveV1WatchlistsGetWatchlistByID,
@@ -86,8 +88,6 @@ func handleActiveV1WatchlistsCreateWatchlist(ctx context.Context, cmd *cli.Comma
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1WatchlistNewWatchlistParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -98,6 +98,8 @@ func handleActiveV1WatchlistsCreateWatchlist(ctx context.Context, cmd *cli.Comma
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1WatchlistNewWatchlistParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -211,8 +213,6 @@ func handleActiveV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1WatchlistGetWatchlistsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -223,6 +223,8 @@ func handleActiveV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1WatchlistGetWatchlistsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

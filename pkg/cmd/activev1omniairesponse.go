@@ -20,8 +20,9 @@ var activeV1OmniAIResponsesCancelResponse = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "response-id",
-			Required: true,
+			Name:      "response-id",
+			Required:  true,
+			PathParam: "response_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
@@ -40,8 +41,9 @@ var activeV1OmniAIResponsesGetResponse = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "response-id",
-			Required: true,
+			Name:      "response-id",
+			Required:  true,
+			PathParam: "response_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
@@ -65,8 +67,6 @@ func handleActiveV1OmniAIResponsesCancelResponse(ctx context.Context, cmd *cli.C
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIResponseCancelResponseParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -77,6 +77,8 @@ func handleActiveV1OmniAIResponsesCancelResponse(ctx context.Context, cmd *cli.C
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIResponseCancelResponseParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -114,8 +116,6 @@ func handleActiveV1OmniAIResponsesGetResponse(ctx context.Context, cmd *cli.Comm
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIResponseGetResponseParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -126,6 +126,8 @@ func handleActiveV1OmniAIResponsesGetResponse(ctx context.Context, cmd *cli.Comm
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIResponseGetResponseParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
