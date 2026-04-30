@@ -28,7 +28,7 @@ var activeV1InstrumentsGetInstrumentByID = cli.Command{
 			Name:     "security-id",
 			Required: true,
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*bool]{
 			Name:      "include-options-expiry-dates",
 			Usage:     "When true, include unique options expiry dates for this instrument",
 			QueryPath: "include_options_expiry_dates",

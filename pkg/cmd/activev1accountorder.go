@@ -161,17 +161,17 @@ var activeV1AccountsOrdersReplaceOrder = cli.Command{
 			Name:     "order-id",
 			Required: true,
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "limit-price",
 			Usage:    "New limit price for the order",
 			BodyPath: "limit_price",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "quantity",
 			Usage:    "New quantity for the order",
 			BodyPath: "quantity",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "stop-price",
 			Usage:    "New stop price for the order",
 			BodyPath: "stop_price",

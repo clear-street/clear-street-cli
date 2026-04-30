@@ -23,17 +23,17 @@ var activeV1WatchlistsItemsAddWatchlistItem = cli.Command{
 			Name:     "watchlist-id",
 			Required: true,
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "instrument-id",
 			Usage:    "OEMS instrument ID (mutually exclusive with security_id/security_id_source)",
 			BodyPath: "instrument_id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "security-id",
 			Usage:    "Security identifier",
 			BodyPath: "security_id",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[*string]{
 			Name:     "security-id-source",
 			Usage:    "Security identifier source",
 			BodyPath: "security_id_source",
