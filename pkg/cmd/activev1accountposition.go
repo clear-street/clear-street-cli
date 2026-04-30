@@ -32,7 +32,7 @@ var activeV1AccountsPositionsClosePosition = cli.Command{
 			Name:     "security-id",
 			Required: true,
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*bool]{
 			Name:     "cancel-orders",
 			BodyPath: "cancel_orders",
 		},
@@ -50,7 +50,7 @@ var activeV1AccountsPositionsClosePositions = cli.Command{
 			Name:     "account-id",
 			Required: true,
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*bool]{
 			Name:     "cancel-orders",
 			BodyPath: "cancel_orders",
 		},

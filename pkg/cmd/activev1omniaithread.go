@@ -39,11 +39,11 @@ var activeV1OmniAIThreadsCreateThread = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Deep-insights target payload.",
 			BodyPath: "target",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "text",
 			BodyPath: "text",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "thesis",
 			BodyPath: "thesis",
 		},

@@ -67,7 +67,7 @@ var activeV1AccountsPatchAccountByID = requestflag.WithInnerFlags(cli.Command{
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"risk": {
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "risk.max-notional",
 			Usage:      "The maximum notional value available to the account",
 			InnerField: "max_notional",
