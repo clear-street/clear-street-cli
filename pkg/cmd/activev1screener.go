@@ -133,12 +133,12 @@ var activeV1ScreenerSearchScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "filter.op",
-			Usage:      "The operator and optional arguments.",
+			Usage:      "Operator specification with optional behavioral arguments.",
 			InnerField: "op",
 		},
-		&requestflag.InnerFlag[[]map[string]any]{
+		&requestflag.InnerFlag[any]{
 			Name:       "filter.right",
-			Usage:      "The value(s) to compare against.",
+			Usage:      "The value(s) to compare against. Omit together with `op` for an unenabled filter.",
 			InnerField: "right",
 		},
 	},

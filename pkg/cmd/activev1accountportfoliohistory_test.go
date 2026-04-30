@@ -16,8 +16,8 @@ func TestActiveV1AccountsPortfolioHistoryGetPortfolioHistory(t *testing.T) {
 			"--api-key", "string",
 			"active:v1:accounts:portfolio-history", "get-portfolio-history",
 			"--account-id", "0",
-			"--end-date", "'2019-12-27'",
 			"--start-date", "'2019-12-27'",
+			"--end-date", "'2019-12-27'",
 		)
 	})
 }

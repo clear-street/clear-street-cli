@@ -24,14 +24,14 @@ var activeV1AccountsPortfolioHistoryGetPortfolioHistory = cli.Command{
 			Required: true,
 		},
 		&requestflag.Flag[any]{
-			Name:      "end-date",
-			Required:  true,
-			QueryPath: "end_date",
-		},
-		&requestflag.Flag[any]{
 			Name:      "start-date",
 			Required:  true,
 			QueryPath: "start_date",
+		},
+		&requestflag.Flag[any]{
+			Name:      "end-date",
+			Usage:     "Defaults to today in America/New_York when omitted.",
+			QueryPath: "end_date",
 		},
 	},
 	Action:          handleActiveV1AccountsPortfolioHistoryGetPortfolioHistory,
