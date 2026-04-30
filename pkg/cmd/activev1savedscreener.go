@@ -124,8 +124,9 @@ var activeV1SavedScreenersDeleteScreener = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "screener-id",
-			Required: true,
+			Name:      "screener-id",
+			Required:  true,
+			PathParam: "screener_id",
 		},
 	},
 	Action:          handleActiveV1SavedScreenersDeleteScreener,
@@ -138,8 +139,9 @@ var activeV1SavedScreenersGetScreenerByID = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "screener-id",
-			Required: true,
+			Name:      "screener-id",
+			Required:  true,
+			PathParam: "screener_id",
 		},
 	},
 	Action:          handleActiveV1SavedScreenersGetScreenerByID,
@@ -161,8 +163,9 @@ var activeV1SavedScreenersReplaceScreener = requestflag.WithInnerFlags(cli.Comma
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "screener-id",
-			Required: true,
+			Name:      "screener-id",
+			Required:  true,
+			PathParam: "screener_id",
 		},
 		&requestflag.Flag[any]{
 			Name:     "field-filter",
@@ -271,8 +274,6 @@ func handleActiveV1SavedScreenersCreateScreener(ctx context.Context, cmd *cli.Co
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1SavedScreenerNewScreenerParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -283,6 +284,8 @@ func handleActiveV1SavedScreenersCreateScreener(ctx context.Context, cmd *cli.Co
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1SavedScreenerNewScreenerParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -421,8 +424,6 @@ func handleActiveV1SavedScreenersReplaceScreener(ctx context.Context, cmd *cli.C
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1SavedScreenerReplaceScreenerParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -433,6 +434,8 @@ func handleActiveV1SavedScreenersReplaceScreener(ctx context.Context, cmd *cli.C
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1SavedScreenerReplaceScreenerParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

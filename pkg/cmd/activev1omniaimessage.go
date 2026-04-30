@@ -20,8 +20,9 @@ var activeV1OmniAIMessagesFeedback = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "message-id",
-			Required: true,
+			Name:      "message-id",
+			Required:  true,
+			PathParam: "message_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:     "account-id",
@@ -56,8 +57,9 @@ var activeV1OmniAIMessagesGetMessage = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "message-id",
-			Required: true,
+			Name:      "message-id",
+			Required:  true,
+			PathParam: "message_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
@@ -81,8 +83,6 @@ func handleActiveV1OmniAIMessagesFeedback(ctx context.Context, cmd *cli.Command)
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIMessageFeedbackParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -93,6 +93,8 @@ func handleActiveV1OmniAIMessagesFeedback(ctx context.Context, cmd *cli.Command)
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIMessageFeedbackParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -130,8 +132,6 @@ func handleActiveV1OmniAIMessagesGetMessage(ctx context.Context, cmd *cli.Comman
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIMessageGetMessageParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -142,6 +142,8 @@ func handleActiveV1OmniAIMessagesGetMessage(ctx context.Context, cmd *cli.Comman
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIMessageGetMessageParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

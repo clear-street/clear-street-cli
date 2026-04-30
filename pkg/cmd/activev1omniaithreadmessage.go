@@ -20,8 +20,9 @@ var activeV1OmniAIThreadsMessagesCreateMessage = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "thread-id",
-			Required: true,
+			Name:      "thread-id",
+			Required:  true,
+			PathParam: "thread_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:     "account-id",
@@ -48,8 +49,9 @@ var activeV1OmniAIThreadsMessagesListMessages = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "thread-id",
-			Required: true,
+			Name:      "thread-id",
+			Required:  true,
+			PathParam: "thread_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
@@ -83,8 +85,6 @@ func handleActiveV1OmniAIThreadsMessagesCreateMessage(ctx context.Context, cmd *
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIThreadMessageNewMessageParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -95,6 +95,8 @@ func handleActiveV1OmniAIThreadsMessagesCreateMessage(ctx context.Context, cmd *
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIThreadMessageNewMessageParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -132,8 +134,6 @@ func handleActiveV1OmniAIThreadsMessagesListMessages(ctx context.Context, cmd *c
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIThreadMessageListMessagesParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -144,6 +144,8 @@ func handleActiveV1OmniAIThreadsMessagesListMessages(ctx context.Context, cmd *c
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIThreadMessageListMessagesParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

@@ -20,13 +20,15 @@ var activeV1InstrumentsAnalystReportingGetInstrumentAnalystConsensus = cli.Comma
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "security-id-source",
-			Usage:    "Security identifier source",
-			Required: true,
+			Name:      "security-id-source",
+			Usage:     "Security identifier source",
+			Required:  true,
+			PathParam: "security_id_source",
 		},
 		&requestflag.Flag[string]{
-			Name:     "security-id",
-			Required: true,
+			Name:      "security-id",
+			Required:  true,
+			PathParam: "security_id",
 		},
 		&requestflag.Flag[any]{
 			Name:      "from",
@@ -54,10 +56,6 @@ func handleActiveV1InstrumentsAnalystReportingGetInstrumentAnalystConsensus(ctx 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1InstrumentAnalystReportingGetInstrumentAnalystConsensusParams{
-		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -67,6 +65,10 @@ func handleActiveV1InstrumentsAnalystReportingGetInstrumentAnalystConsensus(ctx 
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1InstrumentAnalystReportingGetInstrumentAnalystConsensusParams{
+		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
 	}
 
 	var res []byte

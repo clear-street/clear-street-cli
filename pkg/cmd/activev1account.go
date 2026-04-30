@@ -20,8 +20,9 @@ var activeV1AccountsGetAccountByID = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 	},
 	Action:          handleActiveV1AccountsGetAccountByID,
@@ -54,8 +55,9 @@ var activeV1AccountsPatchAccountByID = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "risk",
@@ -125,8 +127,6 @@ func handleActiveV1AccountsGetAccounts(ctx context.Context, cmd *cli.Command) er
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountGetAccountsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -137,6 +137,8 @@ func handleActiveV1AccountsGetAccounts(ctx context.Context, cmd *cli.Command) er
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountGetAccountsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -169,8 +171,6 @@ func handleActiveV1AccountsPatchAccountByID(ctx context.Context, cmd *cli.Comman
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountPatchAccountByIDParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -181,6 +181,8 @@ func handleActiveV1AccountsPatchAccountByID(ctx context.Context, cmd *cli.Comman
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountPatchAccountByIDParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

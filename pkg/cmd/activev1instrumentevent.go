@@ -60,13 +60,15 @@ var activeV1InstrumentsEventsGetInstrumentEvents = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "security-id-source",
-			Usage:    "Security identifier source",
-			Required: true,
+			Name:      "security-id-source",
+			Usage:     "Security identifier source",
+			Required:  true,
+			PathParam: "security_id_source",
 		},
 		&requestflag.Flag[string]{
-			Name:     "security-id",
-			Required: true,
+			Name:      "security-id",
+			Required:  true,
+			PathParam: "security_id",
 		},
 		&requestflag.Flag[string]{
 			Name:      "from-date",
@@ -91,8 +93,6 @@ func handleActiveV1InstrumentsEventsGetAllInstrumentEvents(ctx context.Context, 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1InstrumentEventGetAllInstrumentEventsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -103,6 +103,8 @@ func handleActiveV1InstrumentsEventsGetAllInstrumentEvents(ctx context.Context, 
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1InstrumentEventGetAllInstrumentEventsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -135,10 +137,6 @@ func handleActiveV1InstrumentsEventsGetInstrumentEvents(ctx context.Context, cmd
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1InstrumentEventGetInstrumentEventsParams{
-		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -148,6 +146,10 @@ func handleActiveV1InstrumentsEventsGetInstrumentEvents(ctx context.Context, cmd
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1InstrumentEventGetInstrumentEventsParams{
+		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
 	}
 
 	var res []byte

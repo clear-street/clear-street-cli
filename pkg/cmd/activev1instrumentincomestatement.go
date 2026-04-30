@@ -20,13 +20,15 @@ var activeV1InstrumentsIncomeStatementsGetInstrumentIncomeStatements = cli.Comma
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "security-id-source",
-			Usage:    "Security identifier source",
-			Required: true,
+			Name:      "security-id-source",
+			Usage:     "Security identifier source",
+			Required:  true,
+			PathParam: "security_id_source",
 		},
 		&requestflag.Flag[string]{
-			Name:     "security-id",
-			Required: true,
+			Name:      "security-id",
+			Required:  true,
+			PathParam: "security_id",
 		},
 		&requestflag.Flag[string]{
 			Name:      "from-date",
@@ -64,10 +66,6 @@ func handleActiveV1InstrumentsIncomeStatementsGetInstrumentIncomeStatements(ctx 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1InstrumentIncomeStatementGetInstrumentIncomeStatementsParams{
-		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -77,6 +75,10 @@ func handleActiveV1InstrumentsIncomeStatementsGetInstrumentIncomeStatements(ctx 
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1InstrumentIncomeStatementGetInstrumentIncomeStatementsParams{
+		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
 	}
 
 	var res []byte

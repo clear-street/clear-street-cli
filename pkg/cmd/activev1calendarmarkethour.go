@@ -43,8 +43,6 @@ func handleActiveV1CalendarsMarketHoursGetMarketHoursCalendar(ctx context.Contex
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1CalendarMarketHourGetMarketHoursCalendarParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -55,6 +53,8 @@ func handleActiveV1CalendarsMarketHoursGetMarketHoursCalendar(ctx context.Contex
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1CalendarMarketHourGetMarketHoursCalendarParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

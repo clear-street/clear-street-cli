@@ -47,8 +47,6 @@ func handleActiveV1MarketDataSnapshotGetSnapshots(ctx context.Context, cmd *cli.
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1MarketDataSnapshotGetSnapshotsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -59,6 +57,8 @@ func handleActiveV1MarketDataSnapshotGetSnapshots(ctx context.Context, cmd *cli.
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1MarketDataSnapshotGetSnapshotsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

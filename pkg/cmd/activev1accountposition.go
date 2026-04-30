@@ -20,17 +20,20 @@ var activeV1AccountsPositionsClosePosition = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "security-id-source",
-			Usage:    "Security identifier source",
-			Required: true,
+			Name:      "security-id-source",
+			Usage:     "Security identifier source",
+			Required:  true,
+			PathParam: "security_id_source",
 		},
 		&requestflag.Flag[string]{
-			Name:     "security-id",
-			Required: true,
+			Name:      "security-id",
+			Required:  true,
+			PathParam: "security_id",
 		},
 		&requestflag.Flag[*bool]{
 			Name:     "cancel-orders",
@@ -47,8 +50,9 @@ var activeV1AccountsPositionsClosePositions = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[*bool]{
 			Name:     "cancel-orders",
@@ -65,8 +69,9 @@ var activeV1AccountsPositionsGetPositions = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
@@ -114,11 +119,6 @@ func handleActiveV1AccountsPositionsClosePosition(ctx context.Context, cmd *cli.
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountPositionClosePositionParams{
-		AccountID:        cmd.Value("account-id").(int64),
-		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -128,6 +128,11 @@ func handleActiveV1AccountsPositionsClosePosition(ctx context.Context, cmd *cli.
 	)
 	if err != nil {
 		return err
+	}
+
+	params := clearstreet.ActiveV1AccountPositionClosePositionParams{
+		AccountID:        cmd.Value("account-id").(int64),
+		SecurityIDSource: clearstreet.SecurityIDSource(cmd.Value("security-id-source").(string)),
 	}
 
 	var res []byte
@@ -166,8 +171,6 @@ func handleActiveV1AccountsPositionsClosePositions(ctx context.Context, cmd *cli
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountPositionClosePositionsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -178,6 +181,8 @@ func handleActiveV1AccountsPositionsClosePositions(ctx context.Context, cmd *cli
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountPositionClosePositionsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -215,8 +220,6 @@ func handleActiveV1AccountsPositionsGetPositions(ctx context.Context, cmd *cli.C
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1AccountPositionGetPositionsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -227,6 +230,8 @@ func handleActiveV1AccountsPositionsGetPositions(ctx context.Context, cmd *cli.C
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1AccountPositionGetPositionsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

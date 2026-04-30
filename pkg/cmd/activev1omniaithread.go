@@ -70,8 +70,9 @@ var activeV1OmniAIThreadsGetThread = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "thread-id",
-			Required: true,
+			Name:      "thread-id",
+			Required:  true,
+			PathParam: "thread_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
@@ -116,8 +117,9 @@ var activeV1OmniAIThreadsResponse = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "thread-id",
-			Required: true,
+			Name:      "thread-id",
+			Required:  true,
+			PathParam: "thread_id",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
@@ -138,8 +140,6 @@ func handleActiveV1OmniAIThreadsCreateThread(ctx context.Context, cmd *cli.Comma
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIThreadNewThreadParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -150,6 +150,8 @@ func handleActiveV1OmniAIThreadsCreateThread(ctx context.Context, cmd *cli.Comma
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIThreadNewThreadParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -182,8 +184,6 @@ func handleActiveV1OmniAIThreadsGetThread(ctx context.Context, cmd *cli.Command)
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIThreadGetThreadParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -194,6 +194,8 @@ func handleActiveV1OmniAIThreadsGetThread(ctx context.Context, cmd *cli.Command)
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIThreadGetThreadParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -228,8 +230,6 @@ func handleActiveV1OmniAIThreadsListThreads(ctx context.Context, cmd *cli.Comman
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIThreadListThreadsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -240,6 +240,8 @@ func handleActiveV1OmniAIThreadsListThreads(ctx context.Context, cmd *cli.Comman
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIThreadListThreadsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -272,8 +274,6 @@ func handleActiveV1OmniAIThreadsResponse(ctx context.Context, cmd *cli.Command) 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1OmniAIThreadResponseParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -284,6 +284,8 @@ func handleActiveV1OmniAIThreadsResponse(ctx context.Context, cmd *cli.Command) 
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1OmniAIThreadResponseParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

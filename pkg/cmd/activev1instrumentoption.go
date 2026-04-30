@@ -72,8 +72,6 @@ func handleActiveV1InstrumentsOptionsContracts(ctx context.Context, cmd *cli.Com
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := clearstreet.ActiveV1InstrumentOptionContractsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -84,6 +82,8 @@ func handleActiveV1InstrumentsOptionsContracts(ctx context.Context, cmd *cli.Com
 	if err != nil {
 		return err
 	}
+
+	params := clearstreet.ActiveV1InstrumentOptionContractsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
