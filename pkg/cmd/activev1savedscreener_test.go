@@ -16,10 +16,10 @@ func TestActiveV1SavedScreenersCreateScreener(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"active:v1:saved-screeners", "create-screener",
-			"--field-filter", "[string]",
-			"--filter", "[{field_name: field_name, operation: operation, value: value}]",
+			"--field-filter", "[{name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}]",
+			"--filter", "[{left: {name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}, op: {name: GTE, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_WEEK, modifier: {args: [30, DAY], name: SUB}, period: QUARTER}}]}]",
 			"--name", "name",
-			"--sort-by", "sort_by",
+			"--sort-by", "{name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}",
 			"--sort-direction", "ASC",
 		)
 	})
@@ -33,12 +33,18 @@ func TestActiveV1SavedScreenersCreateScreener(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"active:v1:saved-screeners", "create-screener",
-			"--field-filter", "[string]",
-			"--filter.field-name", "field_name",
-			"--filter.operation", "operation",
-			"--filter.value", "value",
+			"--field-filter.name", "market_cap",
+			"--field-filter.lookback", "ONE_WEEK",
+			"--field-filter.period", "QUARTER",
+			"--field-filter.value-type", "DECIMAL",
+			"--filter.left", "{name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}",
+			"--filter.op", "{name: GTE, args: [LEFT_INCLUSIVE]}",
+			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_WEEK, modifier: {args: [30, DAY], name: SUB}, period: QUARTER}}]",
 			"--name", "name",
-			"--sort-by", "sort_by",
+			"--sort-by.name", "market_cap",
+			"--sort-by.lookback", "ONE_WEEK",
+			"--sort-by.period", "QUARTER",
+			"--sort-by.value-type", "DECIMAL",
 			"--sort-direction", "ASC",
 		)
 	})
@@ -47,13 +53,37 @@ func TestActiveV1SavedScreenersCreateScreener(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"field_filter:\n" +
-			"  - string\n" +
+			"  - name: market_cap\n" +
+			"    lookback: ONE_WEEK\n" +
+			"    period: QUARTER\n" +
+			"    value_type: DECIMAL\n" +
 			"filters:\n" +
-			"  - field_name: field_name\n" +
-			"    operation: operation\n" +
-			"    value: value\n" +
+			"  - left:\n" +
+			"      name: market_cap\n" +
+			"      lookback: ONE_WEEK\n" +
+			"      period: QUARTER\n" +
+			"      value_type: DECIMAL\n" +
+			"    op:\n" +
+			"      name: GTE\n" +
+			"      args:\n" +
+			"        - LEFT_INCLUSIVE\n" +
+			"    right:\n" +
+			"      - value: 1000000000\n" +
+			"        variable:\n" +
+			"          name: today\n" +
+			"          lookback: ONE_WEEK\n" +
+			"          modifier:\n" +
+			"            args:\n" +
+			"              - 30\n" +
+			"              - DAY\n" +
+			"            name: SUB\n" +
+			"          period: QUARTER\n" +
 			"name: name\n" +
-			"sort_by: sort_by\n" +
+			"sort_by:\n" +
+			"  name: market_cap\n" +
+			"  lookback: ONE_WEEK\n" +
+			"  period: QUARTER\n" +
+			"  value_type: DECIMAL\n" +
 			"sort_direction: ASC\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
@@ -106,10 +136,10 @@ func TestActiveV1SavedScreenersReplaceScreener(t *testing.T) {
 			"--api-key", "string",
 			"active:v1:saved-screeners", "replace-screener",
 			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
-			"--field-filter", "[string]",
-			"--filter", "[{field_name: field_name, operation: operation, value: value}]",
+			"--field-filter", "[{name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}]",
+			"--filter", "[{left: {name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}, op: {name: GTE, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_WEEK, modifier: {args: [30, DAY], name: SUB}, period: QUARTER}}]}]",
 			"--name", "name",
-			"--sort-by", "sort_by",
+			"--sort-by", "{name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}",
 			"--sort-direction", "ASC",
 		)
 	})
@@ -124,12 +154,18 @@ func TestActiveV1SavedScreenersReplaceScreener(t *testing.T) {
 			"--api-key", "string",
 			"active:v1:saved-screeners", "replace-screener",
 			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
-			"--field-filter", "[string]",
-			"--filter.field-name", "field_name",
-			"--filter.operation", "operation",
-			"--filter.value", "value",
+			"--field-filter.name", "market_cap",
+			"--field-filter.lookback", "ONE_WEEK",
+			"--field-filter.period", "QUARTER",
+			"--field-filter.value-type", "DECIMAL",
+			"--filter.left", "{name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}",
+			"--filter.op", "{name: GTE, args: [LEFT_INCLUSIVE]}",
+			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_WEEK, modifier: {args: [30, DAY], name: SUB}, period: QUARTER}}]",
 			"--name", "name",
-			"--sort-by", "sort_by",
+			"--sort-by.name", "market_cap",
+			"--sort-by.lookback", "ONE_WEEK",
+			"--sort-by.period", "QUARTER",
+			"--sort-by.value-type", "DECIMAL",
 			"--sort-direction", "ASC",
 		)
 	})
@@ -138,13 +174,37 @@ func TestActiveV1SavedScreenersReplaceScreener(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"field_filter:\n" +
-			"  - string\n" +
+			"  - name: market_cap\n" +
+			"    lookback: ONE_WEEK\n" +
+			"    period: QUARTER\n" +
+			"    value_type: DECIMAL\n" +
 			"filters:\n" +
-			"  - field_name: field_name\n" +
-			"    operation: operation\n" +
-			"    value: value\n" +
+			"  - left:\n" +
+			"      name: market_cap\n" +
+			"      lookback: ONE_WEEK\n" +
+			"      period: QUARTER\n" +
+			"      value_type: DECIMAL\n" +
+			"    op:\n" +
+			"      name: GTE\n" +
+			"      args:\n" +
+			"        - LEFT_INCLUSIVE\n" +
+			"    right:\n" +
+			"      - value: 1000000000\n" +
+			"        variable:\n" +
+			"          name: today\n" +
+			"          lookback: ONE_WEEK\n" +
+			"          modifier:\n" +
+			"            args:\n" +
+			"              - 30\n" +
+			"              - DAY\n" +
+			"            name: SUB\n" +
+			"          period: QUARTER\n" +
 			"name: name\n" +
-			"sort_by: sort_by\n" +
+			"sort_by:\n" +
+			"  name: market_cap\n" +
+			"  lookback: ONE_WEEK\n" +
+			"  period: QUARTER\n" +
+			"  value_type: DECIMAL\n" +
 			"sort_direction: ASC\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,

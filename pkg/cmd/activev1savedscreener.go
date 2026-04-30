@@ -21,12 +21,12 @@ var activeV1SavedScreenersCreateScreener = requestflag.WithInnerFlags(cli.Comman
 	Flags: []cli.Flag{
 		&requestflag.Flag[any]{
 			Name:     "field-filter",
-			Usage:    "List of field names to include when running this screener",
+			Usage:    "Structured field references to include when running this screener",
 			BodyPath: "field_filter",
 		},
 		&requestflag.Flag[any]{
 			Name:     "filter",
-			Usage:    "Filter criteria for this screener",
+			Usage:    "Structured search filter criteria",
 			BodyPath: "filters",
 		},
 		&requestflag.Flag[any]{
@@ -34,9 +34,9 @@ var activeV1SavedScreenersCreateScreener = requestflag.WithInnerFlags(cli.Comman
 			Usage:    "The name for this screener configuration",
 			BodyPath: "name",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "sort-by",
-			Usage:    "Field name to sort results by",
+			Usage:    "A reference to a screener field.",
 			BodyPath: "sort_by",
 		},
 		&requestflag.Flag[any]{
@@ -48,21 +48,65 @@ var activeV1SavedScreenersCreateScreener = requestflag.WithInnerFlags(cli.Comman
 	Action:          handleActiveV1SavedScreenersCreateScreener,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
+	"field-filter": {
+		&requestflag.InnerFlag[string]{
+			Name:       "field-filter.name",
+			Usage:      "The field name.",
+			InnerField: "name",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "field-filter.lookback",
+			Usage:      "Historical lookback window for price/change fields.",
+			InnerField: "lookback",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "field-filter.period",
+			Usage:      "Reporting period for financial data fields.",
+			InnerField: "period",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "field-filter.value-type",
+			Usage:      "The data type of a screener field value.",
+			InnerField: "value_type",
+		},
+	},
 	"filter": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "filter.left",
+			Usage:      "A reference to a screener field.",
+			InnerField: "left",
+		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "filter.op",
+			Usage:      "Operator specification with optional behavioral arguments.",
+			InnerField: "op",
+		},
+		&requestflag.InnerFlag[any]{
+			Name:       "filter.right",
+			Usage:      "The value(s) to compare against. Omit together with `op` for an unenabled filter.",
+			InnerField: "right",
+		},
+	},
+	"sort-by": {
 		&requestflag.InnerFlag[string]{
-			Name:       "filter.field-name",
-			Usage:      "The field name to filter on",
-			InnerField: "field_name",
+			Name:       "sort-by.name",
+			Usage:      "The field name.",
+			InnerField: "name",
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "filter.operation",
-			Usage:      "The filter operation (lt, lte, gt, gte, eq, rgx, bw, ew)",
-			InnerField: "operation",
+			Name:       "sort-by.lookback",
+			Usage:      "Historical lookback window for price/change fields.",
+			InnerField: "lookback",
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "filter.value",
-			Usage:      "The filter value",
-			InnerField: "value",
+			Name:       "sort-by.period",
+			Usage:      "Reporting period for financial data fields.",
+			InnerField: "period",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "sort-by.value-type",
+			Usage:      "The data type of a screener field value.",
+			InnerField: "value_type",
 		},
 	},
 })
@@ -115,12 +159,12 @@ var activeV1SavedScreenersReplaceScreener = requestflag.WithInnerFlags(cli.Comma
 		},
 		&requestflag.Flag[any]{
 			Name:     "field-filter",
-			Usage:    "List of field names to include when running this screener",
+			Usage:    "Structured field references to include when running this screener",
 			BodyPath: "field_filter",
 		},
 		&requestflag.Flag[any]{
 			Name:     "filter",
-			Usage:    "Filter criteria for this screener",
+			Usage:    "Structured search filter criteria",
 			BodyPath: "filters",
 		},
 		&requestflag.Flag[any]{
@@ -128,9 +172,9 @@ var activeV1SavedScreenersReplaceScreener = requestflag.WithInnerFlags(cli.Comma
 			Usage:    "The name for this screener configuration",
 			BodyPath: "name",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "sort-by",
-			Usage:    "Field name to sort results by",
+			Usage:    "A reference to a screener field.",
 			BodyPath: "sort_by",
 		},
 		&requestflag.Flag[any]{
@@ -142,21 +186,65 @@ var activeV1SavedScreenersReplaceScreener = requestflag.WithInnerFlags(cli.Comma
 	Action:          handleActiveV1SavedScreenersReplaceScreener,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
+	"field-filter": {
+		&requestflag.InnerFlag[string]{
+			Name:       "field-filter.name",
+			Usage:      "The field name.",
+			InnerField: "name",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "field-filter.lookback",
+			Usage:      "Historical lookback window for price/change fields.",
+			InnerField: "lookback",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "field-filter.period",
+			Usage:      "Reporting period for financial data fields.",
+			InnerField: "period",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "field-filter.value-type",
+			Usage:      "The data type of a screener field value.",
+			InnerField: "value_type",
+		},
+	},
 	"filter": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "filter.left",
+			Usage:      "A reference to a screener field.",
+			InnerField: "left",
+		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "filter.op",
+			Usage:      "Operator specification with optional behavioral arguments.",
+			InnerField: "op",
+		},
+		&requestflag.InnerFlag[any]{
+			Name:       "filter.right",
+			Usage:      "The value(s) to compare against. Omit together with `op` for an unenabled filter.",
+			InnerField: "right",
+		},
+	},
+	"sort-by": {
 		&requestflag.InnerFlag[string]{
-			Name:       "filter.field-name",
-			Usage:      "The field name to filter on",
-			InnerField: "field_name",
+			Name:       "sort-by.name",
+			Usage:      "The field name.",
+			InnerField: "name",
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "filter.operation",
-			Usage:      "The filter operation (lt, lte, gt, gte, eq, rgx, bw, ew)",
-			InnerField: "operation",
+			Name:       "sort-by.lookback",
+			Usage:      "Historical lookback window for price/change fields.",
+			InnerField: "lookback",
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "filter.value",
-			Usage:      "The filter value",
-			InnerField: "value",
+			Name:       "sort-by.period",
+			Usage:      "Reporting period for financial data fields.",
+			InnerField: "period",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "sort-by.value-type",
+			Usage:      "The data type of a screener field value.",
+			InnerField: "value_type",
 		},
 	},
 })
