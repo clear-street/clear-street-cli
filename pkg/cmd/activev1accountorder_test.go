@@ -68,6 +68,7 @@ func TestActiveV1AccountsOrdersGetOrders(t *testing.T) {
 			"--status", "PENDING_NEW",
 			"--symbol", "symbol",
 			"--to", "'2019-12-27T18:11:19.117Z'",
+			"--underlying-instrument-ids", "underlying_instrument_ids",
 		)
 	})
 }

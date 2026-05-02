@@ -149,6 +149,11 @@ var activeV1AccountsOrdersGetOrders = cli.Command{
 			Usage:     "The end date and time for the query range, inclusive (ISO 8601 format)",
 			QueryPath: "to",
 		},
+		&requestflag.Flag[string]{
+			Name:      "underlying-instrument-ids",
+			Usage:     "Comma-separated OEMS instrument UUIDs. Matches options orders whose resolved underlier is any of the given IDs.",
+			QueryPath: "underlying_instrument_ids",
+		},
 	},
 	Action:          handleActiveV1AccountsOrdersGetOrders,
 	HideHelpCommand: true,
