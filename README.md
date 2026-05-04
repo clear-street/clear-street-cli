@@ -48,7 +48,7 @@ clear-street [resource] <command> [flags...]
 ```
 
 ```sh
-clear-street active:v1:accounts get-accounts \
+clear-street v1:accounts get-accounts \
   --api-key 'My API Key'
 ```
 
