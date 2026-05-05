@@ -36,7 +36,7 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"--field-filter", "[{name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}, {name: price, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}, {name: volume, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}]",
 			"--filter", "[{left: {name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}, op: {name: GTE, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_WEEK, modifier: {args: [30, DAY], name: SUB}, period: QUARTER}}]}]",
 			"--page-size", "25",
-			"--page-token", "page_token",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--sort-by", "{name: market_cap, lookback: ONE_WEEK, period: QUARTER, value_type: DECIMAL}",
 			"--sort-case-sensitive=true",
 			"--sort-direction", "ASC",
@@ -69,7 +69,7 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"--filter.op", "{name: GTE, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_WEEK, modifier: {args: [30, DAY], name: SUB}, period: QUARTER}}]",
 			"--page-size", "25",
-			"--page-token", "page_token",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--sort-by.name", "market_cap",
 			"--sort-by.lookback", "ONE_WEEK",
 			"--sort-by.period", "QUARTER",
@@ -119,7 +119,7 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"            name: SUB\n" +
 			"          period: QUARTER\n" +
 			"page_size: 25\n" +
-			"page_token: page_token\n" +
+			"page_token: U3RhaW5sZXNzIHJvY2tz\n" +
 			"sort_by:\n" +
 			"  name: market_cap\n" +
 			"  lookback: ONE_WEEK\n" +

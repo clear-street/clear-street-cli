@@ -14,9 +14,30 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1OmniAIMessagesFeedback = cli.Command{
-	Name:    "feedback",
-	Usage:   "Create feedback on a finalized assistant message.",
+var v1OmniAIMessagesGetMessageByID = cli.Command{
+	Name:    "get-message-by-id",
+	Usage:   "Get a finalized message by ID.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "message-id",
+			Required:  true,
+			PathParam: "message_id",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Usage:     "Account ID for the request",
+			Required:  true,
+			QueryPath: "account_id",
+		},
+	},
+	Action:          handleV1OmniAIMessagesGetMessageByID,
+	HideHelpCommand: true,
+}
+
+var v1OmniAIMessagesSubmitFeedback = cli.Command{
+	Name:    "submit-feedback",
+	Usage:   "Submit feedback on a finalized assistant message.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -47,81 +68,11 @@ var v1OmniAIMessagesFeedback = cli.Command{
 			BodyPath: "metadata",
 		},
 	},
-	Action:          handleV1OmniAIMessagesFeedback,
+	Action:          handleV1OmniAIMessagesSubmitFeedback,
 	HideHelpCommand: true,
 }
 
-var v1OmniAIMessagesGetMessage = cli.Command{
-	Name:    "get-message",
-	Usage:   "Get a finalized message by ID.",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:      "message-id",
-			Required:  true,
-			PathParam: "message_id",
-		},
-		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
-			QueryPath: "account_id",
-		},
-	},
-	Action:          handleV1OmniAIMessagesGetMessage,
-	HideHelpCommand: true,
-}
-
-func handleV1OmniAIMessagesFeedback(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("message-id") && len(unusedArgs) > 0 {
-		cmd.Set("message-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		ApplicationJSON,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1OmniAIMessageFeedbackParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Messages.Feedback(
-		ctx,
-		cmd.Value("message-id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:messages feedback",
-		Transform:      transform,
-	})
-}
-
-func handleV1OmniAIMessagesGetMessage(ctx context.Context, cmd *cli.Command) error {
+func handleV1OmniAIMessagesGetMessageByID(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("message-id") && len(unusedArgs) > 0 {
@@ -143,11 +94,11 @@ func handleV1OmniAIMessagesGetMessage(ctx context.Context, cmd *cli.Command) err
 		return err
 	}
 
-	params := clearstreet.V1OmniAIMessageGetMessageParams{}
+	params := clearstreet.V1OmniAIMessageGetMessageByIDParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Messages.GetMessage(
+	_, err = client.V1.OmniAI.Messages.GetMessageByID(
 		ctx,
 		cmd.Value("message-id").(string),
 		params,
@@ -165,7 +116,56 @@ func handleV1OmniAIMessagesGetMessage(ctx context.Context, cmd *cli.Command) err
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:messages get-message",
+		Title:          "v1:omni-ai:messages get-message-by-id",
+		Transform:      transform,
+	})
+}
+
+func handleV1OmniAIMessagesSubmitFeedback(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("message-id") && len(unusedArgs) > 0 {
+		cmd.Set("message-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1OmniAIMessageSubmitFeedbackParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.OmniAI.Messages.SubmitFeedback(
+		ctx,
+		cmd.Value("message-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:omni-ai:messages submit-feedback",
 		Transform:      transform,
 	})
 }

@@ -21,13 +21,13 @@ func TestV1OmniAIResponsesCancelResponse(t *testing.T) {
 	})
 }
 
-func TestV1OmniAIResponsesGetResponse(t *testing.T) {
+func TestV1OmniAIResponsesGetResponseByID(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:omni-ai:responses", "get-response",
+			"v1:omni-ai:responses", "get-response-by-id",
 			"--response-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--account-id", "0",
 		)

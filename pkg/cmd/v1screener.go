@@ -71,12 +71,12 @@ var v1ScreenerSearchScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[*int64]{
 			Name:     "page-size",
-			Usage:    "Maximum number of results per page.",
+			Usage:    "The number of items to return per page (only used when page_token is not provided)",
 			BodyPath: "page_size",
 		},
 		&requestflag.Flag[*string]{
 			Name:     "page-token",
-			Usage:    "Opaque token for cursor-based pagination.",
+			Usage:    "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
 			BodyPath: "page_token",
 		},
 		&requestflag.Flag[map[string]any]{

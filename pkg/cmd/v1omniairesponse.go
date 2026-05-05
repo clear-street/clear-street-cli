@@ -35,8 +35,8 @@ var v1OmniAIResponsesCancelResponse = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1OmniAIResponsesGetResponse = cli.Command{
-	Name:    "get-response",
+var v1OmniAIResponsesGetResponseByID = cli.Command{
+	Name:    "get-response-by-id",
 	Usage:   "Poll a response for assistant output.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -52,7 +52,7 @@ var v1OmniAIResponsesGetResponse = cli.Command{
 			QueryPath: "account_id",
 		},
 	},
-	Action:          handleV1OmniAIResponsesGetResponse,
+	Action:          handleV1OmniAIResponsesGetResponseByID,
 	HideHelpCommand: true,
 }
 
@@ -105,7 +105,7 @@ func handleV1OmniAIResponsesCancelResponse(ctx context.Context, cmd *cli.Command
 	})
 }
 
-func handleV1OmniAIResponsesGetResponse(ctx context.Context, cmd *cli.Command) error {
+func handleV1OmniAIResponsesGetResponseByID(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("response-id") && len(unusedArgs) > 0 {
@@ -127,11 +127,11 @@ func handleV1OmniAIResponsesGetResponse(ctx context.Context, cmd *cli.Command) e
 		return err
 	}
 
-	params := clearstreet.V1OmniAIResponseGetResponseParams{}
+	params := clearstreet.V1OmniAIResponseGetResponseByIDParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Responses.GetResponse(
+	_, err = client.V1.OmniAI.Responses.GetResponseByID(
 		ctx,
 		cmd.Value("response-id").(string),
 		params,
@@ -149,7 +149,7 @@ func handleV1OmniAIResponsesGetResponse(ctx context.Context, cmd *cli.Command) e
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:responses get-response",
+		Title:          "v1:omni-ai:responses get-response-by-id",
 		Transform:      transform,
 	})
 }

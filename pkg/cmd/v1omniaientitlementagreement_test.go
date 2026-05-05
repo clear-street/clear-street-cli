@@ -8,13 +8,13 @@ import (
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
 )
 
-func TestV1OmniAIEntitlementAgreementsListEntitlementAgreements(t *testing.T) {
+func TestV1OmniAIEntitlementAgreementsGetEntitlementAgreements(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:omni-ai:entitlement-agreements", "list-entitlement-agreements",
+			"v1:omni-ai:entitlement-agreements", "get-entitlement-agreements",
 		)
 	})
 }

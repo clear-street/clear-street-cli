@@ -13,16 +13,16 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1OmniAIEntitlementAgreementsListEntitlementAgreements = cli.Command{
-	Name:            "list-entitlement-agreements",
+var v1OmniAIEntitlementAgreementsGetEntitlementAgreements = cli.Command{
+	Name:            "get-entitlement-agreements",
 	Usage:           "List current signable entitlement agreements for consent UX.",
 	Suggest:         true,
 	Flags:           []cli.Flag{},
-	Action:          handleV1OmniAIEntitlementAgreementsListEntitlementAgreements,
+	Action:          handleV1OmniAIEntitlementAgreementsGetEntitlementAgreements,
 	HideHelpCommand: true,
 }
 
-func handleV1OmniAIEntitlementAgreementsListEntitlementAgreements(ctx context.Context, cmd *cli.Command) error {
+func handleV1OmniAIEntitlementAgreementsGetEntitlementAgreements(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -43,7 +43,7 @@ func handleV1OmniAIEntitlementAgreementsListEntitlementAgreements(ctx context.Co
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.EntitlementAgreements.ListEntitlementAgreements(ctx, options...)
+	_, err = client.V1.OmniAI.EntitlementAgreements.GetEntitlementAgreements(ctx, options...)
 	if err != nil {
 		return err
 	}
@@ -56,7 +56,7 @@ func handleV1OmniAIEntitlementAgreementsListEntitlementAgreements(ctx context.Co
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:entitlement-agreements list-entitlement-agreements",
+		Title:          "v1:omni-ai:entitlement-agreements get-entitlement-agreements",
 		Transform:      transform,
 	})
 }
