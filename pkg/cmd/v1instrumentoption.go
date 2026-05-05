@@ -14,8 +14,8 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1InstrumentsOptionsContracts = cli.Command{
-	Name:    "contracts",
+var v1InstrumentsOptionsGetOptionContracts = cli.Command{
+	Name:    "get-option-contracts",
 	Usage:   "List options contracts.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -45,16 +45,16 @@ var v1InstrumentsOptionsContracts = cli.Command{
 			QueryPath: "underlier",
 		},
 		&requestflag.Flag[string]{
-			Name:      "underlier-instrument-id",
+			Name:      "underlying-instrument-id",
 			Usage:     "OEMS instrument UUID or symbol of the underlying equity/index",
-			QueryPath: "underlier_instrument_id",
+			QueryPath: "underlying_instrument_id",
 		},
 	},
-	Action:          handleV1InstrumentsOptionsContracts,
+	Action:          handleV1InstrumentsOptionsGetOptionContracts,
 	HideHelpCommand: true,
 }
 
-func handleV1InstrumentsOptionsContracts(ctx context.Context, cmd *cli.Command) error {
+func handleV1InstrumentsOptionsGetOptionContracts(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -73,11 +73,11 @@ func handleV1InstrumentsOptionsContracts(ctx context.Context, cmd *cli.Command) 
 		return err
 	}
 
-	params := clearstreet.V1InstrumentOptionContractsParams{}
+	params := clearstreet.V1InstrumentOptionGetOptionContractsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Instruments.Options.Contracts(ctx, params, options...)
+	_, err = client.V1.Instruments.Options.GetOptionContracts(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -90,7 +90,7 @@ func handleV1InstrumentsOptionsContracts(ctx context.Context, cmd *cli.Command) 
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:instruments:options contracts",
+		Title:          "v1:instruments:options get-option-contracts",
 		Transform:      transform,
 	})
 }

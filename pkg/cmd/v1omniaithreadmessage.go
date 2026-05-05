@@ -43,8 +43,8 @@ var v1OmniAIThreadsMessagesCreateMessage = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1OmniAIThreadsMessagesListMessages = cli.Command{
-	Name:    "list-messages",
+var v1OmniAIThreadsMessagesGetMessages = cli.Command{
+	Name:    "get-messages",
 	Usage:   "List finalized messages in a thread.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -70,7 +70,7 @@ var v1OmniAIThreadsMessagesListMessages = cli.Command{
 			QueryPath: "page_token",
 		},
 	},
-	Action:          handleV1OmniAIThreadsMessagesListMessages,
+	Action:          handleV1OmniAIThreadsMessagesGetMessages,
 	HideHelpCommand: true,
 }
 
@@ -123,7 +123,7 @@ func handleV1OmniAIThreadsMessagesCreateMessage(ctx context.Context, cmd *cli.Co
 	})
 }
 
-func handleV1OmniAIThreadsMessagesListMessages(ctx context.Context, cmd *cli.Command) error {
+func handleV1OmniAIThreadsMessagesGetMessages(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("thread-id") && len(unusedArgs) > 0 {
@@ -145,11 +145,11 @@ func handleV1OmniAIThreadsMessagesListMessages(ctx context.Context, cmd *cli.Com
 		return err
 	}
 
-	params := clearstreet.V1OmniAIThreadMessageListMessagesParams{}
+	params := clearstreet.V1OmniAIThreadMessageGetMessagesParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Threads.Messages.ListMessages(
+	_, err = client.V1.OmniAI.Threads.Messages.GetMessages(
 		ctx,
 		cmd.Value("thread-id").(string),
 		params,
@@ -167,7 +167,7 @@ func handleV1OmniAIThreadsMessagesListMessages(ctx context.Context, cmd *cli.Com
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:threads:messages list-messages",
+		Title:          "v1:omni-ai:threads:messages get-messages",
 		Transform:      transform,
 	})
 }

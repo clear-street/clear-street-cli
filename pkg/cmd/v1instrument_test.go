@@ -43,21 +43,21 @@ func TestV1InstrumentsGetInstruments(t *testing.T) {
 	})
 }
 
-func TestV1InstrumentsSearch(t *testing.T) {
+func TestV1InstrumentsSearchInstruments(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:instruments", "search",
+			"v1:instruments", "search-instruments",
 			"--q", "q",
 			"--asset-class", "asset_class",
 			"--country", "country",
 			"--currency", "currency",
-			"--cursor", "cursor",
 			"--include-inactive=true",
 			"--include-restricted=true",
-			"--limit", "0",
+			"--page-size", "1",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 		)
 	})
 }

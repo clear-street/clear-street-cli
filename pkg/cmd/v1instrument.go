@@ -100,8 +100,8 @@ var v1InstrumentsGetInstruments = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1InstrumentsSearch = cli.Command{
-	Name:    "search",
+var v1InstrumentsSearchInstruments = cli.Command{
+	Name:    "search-instruments",
 	Usage:   "Fast in-memory typeahead search over the loaded instrument universe.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -126,11 +126,6 @@ var v1InstrumentsSearch = cli.Command{
 			Usage:     "Optional ISO currency filter (e.g., USD).",
 			QueryPath: "currency",
 		},
-		&requestflag.Flag[string]{
-			Name:      "cursor",
-			Usage:     "Opaque continuation cursor for show-more paging — pass the `next_page_token` from a prior response. Same wire format as `page_token` on other paginated endpoints.",
-			QueryPath: "cursor",
-		},
 		&requestflag.Flag[bool]{
 			Name:      "include-inactive",
 			Usage:     "Include inactive instruments. Default false.",
@@ -142,12 +137,17 @@ var v1InstrumentsSearch = cli.Command{
 			QueryPath: "include_restricted",
 		},
 		&requestflag.Flag[int64]{
-			Name:      "limit",
-			Usage:     "Maximum hits to return. Bounded [1, 100]. Default 20.",
-			QueryPath: "limit",
+			Name:      "page-size",
+			Default:   100,
+			QueryPath: "page_size",
+		},
+		&requestflag.Flag[string]{
+			Name:      "page-token",
+			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			QueryPath: "page_token",
 		},
 	},
-	Action:          handleV1InstrumentsSearch,
+	Action:          handleV1InstrumentsSearchInstruments,
 	HideHelpCommand: true,
 }
 
@@ -241,7 +241,7 @@ func handleV1InstrumentsGetInstruments(ctx context.Context, cmd *cli.Command) er
 	})
 }
 
-func handleV1InstrumentsSearch(ctx context.Context, cmd *cli.Command) error {
+func handleV1InstrumentsSearchInstruments(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -260,11 +260,11 @@ func handleV1InstrumentsSearch(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := clearstreet.V1InstrumentSearchParams{}
+	params := clearstreet.V1InstrumentSearchInstrumentsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Instruments.Search(ctx, params, options...)
+	_, err = client.V1.Instruments.SearchInstruments(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -277,7 +277,7 @@ func handleV1InstrumentsSearch(ctx context.Context, cmd *cli.Command) error {
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:instruments search",
+		Title:          "v1:instruments search-instruments",
 		Transform:      transform,
 	})
 }

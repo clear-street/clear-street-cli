@@ -93,7 +93,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1Ws,
+					&v1WebsocketHandler,
 				},
 			},
 			{
@@ -168,7 +168,7 @@ func init() {
 				Commands: []*cli.Command{
 					&v1InstrumentsGetInstrumentByID,
 					&v1InstrumentsGetInstruments,
-					&v1InstrumentsSearch,
+					&v1InstrumentsSearchInstruments,
 				},
 			},
 			{
@@ -225,7 +225,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1InstrumentsOptionsContracts,
+					&v1InstrumentsOptionsGetOptionContracts,
 				},
 			},
 			{
@@ -257,7 +257,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1OmniAIEntitlementAgreementsListEntitlementAgreements,
+					&v1OmniAIEntitlementAgreementsGetEntitlementAgreements,
 				},
 			},
 			{
@@ -267,7 +267,7 @@ func init() {
 				Commands: []*cli.Command{
 					&v1OmniAIEntitlementsCreateEntitlements,
 					&v1OmniAIEntitlementsDeleteEntitlement,
-					&v1OmniAIEntitlementsListEntitlements,
+					&v1OmniAIEntitlementsGetEntitlements,
 				},
 			},
 			{
@@ -275,8 +275,8 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1OmniAIMessagesFeedback,
-					&v1OmniAIMessagesGetMessage,
+					&v1OmniAIMessagesGetMessageByID,
+					&v1OmniAIMessagesSubmitFeedback,
 				},
 			},
 			{
@@ -285,7 +285,7 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1OmniAIResponsesCancelResponse,
-					&v1OmniAIResponsesGetResponse,
+					&v1OmniAIResponsesGetResponseByID,
 				},
 			},
 			{
@@ -294,9 +294,9 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1OmniAIThreadsCreateThread,
-					&v1OmniAIThreadsGetThread,
-					&v1OmniAIThreadsListThreads,
-					&v1OmniAIThreadsResponse,
+					&v1OmniAIThreadsGetThreadByID,
+					&v1OmniAIThreadsGetThreadResponse,
+					&v1OmniAIThreadsGetThreads,
 				},
 			},
 			{
@@ -305,7 +305,7 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1OmniAIThreadsMessagesCreateMessage,
-					&v1OmniAIThreadsMessagesListMessages,
+					&v1OmniAIThreadsMessagesGetMessages,
 				},
 			},
 			{

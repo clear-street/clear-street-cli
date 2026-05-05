@@ -38,13 +38,13 @@ func TestV1OmniAIThreadsMessagesCreateMessage(t *testing.T) {
 	})
 }
 
-func TestV1OmniAIThreadsMessagesListMessages(t *testing.T) {
+func TestV1OmniAIThreadsMessagesGetMessages(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:omni-ai:threads:messages", "list-messages",
+			"v1:omni-ai:threads:messages", "get-messages",
 			"--thread-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--account-id", "0",
 			"--page-size", "1",

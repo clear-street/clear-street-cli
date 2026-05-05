@@ -54,8 +54,8 @@ var v1OmniAIEntitlementsDeleteEntitlement = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1OmniAIEntitlementsListEntitlements = cli.Command{
-	Name:    "list-entitlements",
+var v1OmniAIEntitlementsGetEntitlements = cli.Command{
+	Name:    "get-entitlements",
 	Usage:   "List caller's active entitlement grants.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -64,7 +64,7 @@ var v1OmniAIEntitlementsListEntitlements = cli.Command{
 			QueryPath: "trading_account_id",
 		},
 	},
-	Action:          handleV1OmniAIEntitlementsListEntitlements,
+	Action:          handleV1OmniAIEntitlementsGetEntitlements,
 	HideHelpCommand: true,
 }
 
@@ -151,7 +151,7 @@ func handleV1OmniAIEntitlementsDeleteEntitlement(ctx context.Context, cmd *cli.C
 	})
 }
 
-func handleV1OmniAIEntitlementsListEntitlements(ctx context.Context, cmd *cli.Command) error {
+func handleV1OmniAIEntitlementsGetEntitlements(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -170,11 +170,11 @@ func handleV1OmniAIEntitlementsListEntitlements(ctx context.Context, cmd *cli.Co
 		return err
 	}
 
-	params := clearstreet.V1OmniAIEntitlementListEntitlementsParams{}
+	params := clearstreet.V1OmniAIEntitlementGetEntitlementsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Entitlements.ListEntitlements(ctx, params, options...)
+	_, err = client.V1.OmniAI.Entitlements.GetEntitlements(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -187,7 +187,7 @@ func handleV1OmniAIEntitlementsListEntitlements(ctx context.Context, cmd *cli.Co
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:entitlements list-entitlements",
+		Title:          "v1:omni-ai:entitlements get-entitlements",
 		Transform:      transform,
 	})
 }

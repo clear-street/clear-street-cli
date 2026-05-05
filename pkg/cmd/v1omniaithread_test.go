@@ -64,42 +64,42 @@ func TestV1OmniAIThreadsCreateThread(t *testing.T) {
 	})
 }
 
-func TestV1OmniAIThreadsGetThread(t *testing.T) {
+func TestV1OmniAIThreadsGetThreadByID(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:omni-ai:threads", "get-thread",
+			"v1:omni-ai:threads", "get-thread-by-id",
 			"--thread-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--account-id", "0",
 		)
 	})
 }
 
-func TestV1OmniAIThreadsListThreads(t *testing.T) {
+func TestV1OmniAIThreadsGetThreadResponse(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:omni-ai:threads", "list-threads",
+			"v1:omni-ai:threads", "get-thread-response",
+			"--thread-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--account-id", "0",
+		)
+	})
+}
+
+func TestV1OmniAIThreadsGetThreads(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:omni-ai:threads", "get-threads",
 			"--account-id", "0",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
-		)
-	})
-}
-
-func TestV1OmniAIThreadsResponse(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	t.Run("regular flags", func(t *testing.T) {
-		mocktest.TestRunMockTestWithFlags(
-			t,
-			"--api-key", "string",
-			"v1:omni-ai:threads", "response",
-			"--thread-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-			"--account-id", "0",
 		)
 	})
 }

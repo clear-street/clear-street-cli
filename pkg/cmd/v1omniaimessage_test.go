@@ -8,13 +8,26 @@ import (
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
 )
 
-func TestV1OmniAIMessagesFeedback(t *testing.T) {
+func TestV1OmniAIMessagesGetMessageByID(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:omni-ai:messages", "feedback",
+			"v1:omni-ai:messages", "get-message-by-id",
+			"--message-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--account-id", "0",
+		)
+	})
+}
+
+func TestV1OmniAIMessagesSubmitFeedback(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:omni-ai:messages", "submit-feedback",
 			"--message-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--account-id", "0",
 			"--score", "0",
@@ -33,21 +46,8 @@ func TestV1OmniAIMessagesFeedback(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:omni-ai:messages", "feedback",
+			"v1:omni-ai:messages", "submit-feedback",
 			"--message-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		)
-	})
-}
-
-func TestV1OmniAIMessagesGetMessage(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	t.Run("regular flags", func(t *testing.T) {
-		mocktest.TestRunMockTestWithFlags(
-			t,
-			"--api-key", "string",
-			"v1:omni-ai:messages", "get-message",
-			"--message-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-			"--account-id", "0",
 		)
 	})
 }
