@@ -181,7 +181,7 @@ var v1AccountsOrdersReplaceOrder = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "time-in-force",
-			Usage:    "Time in force",
+			Usage:    "New time in force for the order",
 			BodyPath: "time_in_force",
 		},
 	},
