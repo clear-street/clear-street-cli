@@ -57,7 +57,7 @@ var v1InstrumentsGetInstruments = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-type",
-			Usage:     "Filter by instrument type. If omitted, returns all types.",
+			Usage:     "Filter by instrument type. If omitted, returns all supported instrument types.",
 			QueryPath: "instrument_type",
 		},
 		&requestflag.Flag[bool]{
