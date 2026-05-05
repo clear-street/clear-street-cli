@@ -102,12 +102,12 @@ var v1InstrumentsGetInstruments = cli.Command{
 
 var v1InstrumentsSearchInstruments = cli.Command{
 	Name:    "search-instruments",
-	Usage:   "Fast in-memory typeahead search over the loaded instrument universe.",
+	Usage:   "Search instruments by symbol, alternate identifier, or company name.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "q",
-			Usage:     "Search term applied case-insensitively to ticker symbols, alt-IDs (CUSIP/ISIN/OPRA-root/CMS), and company names.",
+			Usage:     "Search term applied case-insensitively to ticker symbols, alternate identifiers (CUSIP, ISIN, OPRA root, CMS), and company names for non-option instruments. Option searches match symbols and alternate identifiers.",
 			Required:  true,
 			QueryPath: "q",
 		},
