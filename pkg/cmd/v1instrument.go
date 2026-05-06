@@ -179,7 +179,7 @@ func handleV1InstrumentsGetInstrumentByID(ctx context.Context, cmd *cli.Command)
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Instruments.GetInstrumentByID(
 		ctx,
-		cmd.Value("instrument-id").(string),
+		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
 		params,
 		options...,
 	)

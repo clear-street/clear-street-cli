@@ -181,7 +181,7 @@ var v1AccountsOrdersReplaceOrder = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "time-in-force",
-			Usage:    "New time in force for the order",
+			Usage:    "Strict time-in-force enum for order submission/replacement requests.",
 			BodyPath: "time_in_force",
 		},
 	},

@@ -54,7 +54,7 @@ func handleV1InstrumentsFundamentalsGetInstrumentFundamentals(ctx context.Contex
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Instruments.Fundamentals.GetInstrumentFundamentals(ctx, cmd.Value("instrument-id").(string), options...)
+	_, err = client.V1.Instruments.Fundamentals.GetInstrumentFundamentals(ctx, clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)), options...)
 	if err != nil {
 		return err
 	}
