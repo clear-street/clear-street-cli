@@ -128,7 +128,7 @@ func handleV1AccountsPositionsClosePosition(ctx context.Context, cmd *cli.Comman
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Accounts.Positions.ClosePosition(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)
