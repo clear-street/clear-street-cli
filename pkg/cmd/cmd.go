@@ -115,6 +115,16 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:accounts:exercises",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1AccountsExercisesCancelExercise,
+					&v1AccountsExercisesGetExercises,
+					&v1AccountsExercisesSubmitExercises,
+				},
+			},
+			{
 				Name:     "v1:accounts:orders",
 				Category: "API RESOURCE",
 				Suggest:  true,
