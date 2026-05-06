@@ -115,16 +115,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "v1:accounts:exercises",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1AccountsExercisesCancelExercise,
-					&v1AccountsExercisesGetExercises,
-					&v1AccountsExercisesSubmitExercises,
-				},
-			},
-			{
 				Name:     "v1:accounts:orders",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -153,6 +143,16 @@ func init() {
 					&v1AccountsPositionsClosePosition,
 					&v1AccountsPositionsClosePositions,
 					&v1AccountsPositionsGetPositions,
+				},
+			},
+			{
+				Name:     "v1:accounts:positions:instructions",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1AccountsPositionsInstructionsCancelPositionInstruction,
+					&v1AccountsPositionsInstructionsGetPositionInstructions,
+					&v1AccountsPositionsInstructionsSubmitPositionInstructions,
 				},
 			},
 			{

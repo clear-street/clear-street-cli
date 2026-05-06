@@ -14,8 +14,8 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1AccountsExercisesCancelExercise = cli.Command{
-	Name:    "cancel-exercise",
+var v1AccountsPositionsInstructionsCancelPositionInstruction = cli.Command{
+	Name:    "cancel-position-instruction",
 	Usage:   "Cancel an outstanding exercise / DNE / CEA instruction by its server- assigned\n`id`. Returns the updated instruction with status `CANCEL_REQUESTED`; the\nterminal `CANCELLED` / `CANCEL_FAILED` state arrives asynchronously via\nsubsequent GETs.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -25,17 +25,17 @@ var v1AccountsExercisesCancelExercise = cli.Command{
 			PathParam: "account_id",
 		},
 		&requestflag.Flag[string]{
-			Name:      "exercise-id",
+			Name:      "instruction-id",
 			Required:  true,
-			PathParam: "exercise_id",
+			PathParam: "instruction_id",
 		},
 	},
-	Action:          handleV1AccountsExercisesCancelExercise,
+	Action:          handleV1AccountsPositionsInstructionsCancelPositionInstruction,
 	HideHelpCommand: true,
 }
 
-var v1AccountsExercisesGetExercises = cli.Command{
-	Name:    "get-exercises",
+var v1AccountsPositionsInstructionsGetPositionInstructions = cli.Command{
+	Name:    "get-position-instructions",
 	Usage:   "Returns the current lifecycle state of exercise / DNE / CEA instructions for the\naccount. Optionally filter by a specific instrument.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -46,16 +46,16 @@ var v1AccountsExercisesGetExercises = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Filter by OEMS instrument id.",
+			Usage:     "Filter by OEMS instrument id or symbol (CMS / OSI).",
 			QueryPath: "instrument_id",
 		},
 	},
-	Action:          handleV1AccountsExercisesGetExercises,
+	Action:          handleV1AccountsPositionsInstructionsGetPositionInstructions,
 	HideHelpCommand: true,
 }
 
-var v1AccountsExercisesSubmitExercises = requestflag.WithInnerFlags(cli.Command{
-	Name:    "submit-exercises",
+var v1AccountsPositionsInstructionsSubmitPositionInstructions = requestflag.WithInnerFlags(cli.Command{
+	Name:    "submit-position-instructions",
 	Usage:   "Submit one or more option lifecycle instructions against the account. Each row\nis routed to `oems-csc` independently; per-row rejections are surfaced on the\ncorresponding response entry without failing the batch.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -65,43 +65,43 @@ var v1AccountsExercisesSubmitExercises = requestflag.WithInnerFlags(cli.Command{
 			PathParam: "account_id",
 		},
 		&requestflag.Flag[[]map[string]any]{
-			Name:     "exercise",
+			Name:     "instruction",
 			Required: true,
 			BodyRoot: true,
 		},
 	},
-	Action:          handleV1AccountsExercisesSubmitExercises,
+	Action:          handleV1AccountsPositionsInstructionsSubmitPositionInstructions,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
-	"exercise": {
+	"instruction": {
 		&requestflag.InnerFlag[string]{
-			Name:       "exercise.action",
-			Usage:      "The action a caller wants `oems-csc` to take against an options position.\n\nMaps onto FIX `PosTransType` (tag 709) + `PosMaintAction` (tag 712) +\n`ContraryInstructionIndicator` (tag 719) per `oems-csc`'s `classify_action`.",
-			InnerField: "action",
+			Name:       "instruction.instruction-type",
+			Usage:      "The instruction type a caller wants `oems-csc` to take against an options position.\n\nMaps onto FIX `PosTransType` (tag 709) + `PosMaintAction` (tag 712) +\n`ContraryInstructionIndicator` (tag 719) per `oems-csc`'s `classify_action`.",
+			InnerField: "instruction_type",
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "exercise.instrument-id",
+			Name:       "instruction.instrument-id",
 			Usage:      "OEMS instrument identifier. api-gw resolves this to `security_id` +\n`security_id_source` via the instrument cache before dispatching to\n`oems-csc`. Unknown ids return 404.",
 			InnerField: "instrument_id",
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "exercise.quantity",
+			Name:       "instruction.quantity",
 			Usage:      "Quantity of contracts to exercise / DNE / CEA.",
 			InnerField: "quantity",
 		},
 		&requestflag.InnerFlag[*string]{
-			Name:       "exercise.client-exercise-id",
-			Usage:      "Caller-supplied correlation id. Echoed back on the response and used\nas the FIX `pos_req_id` (tag 710) for idempotency. If omitted the\nserver generates a UUID.",
-			InnerField: "client_exercise_id",
+			Name:       "instruction.instruction-id",
+			Usage:      "Caller-supplied instruction id. Echoed back on the response and used\nas the FIX `pos_req_id` (tag 710) for idempotency. If omitted the\nserver generates a UUID.",
+			InnerField: "instruction_id",
 		},
 	},
 })
 
-func handleV1AccountsExercisesCancelExercise(ctx context.Context, cmd *cli.Command) error {
+func handleV1AccountsPositionsInstructionsCancelPositionInstruction(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("exercise-id") && len(unusedArgs) > 0 {
-		cmd.Set("exercise-id", unusedArgs[0])
+	if !cmd.IsSet("instruction-id") && len(unusedArgs) > 0 {
+		cmd.Set("instruction-id", unusedArgs[0])
 		unusedArgs = unusedArgs[1:]
 	}
 	if len(unusedArgs) > 0 {
@@ -119,15 +119,15 @@ func handleV1AccountsExercisesCancelExercise(ctx context.Context, cmd *cli.Comma
 		return err
 	}
 
-	params := clearstreet.V1AccountExerciseCancelExerciseParams{
+	params := clearstreet.V1AccountPositionInstructionCancelPositionInstructionParams{
 		AccountID: cmd.Value("account-id").(int64),
 	}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Exercises.CancelExercise(
+	_, err = client.V1.Accounts.Positions.Instructions.CancelPositionInstruction(
 		ctx,
-		cmd.Value("exercise-id").(string),
+		cmd.Value("instruction-id").(string),
 		params,
 		options...,
 	)
@@ -143,12 +143,12 @@ func handleV1AccountsExercisesCancelExercise(ctx context.Context, cmd *cli.Comma
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:exercises cancel-exercise",
+		Title:          "v1:accounts:positions:instructions cancel-position-instruction",
 		Transform:      transform,
 	})
 }
 
-func handleV1AccountsExercisesGetExercises(ctx context.Context, cmd *cli.Command) error {
+func handleV1AccountsPositionsInstructionsGetPositionInstructions(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
@@ -170,11 +170,11 @@ func handleV1AccountsExercisesGetExercises(ctx context.Context, cmd *cli.Command
 		return err
 	}
 
-	params := clearstreet.V1AccountExerciseGetExercisesParams{}
+	params := clearstreet.V1AccountPositionInstructionGetPositionInstructionsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Exercises.GetExercises(
+	_, err = client.V1.Accounts.Positions.Instructions.GetPositionInstructions(
 		ctx,
 		cmd.Value("account-id").(int64),
 		params,
@@ -192,12 +192,12 @@ func handleV1AccountsExercisesGetExercises(ctx context.Context, cmd *cli.Command
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:exercises get-exercises",
+		Title:          "v1:accounts:positions:instructions get-position-instructions",
 		Transform:      transform,
 	})
 }
 
-func handleV1AccountsExercisesSubmitExercises(ctx context.Context, cmd *cli.Command) error {
+func handleV1AccountsPositionsInstructionsSubmitPositionInstructions(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
@@ -219,11 +219,11 @@ func handleV1AccountsExercisesSubmitExercises(ctx context.Context, cmd *cli.Comm
 		return err
 	}
 
-	params := clearstreet.V1AccountExerciseSubmitExercisesParams{}
+	params := clearstreet.V1AccountPositionInstructionSubmitPositionInstructionsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Exercises.SubmitExercises(
+	_, err = client.V1.Accounts.Positions.Instructions.SubmitPositionInstructions(
 		ctx,
 		cmd.Value("account-id").(int64),
 		params,
@@ -241,7 +241,7 @@ func handleV1AccountsExercisesSubmitExercises(ctx context.Context, cmd *cli.Comm
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:exercises submit-exercises",
+		Title:          "v1:accounts:positions:instructions submit-position-instructions",
 		Transform:      transform,
 	})
 }
