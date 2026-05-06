@@ -46,7 +46,7 @@ var v1InstrumentsOptionsGetOptionContracts = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "underlying-instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "OEMS instrument UUID or symbol of the underlying equity/index",
 			QueryPath: "underlying_instrument_id",
 		},
 	},

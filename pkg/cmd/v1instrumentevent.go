@@ -139,7 +139,7 @@ func handleV1InstrumentsEventsGetInstrumentEvents(ctx context.Context, cmd *cli.
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Instruments.Events.GetInstrumentEvents(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)

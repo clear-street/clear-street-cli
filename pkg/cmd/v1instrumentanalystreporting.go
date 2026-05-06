@@ -68,7 +68,7 @@ func handleV1InstrumentsAnalystReportingGetInstrumentAnalystConsensus(ctx contex
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Instruments.AnalystReporting.GetInstrumentAnalystConsensus(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)
