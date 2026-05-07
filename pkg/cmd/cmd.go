@@ -146,6 +146,16 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:accounts:positions:instructions",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1AccountsPositionsInstructionsCancelPositionInstruction,
+					&v1AccountsPositionsInstructionsGetPositionInstructions,
+					&v1AccountsPositionsInstructionsSubmitPositionInstructions,
+				},
+			},
+			{
 				Name:     "v1:calendars:market-hours",
 				Category: "API RESOURCE",
 				Suggest:  true,
