@@ -45,11 +45,6 @@ var v1InstrumentsGetInstruments = cli.Command{
 			Usage:     "Filter by easy to borrow status",
 			QueryPath: "easy_to_borrow",
 		},
-		&requestflag.Flag[string]{
-			Name:      "id-filter",
-			Usage:     "Filter IDs to those containing this substring. For options, and when instrument_type is omitted and no instrument_ids filters are provided, this is required.",
-			QueryPath: "id_filter",
-		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
 			Usage:     "Comma-separated OEMS instrument UUIDs",
@@ -57,7 +52,7 @@ var v1InstrumentsGetInstruments = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-type",
-			Usage:     "Filter by instrument type. If omitted, returns all supported instrument types.",
+			Usage:     "Filter by instrument type. OPTION is not supported on this endpoint; use GET /instruments/options/contracts to list option contracts. If omitted, returns all supported instrument types except options.",
 			QueryPath: "instrument_type",
 		},
 		&requestflag.Flag[bool]{
