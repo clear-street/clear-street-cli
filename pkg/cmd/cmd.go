@@ -319,27 +319,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "v1:saved-screeners",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1SavedScreenersCreateScreener,
-					&v1SavedScreenersDeleteScreener,
-					&v1SavedScreenersGetScreenerByID,
-					&v1SavedScreenersGetScreeners,
-					&v1SavedScreenersReplaceScreener,
-				},
-			},
-			{
-				Name:     "v1:screener",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1ScreenerGetScreener,
-					&v1ScreenerSearchScreener,
-				},
-			},
-			{
 				Name:     "v1:version",
 				Category: "API RESOURCE",
 				Suggest:  true,

@@ -29,7 +29,6 @@ func TestV1InstrumentsGetInstruments(t *testing.T) {
 			"--api-key", "string",
 			"v1:instruments", "get-instruments",
 			"--easy-to-borrow=true",
-			"--id-filter", "id_filter",
 			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--instrument-type", "COMMON_STOCK",
 			"--is-liquidation-only=true",
