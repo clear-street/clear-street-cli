@@ -51,6 +51,17 @@ func TestV1OmniAIEntitlementsDeleteEntitlement(t *testing.T) {
 	})
 }
 
+func TestV1OmniAIEntitlementsGetEntitlementAgreements(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:omni-ai:entitlements", "get-entitlement-agreements",
+		)
+	})
+}
+
 func TestV1OmniAIEntitlementsGetEntitlements(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {

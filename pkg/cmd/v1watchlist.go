@@ -14,7 +14,28 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1WatchlistsCreateWatchlist = cli.Command{
+var v1WatchlistAddWatchlistItem = cli.Command{
+	Name:    "add-watchlist-item",
+	Usage:   "Add an instrument to a watchlist",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "watchlist-id",
+			Required:  true,
+			PathParam: "watchlist_id",
+		},
+		&requestflag.Flag[string]{
+			Name:     "instrument-id",
+			Usage:    "OEMS instrument UUID",
+			Required: true,
+			BodyPath: "instrument_id",
+		},
+	},
+	Action:          handleV1WatchlistAddWatchlistItem,
+	HideHelpCommand: true,
+}
+
+var v1WatchlistCreateWatchlist = cli.Command{
 	Name:    "create-watchlist",
 	Usage:   "Create Watchlist",
 	Suggest: true,
@@ -26,11 +47,11 @@ var v1WatchlistsCreateWatchlist = cli.Command{
 			BodyPath: "name",
 		},
 	},
-	Action:          handleV1WatchlistsCreateWatchlist,
+	Action:          handleV1WatchlistCreateWatchlist,
 	HideHelpCommand: true,
 }
 
-var v1WatchlistsDeleteWatchlist = cli.Command{
+var v1WatchlistDeleteWatchlist = cli.Command{
 	Name:    "delete-watchlist",
 	Usage:   "Delete a watchlist and all its items",
 	Suggest: true,
@@ -41,11 +62,31 @@ var v1WatchlistsDeleteWatchlist = cli.Command{
 			PathParam: "watchlist_id",
 		},
 	},
-	Action:          handleV1WatchlistsDeleteWatchlist,
+	Action:          handleV1WatchlistDeleteWatchlist,
 	HideHelpCommand: true,
 }
 
-var v1WatchlistsGetWatchlistByID = cli.Command{
+var v1WatchlistDeleteWatchlistItem = cli.Command{
+	Name:    "delete-watchlist-item",
+	Usage:   "Delete an instrument from a watchlist",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "watchlist-id",
+			Required:  true,
+			PathParam: "watchlist_id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "item-id",
+			Required:  true,
+			PathParam: "item_id",
+		},
+	},
+	Action:          handleV1WatchlistDeleteWatchlistItem,
+	HideHelpCommand: true,
+}
+
+var v1WatchlistGetWatchlistByID = cli.Command{
 	Name:    "get-watchlist-by-id",
 	Usage:   "Get a watchlist by ID with all its items",
 	Suggest: true,
@@ -56,11 +97,11 @@ var v1WatchlistsGetWatchlistByID = cli.Command{
 			PathParam: "watchlist_id",
 		},
 	},
-	Action:          handleV1WatchlistsGetWatchlistByID,
+	Action:          handleV1WatchlistGetWatchlistByID,
 	HideHelpCommand: true,
 }
 
-var v1WatchlistsGetWatchlists = cli.Command{
+var v1WatchlistGetWatchlists = cli.Command{
 	Name:    "get-watchlists",
 	Usage:   "List watchlists for the authenticated user",
 	Suggest: true,
@@ -76,11 +117,60 @@ var v1WatchlistsGetWatchlists = cli.Command{
 			QueryPath: "page_token",
 		},
 	},
-	Action:          handleV1WatchlistsGetWatchlists,
+	Action:          handleV1WatchlistGetWatchlists,
 	HideHelpCommand: true,
 }
 
-func handleV1WatchlistsCreateWatchlist(ctx context.Context, cmd *cli.Command) error {
+func handleV1WatchlistAddWatchlistItem(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("watchlist-id") && len(unusedArgs) > 0 {
+		cmd.Set("watchlist-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1WatchlistAddWatchlistItemParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Watchlist.AddWatchlistItem(
+		ctx,
+		cmd.Value("watchlist-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:watchlist add-watchlist-item",
+		Transform:      transform,
+	})
+}
+
+func handleV1WatchlistCreateWatchlist(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -103,7 +193,7 @@ func handleV1WatchlistsCreateWatchlist(ctx context.Context, cmd *cli.Command) er
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Watchlists.NewWatchlist(ctx, params, options...)
+	_, err = client.V1.Watchlist.NewWatchlist(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -116,12 +206,12 @@ func handleV1WatchlistsCreateWatchlist(ctx context.Context, cmd *cli.Command) er
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:watchlists create-watchlist",
+		Title:          "v1:watchlist create-watchlist",
 		Transform:      transform,
 	})
 }
 
-func handleV1WatchlistsDeleteWatchlist(ctx context.Context, cmd *cli.Command) error {
+func handleV1WatchlistDeleteWatchlist(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("watchlist-id") && len(unusedArgs) > 0 {
@@ -145,7 +235,7 @@ func handleV1WatchlistsDeleteWatchlist(ctx context.Context, cmd *cli.Command) er
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Watchlists.DeleteWatchlist(ctx, cmd.Value("watchlist-id").(string), options...)
+	_, err = client.V1.Watchlist.DeleteWatchlist(ctx, cmd.Value("watchlist-id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -158,12 +248,63 @@ func handleV1WatchlistsDeleteWatchlist(ctx context.Context, cmd *cli.Command) er
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:watchlists delete-watchlist",
+		Title:          "v1:watchlist delete-watchlist",
 		Transform:      transform,
 	})
 }
 
-func handleV1WatchlistsGetWatchlistByID(ctx context.Context, cmd *cli.Command) error {
+func handleV1WatchlistDeleteWatchlistItem(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("item-id") && len(unusedArgs) > 0 {
+		cmd.Set("item-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1WatchlistDeleteWatchlistItemParams{
+		WatchlistID: cmd.Value("watchlist-id").(string),
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Watchlist.DeleteWatchlistItem(
+		ctx,
+		cmd.Value("item-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:watchlist delete-watchlist-item",
+		Transform:      transform,
+	})
+}
+
+func handleV1WatchlistGetWatchlistByID(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("watchlist-id") && len(unusedArgs) > 0 {
@@ -187,7 +328,7 @@ func handleV1WatchlistsGetWatchlistByID(ctx context.Context, cmd *cli.Command) e
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Watchlists.GetWatchlistByID(ctx, cmd.Value("watchlist-id").(string), options...)
+	_, err = client.V1.Watchlist.GetWatchlistByID(ctx, cmd.Value("watchlist-id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -200,12 +341,12 @@ func handleV1WatchlistsGetWatchlistByID(ctx context.Context, cmd *cli.Command) e
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:watchlists get-watchlist-by-id",
+		Title:          "v1:watchlist get-watchlist-by-id",
 		Transform:      transform,
 	})
 }
 
-func handleV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command) error {
+func handleV1WatchlistGetWatchlists(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -228,7 +369,7 @@ func handleV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command) erro
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Watchlists.GetWatchlists(ctx, params, options...)
+	_, err = client.V1.Watchlist.GetWatchlists(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -241,7 +382,7 @@ func handleV1WatchlistsGetWatchlists(ctx context.Context, cmd *cli.Command) erro
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:watchlists get-watchlists",
+		Title:          "v1:watchlist get-watchlists",
 		Transform:      transform,
 	})
 }

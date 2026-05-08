@@ -7,40 +7,25 @@ import (
 	"fmt"
 
 	"github.com/clear-street/clear-street-cli/internal/apiquery"
-	"github.com/clear-street/clear-street-cli/internal/requestflag"
 	"github.com/clear-street/clear-street-go"
 	"github.com/clear-street/clear-street-go/option"
 	"github.com/tidwall/gjson"
 	"github.com/urfave/cli/v3"
 )
 
-var v1AccountsBalancesGetAccountBalances = cli.Command{
-	Name:    "get-account-balances",
-	Usage:   "Fetch account balance information",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Required:  true,
-			PathParam: "account_id",
-		},
-		&requestflag.Flag[int64]{
-			Name:      "top-margin-contributors-limit",
-			Usage:     "Limit the number of top margin contributors returned by the engine.",
-			QueryPath: "top_margin_contributors_limit",
-		},
-	},
-	Action:          handleV1AccountsBalancesGetAccountBalances,
+var v1APIVersionGetVersion = cli.Command{
+	Name:            "get-version",
+	Usage:           "Returns the current version string for this API endpoint.",
+	Suggest:         true,
+	Flags:           []cli.Flag{},
+	Action:          handleV1APIVersionGetVersion,
 	HideHelpCommand: true,
 }
 
-func handleV1AccountsBalancesGetAccountBalances(ctx context.Context, cmd *cli.Command) error {
+func handleV1APIVersionGetVersion(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
-		cmd.Set("account-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
+
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
@@ -56,16 +41,9 @@ func handleV1AccountsBalancesGetAccountBalances(ctx context.Context, cmd *cli.Co
 		return err
 	}
 
-	params := clearstreet.V1AccountBalanceGetAccountBalancesParams{}
-
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Balances.GetAccountBalances(
-		ctx,
-		cmd.Value("account-id").(int64),
-		params,
-		options...,
-	)
+	_, err = client.V1.APIVersion.GetVersion(ctx, options...)
 	if err != nil {
 		return err
 	}
@@ -78,7 +56,7 @@ func handleV1AccountsBalancesGetAccountBalances(ctx context.Context, cmd *cli.Co
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:balances get-account-balances",
+		Title:          "v1:api-version get-version",
 		Transform:      transform,
 	})
 }

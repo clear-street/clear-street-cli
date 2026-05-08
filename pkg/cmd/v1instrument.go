@@ -95,6 +95,46 @@ var v1InstrumentsGetInstruments = cli.Command{
 	HideHelpCommand: true,
 }
 
+var v1InstrumentsGetOptionContracts = cli.Command{
+	Name:    "get-option-contracts",
+	Usage:   "List options contracts.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "contract-type",
+			Usage:     "The type of options contract",
+			QueryPath: "contract_type",
+		},
+		&requestflag.Flag[any]{
+			Name:      "expiry",
+			Usage:     "Filter to contracts expiring on this date (YYYY-MM-DD)",
+			QueryPath: "expiry",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "page-size",
+			Default:   1000,
+			QueryPath: "page_size",
+		},
+		&requestflag.Flag[string]{
+			Name:      "page-token",
+			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			QueryPath: "page_token",
+		},
+		&requestflag.Flag[string]{
+			Name:      "underlier",
+			Usage:     "Underlier symbol (e.g., AAPL, SPX)",
+			QueryPath: "underlier",
+		},
+		&requestflag.Flag[string]{
+			Name:      "underlying-instrument-id",
+			Usage:     "OEMS instrument UUID",
+			QueryPath: "underlying_instrument_id",
+		},
+	},
+	Action:          handleV1InstrumentsGetOptionContracts,
+	HideHelpCommand: true,
+}
+
 var v1InstrumentsSearchInstruments = cli.Command{
 	Name:    "search-instruments",
 	Usage:   "Search instruments by symbol, alternate identifier, or company name.",
@@ -232,6 +272,47 @@ func handleV1InstrumentsGetInstruments(ctx context.Context, cmd *cli.Command) er
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:instruments get-instruments",
+		Transform:      transform,
+	})
+}
+
+func handleV1InstrumentsGetOptionContracts(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1InstrumentGetOptionContractsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Instruments.GetOptionContracts(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:instruments get-option-contracts",
 		Transform:      transform,
 	})
 }

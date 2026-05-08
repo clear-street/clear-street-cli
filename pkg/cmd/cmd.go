@@ -89,86 +89,63 @@ func init() {
 		},
 		Commands: []*cli.Command{
 			{
-				Name:     "v1",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1WebsocketHandler,
-				},
-			},
-			{
 				Name:     "v1:accounts",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
+					&v1AccountsGetAccountBalances,
 					&v1AccountsGetAccountByID,
 					&v1AccountsGetAccounts,
+					&v1AccountsGetPortfolioHistory,
 					&v1AccountsPatchAccountByID,
 				},
 			},
 			{
-				Name:     "v1:accounts:balances",
+				Name:     "v1:api-version",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1AccountsBalancesGetAccountBalances,
+					&v1APIVersionGetVersion,
 				},
 			},
 			{
-				Name:     "v1:accounts:orders",
+				Name:     "v1:calendar",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1AccountsOrdersCancelAllOpenOrders,
-					&v1AccountsOrdersCancelOpenOrder,
-					&v1AccountsOrdersGetOrderByID,
-					&v1AccountsOrdersGetOrders,
-					&v1AccountsOrdersReplaceOrder,
-					&v1AccountsOrdersSubmitOrders,
+					&v1CalendarGetClock,
+					&v1CalendarGetMarketHoursCalendar,
 				},
 			},
 			{
-				Name:     "v1:accounts:portfolio-history",
+				Name:     "v1:instrument-data",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1AccountsPortfolioHistoryGetPortfolioHistory,
+					&v1InstrumentDataGetAllInstrumentEvents,
+					&v1InstrumentDataGetInstrumentAnalystConsensus,
+					&v1InstrumentDataGetInstrumentBalanceSheetStatements,
+					&v1InstrumentDataGetInstrumentCashFlowStatements,
+					&v1InstrumentDataGetInstrumentEvents,
+					&v1InstrumentDataGetInstrumentFundamentals,
+					&v1InstrumentDataGetInstrumentIncomeStatements,
 				},
 			},
 			{
-				Name:     "v1:accounts:positions",
+				Name:     "v1:instrument-data:market-data",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1AccountsPositionsClosePosition,
-					&v1AccountsPositionsClosePositions,
-					&v1AccountsPositionsGetPositions,
+					&v1InstrumentDataMarketDataGetDailySummaries,
+					&v1InstrumentDataMarketDataGetSnapshots,
 				},
 			},
 			{
-				Name:     "v1:accounts:positions:instructions",
+				Name:     "v1:instrument-data:news",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1AccountsPositionsInstructionsCancelPositionInstruction,
-					&v1AccountsPositionsInstructionsGetPositionInstructions,
-					&v1AccountsPositionsInstructionsSubmitPositionInstructions,
-				},
-			},
-			{
-				Name:     "v1:calendars:market-hours",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1CalendarsMarketHoursGetMarketHoursCalendar,
-				},
-			},
-			{
-				Name:     "v1:clock",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1ClockGetClock,
+					&v1InstrumentDataNewsGetNews,
 				},
 			},
 			{
@@ -178,96 +155,8 @@ func init() {
 				Commands: []*cli.Command{
 					&v1InstrumentsGetInstrumentByID,
 					&v1InstrumentsGetInstruments,
+					&v1InstrumentsGetOptionContracts,
 					&v1InstrumentsSearchInstruments,
-				},
-			},
-			{
-				Name:     "v1:instruments:analyst-reporting",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1InstrumentsAnalystReportingGetInstrumentAnalystConsensus,
-				},
-			},
-			{
-				Name:     "v1:instruments:balance-sheets",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1InstrumentsBalanceSheetsGetInstrumentBalanceSheetStatements,
-				},
-			},
-			{
-				Name:     "v1:instruments:cash-flow-statements",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1InstrumentsCashFlowStatementsGetInstrumentCashFlowStatements,
-				},
-			},
-			{
-				Name:     "v1:instruments:events",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1InstrumentsEventsGetAllInstrumentEvents,
-					&v1InstrumentsEventsGetInstrumentEvents,
-				},
-			},
-			{
-				Name:     "v1:instruments:fundamentals",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1InstrumentsFundamentalsGetInstrumentFundamentals,
-				},
-			},
-			{
-				Name:     "v1:instruments:income-statements",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1InstrumentsIncomeStatementsGetInstrumentIncomeStatements,
-				},
-			},
-			{
-				Name:     "v1:instruments:options",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1InstrumentsOptionsGetOptionContracts,
-				},
-			},
-			{
-				Name:     "v1:market-data:daily-summary",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1MarketDataDailySummaryGetDailySummaries,
-				},
-			},
-			{
-				Name:     "v1:market-data:snapshot",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1MarketDataSnapshotGetSnapshots,
-				},
-			},
-			{
-				Name:     "v1:news",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1NewsGetNews,
-				},
-			},
-			{
-				Name:     "v1:omni-ai:entitlement-agreements",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1OmniAIEntitlementAgreementsGetEntitlementAgreements,
 				},
 			},
 			{
@@ -277,6 +166,7 @@ func init() {
 				Commands: []*cli.Command{
 					&v1OmniAIEntitlementsCreateEntitlements,
 					&v1OmniAIEntitlementsDeleteEntitlement,
+					&v1OmniAIEntitlementsGetEntitlementAgreements,
 					&v1OmniAIEntitlementsGetEntitlements,
 				},
 			},
@@ -303,47 +193,59 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
+					&v1OmniAIThreadsCreateMessage,
 					&v1OmniAIThreadsCreateThread,
+					&v1OmniAIThreadsGetMessages,
 					&v1OmniAIThreadsGetThreadByID,
 					&v1OmniAIThreadsGetThreadResponse,
 					&v1OmniAIThreadsGetThreads,
 				},
 			},
 			{
-				Name:     "v1:omni-ai:threads:messages",
+				Name:     "v1:orders",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1OmniAIThreadsMessagesCreateMessage,
-					&v1OmniAIThreadsMessagesGetMessages,
+					&v1OrdersCancelAllOpenOrders,
+					&v1OrdersCancelOpenOrder,
+					&v1OrdersGetOrderByID,
+					&v1OrdersGetOrders,
+					&v1OrdersReplaceOrder,
+					&v1OrdersSubmitOrders,
 				},
 			},
 			{
-				Name:     "v1:version",
+				Name:     "v1:positions",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1VersionGetVersion,
+					&v1PositionsCancelPositionInstruction,
+					&v1PositionsClosePosition,
+					&v1PositionsClosePositions,
+					&v1PositionsGetPositionInstructions,
+					&v1PositionsGetPositions,
+					&v1PositionsSubmitPositionInstructions,
 				},
 			},
 			{
-				Name:     "v1:watchlists",
+				Name:     "v1:watchlist",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1WatchlistsCreateWatchlist,
-					&v1WatchlistsDeleteWatchlist,
-					&v1WatchlistsGetWatchlistByID,
-					&v1WatchlistsGetWatchlists,
+					&v1WatchlistAddWatchlistItem,
+					&v1WatchlistCreateWatchlist,
+					&v1WatchlistDeleteWatchlist,
+					&v1WatchlistDeleteWatchlistItem,
+					&v1WatchlistGetWatchlistByID,
+					&v1WatchlistGetWatchlists,
 				},
 			},
 			{
-				Name:     "v1:watchlists:items",
+				Name:     "v1:websocket",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1WatchlistsItemsAddWatchlistItem,
-					&v1WatchlistsItemsDeleteWatchlistItem,
+					&v1WebsocketWebsocketHandler,
 				},
 			},
 			{

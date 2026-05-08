@@ -8,13 +8,13 @@ import (
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
 )
 
-func TestV1AccountsOrdersCancelAllOpenOrders(t *testing.T) {
+func TestV1OrdersCancelAllOpenOrders(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:accounts:orders", "cancel-all-open-orders",
+			"v1:orders", "cancel-all-open-orders",
 			"--account-id", "0",
 			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--instrument-type", "COMMON_STOCK",
@@ -24,39 +24,39 @@ func TestV1AccountsOrdersCancelAllOpenOrders(t *testing.T) {
 	})
 }
 
-func TestV1AccountsOrdersCancelOpenOrder(t *testing.T) {
+func TestV1OrdersCancelOpenOrder(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:accounts:orders", "cancel-open-order",
+			"v1:orders", "cancel-open-order",
 			"--account-id", "0",
 			"--order-id", "order_id",
 		)
 	})
 }
 
-func TestV1AccountsOrdersGetOrderByID(t *testing.T) {
+func TestV1OrdersGetOrderByID(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:accounts:orders", "get-order-by-id",
+			"v1:orders", "get-order-by-id",
 			"--account-id", "0",
 			"--order-id", "order_id",
 		)
 	})
 }
 
-func TestV1AccountsOrdersGetOrders(t *testing.T) {
+func TestV1OrdersGetOrders(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:accounts:orders", "get-orders",
+			"v1:orders", "get-orders",
 			"--account-id", "0",
 			"--from", "'2019-12-27T18:11:19.117Z'",
 			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -71,13 +71,13 @@ func TestV1AccountsOrdersGetOrders(t *testing.T) {
 	})
 }
 
-func TestV1AccountsOrdersReplaceOrder(t *testing.T) {
+func TestV1OrdersReplaceOrder(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:accounts:orders", "replace-order",
+			"v1:orders", "replace-order",
 			"--account-id", "0",
 			"--order-id", "order_id",
 			"--limit-price", "150.50",
@@ -97,20 +97,20 @@ func TestV1AccountsOrdersReplaceOrder(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:accounts:orders", "replace-order",
+			"v1:orders", "replace-order",
 			"--account-id", "0",
 			"--order-id", "order_id",
 		)
 	})
 }
 
-func TestV1AccountsOrdersSubmitOrders(t *testing.T) {
+func TestV1OrdersSubmitOrders(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:accounts:orders", "submit-orders",
+			"v1:orders", "submit-orders",
 			"--account-id", "0",
 			"--order", "{legs: [{instrument_type: OPTION, ratio: ratio, security: 0193bb84-447a-706f-996f-097254663f02, side: BUY, id: '1', position_effect: OPEN}, {instrument_type: OPTION, ratio: ratio, security: 0193bb84-4db4-78ec-b4fd-cba8be61cf8a, side: SELL, id: '2', position_effect: OPEN}, {instrument_type: OPTION, ratio: ratio, security: 0193bb84-5264-7f20-8fd3-35df82cd6ef0, side: BUY, id: '3', position_effect: OPEN}], order_type: LIMIT, time_in_force: DAY, id: my-mleg-ref-20251001-001, limit_price: '0.50', quantity: '1'}",
 		)
@@ -146,7 +146,7 @@ func TestV1AccountsOrdersSubmitOrders(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:accounts:orders", "submit-orders",
+			"v1:orders", "submit-orders",
 			"--account-id", "0",
 		)
 	})

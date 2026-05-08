@@ -8,13 +8,13 @@ import (
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
 )
 
-func TestV1VersionGetVersion(t *testing.T) {
+func TestV1APIVersionGetVersion(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:version", "get-version",
+			"v1:api-version", "get-version",
 		)
 	})
 }

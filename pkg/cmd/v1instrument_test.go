@@ -42,6 +42,23 @@ func TestV1InstrumentsGetInstruments(t *testing.T) {
 	})
 }
 
+func TestV1InstrumentsGetOptionContracts(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:instruments", "get-option-contracts",
+			"--contract-type", "CALL",
+			"--expiry", "'2019-12-27'",
+			"--page-size", "1",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
+			"--underlier", "underlier",
+			"--underlying-instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		)
+	})
+}
+
 func TestV1InstrumentsSearchInstruments(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {

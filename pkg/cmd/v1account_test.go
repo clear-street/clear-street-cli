@@ -9,6 +9,19 @@ import (
 	"github.com/clear-street/clear-street-cli/internal/requestflag"
 )
 
+func TestV1AccountsGetAccountBalances(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:accounts", "get-account-balances",
+			"--account-id", "0",
+			"--top-margin-contributors-limit", "1",
+		)
+	})
+}
+
 func TestV1AccountsGetAccountByID(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
@@ -30,6 +43,20 @@ func TestV1AccountsGetAccounts(t *testing.T) {
 			"v1:accounts", "get-accounts",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
+		)
+	})
+}
+
+func TestV1AccountsGetPortfolioHistory(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:accounts", "get-portfolio-history",
+			"--account-id", "0",
+			"--start-date", "'2019-12-27'",
+			"--end-date", "'2019-12-27'",
 		)
 	})
 }

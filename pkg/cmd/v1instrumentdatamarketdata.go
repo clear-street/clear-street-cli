@@ -14,103 +14,41 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1WatchlistsItemsAddWatchlistItem = cli.Command{
-	Name:    "add-watchlist-item",
-	Usage:   "Add an instrument to a watchlist",
+var v1InstrumentDataMarketDataGetDailySummaries = cli.Command{
+	Name:    "get-daily-summaries",
+	Usage:   "Returns the most recent OHLV and current price for the requested OEMS\ninstruments. Backed by the in-memory Polygon snapshot cache.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:      "watchlist-id",
+			Name:      "instrument-ids",
+			Usage:     "Comma-separated OEMS instrument UUIDs (required, 1..=100)",
 			Required:  true,
-			PathParam: "watchlist_id",
-		},
-		&requestflag.Flag[string]{
-			Name:     "instrument-id",
-			Usage:    "OEMS instrument UUID",
-			Required: true,
-			BodyPath: "instrument_id",
+			QueryPath: "instrument_ids",
 		},
 	},
-	Action:          handleV1WatchlistsItemsAddWatchlistItem,
+	Action:          handleV1InstrumentDataMarketDataGetDailySummaries,
 	HideHelpCommand: true,
 }
 
-var v1WatchlistsItemsDeleteWatchlistItem = cli.Command{
-	Name:    "delete-watchlist-item",
-	Usage:   "Delete an instrument from a watchlist",
+var v1InstrumentDataMarketDataGetSnapshots = cli.Command{
+	Name:    "get-snapshots",
+	Usage:   "Get market data snapshots for one or more securities.",
 	Suggest: true,
 	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:      "watchlist-id",
-			Required:  true,
-			PathParam: "watchlist_id",
-		},
-		&requestflag.Flag[string]{
-			Name:      "item-id",
-			Required:  true,
-			PathParam: "item_id",
+		&requestflag.Flag[[]string]{
+			Name:      "instrument-id",
+			Usage:     "Comma-separated OEMS instrument UUIDs.",
+			QueryPath: "instrument_ids",
 		},
 	},
-	Action:          handleV1WatchlistsItemsDeleteWatchlistItem,
+	Action:          handleV1InstrumentDataMarketDataGetSnapshots,
 	HideHelpCommand: true,
 }
 
-func handleV1WatchlistsItemsAddWatchlistItem(ctx context.Context, cmd *cli.Command) error {
+func handleV1InstrumentDataMarketDataGetDailySummaries(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("watchlist-id") && len(unusedArgs) > 0 {
-		cmd.Set("watchlist-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
 
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		ApplicationJSON,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1WatchlistItemAddWatchlistItemParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Watchlists.Items.AddWatchlistItem(
-		ctx,
-		cmd.Value("watchlist-id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:watchlists:items add-watchlist-item",
-		Transform:      transform,
-	})
-}
-
-func handleV1WatchlistsItemsDeleteWatchlistItem(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("item-id") && len(unusedArgs) > 0 {
-		cmd.Set("item-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
@@ -126,18 +64,11 @@ func handleV1WatchlistsItemsDeleteWatchlistItem(ctx context.Context, cmd *cli.Co
 		return err
 	}
 
-	params := clearstreet.V1WatchlistItemDeleteWatchlistItemParams{
-		WatchlistID: cmd.Value("watchlist-id").(string),
-	}
+	params := clearstreet.V1InstrumentDataMarketDataGetDailySummariesParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Watchlists.Items.DeleteWatchlistItem(
-		ctx,
-		cmd.Value("item-id").(string),
-		params,
-		options...,
-	)
+	_, err = client.V1.InstrumentData.MarketData.GetDailySummaries(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -150,7 +81,48 @@ func handleV1WatchlistsItemsDeleteWatchlistItem(ctx context.Context, cmd *cli.Co
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:watchlists:items delete-watchlist-item",
+		Title:          "v1:instrument-data:market-data get-daily-summaries",
+		Transform:      transform,
+	})
+}
+
+func handleV1InstrumentDataMarketDataGetSnapshots(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1InstrumentDataMarketDataGetSnapshotsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.InstrumentData.MarketData.GetSnapshots(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:instrument-data:market-data get-snapshots",
 		Transform:      transform,
 	})
 }

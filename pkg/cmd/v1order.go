@@ -14,104 +14,109 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1OmniAIThreadsCreateMessage = cli.Command{
-	Name:    "create-message",
-	Usage:   "Continue an existing conversation thread.",
+var v1OrdersCancelAllOpenOrders = cli.Command{
+	Name:    "cancel-all-open-orders",
+	Usage:   "Cancel all orders for an account",
 	Suggest: true,
 	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:      "thread-id",
-			Required:  true,
-			PathParam: "thread_id",
-		},
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
-			BodyPath: "account_id",
-		},
-		&requestflag.Flag[string]{
-			Name:     "text",
-			Required: true,
-			BodyPath: "text",
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[[]string]{
-			Name:     "capability",
-			BodyPath: "capabilities",
+			Name:      "instrument-id",
+			Usage:     "Comma-separated OEMS instrument UUIDs",
+			QueryPath: "instrument_ids",
+		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-type",
+			Usage:     "Filter by instrument type (e.g., COMMON_STOCK, OPTION)",
+			QueryPath: "instrument_type",
+		},
+		&requestflag.Flag[string]{
+			Name:      "side",
+			Usage:     "Filter by order side (BUY or SELL)",
+			QueryPath: "side",
+		},
+		&requestflag.Flag[string]{
+			Name:      "type",
+			Usage:     "Filter by order type (e.g., MARKET, LIMIT)",
+			QueryPath: "type",
 		},
 	},
-	Action:          handleV1OmniAIThreadsCreateMessage,
+	Action:          handleV1OrdersCancelAllOpenOrders,
 	HideHelpCommand: true,
 }
 
-var v1OmniAIThreadsCreateThread = requestflag.WithInnerFlags(cli.Command{
-	Name:    "create-thread",
-	Usage:   "Create a new conversation thread.",
+var v1OrdersCancelOpenOrder = cli.Command{
+	Name:    "cancel-open-order",
+	Usage:   "Cancel a specific order",
 	Suggest: true,
 	Flags: []cli.Flag{
-		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
-			BodyPath: "account_id",
-		},
-		&requestflag.Flag[string]{
-			Name:     "type",
-			Usage:    "Thread creation mode.",
-			Required: true,
-			BodyPath: "type",
-		},
-		&requestflag.Flag[[]string]{
-			Name:     "capability",
-			BodyPath: "capabilities",
-		},
-		&requestflag.Flag[map[string]any]{
-			Name:     "target",
-			Usage:    "Deep-insights target payload.",
-			BodyPath: "target",
-		},
-		&requestflag.Flag[*string]{
-			Name:     "text",
-			BodyPath: "text",
-		},
-		&requestflag.Flag[*string]{
-			Name:     "thesis",
-			BodyPath: "thesis",
-		},
-	},
-	Action:          handleV1OmniAIThreadsCreateThread,
-	HideHelpCommand: true,
-}, map[string][]requestflag.HasOuterFlag{
-	"target": {
-		&requestflag.InnerFlag[string]{
-			Name:       "target.ticker",
-			InnerField: "ticker",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "target.type",
-			Usage:      "Deep-insights target type. Launch supports ticker-only.",
-			InnerField: "type",
-		},
-	},
-})
-
-var v1OmniAIThreadsGetMessages = cli.Command{
-	Name:    "get-messages",
-	Usage:   "List finalized messages in a thread.",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:      "thread-id",
-			Required:  true,
-			PathParam: "thread_id",
-		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
 			Required:  true,
-			QueryPath: "account_id",
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "order-id",
+			Required:  true,
+			PathParam: "order_id",
+		},
+	},
+	Action:          handleV1OrdersCancelOpenOrder,
+	HideHelpCommand: true,
+}
+
+var v1OrdersGetOrderByID = cli.Command{
+	Name:    "get-order-by-id",
+	Usage:   "Get Order By ID",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "order-id",
+			Required:  true,
+			PathParam: "order_id",
+		},
+	},
+	Action:          handleV1OrdersGetOrderByID,
+	HideHelpCommand: true,
+}
+
+var v1OrdersGetOrders = cli.Command{
+	Name:    "get-orders",
+	Usage:   "List orders for an account with optional filtering",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[any]{
+			Name:      "from",
+			Usage:     "The start date and time for the query range, inclusive (ISO 8601 format)",
+			QueryPath: "from",
+		},
+		&requestflag.Flag[[]string]{
+			Name:      "instrument-id",
+			Usage:     "Comma-separated OEMS instrument UUIDs",
+			QueryPath: "instrument_ids",
+		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-type",
+			Usage:     "Instrument type filter (e.g., COMMON_STOCK, OPTION)",
+			QueryPath: "instrument_type",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Default:   100,
+			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
@@ -119,84 +124,296 @@ var v1OmniAIThreadsGetMessages = cli.Command{
 			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
-	},
-	Action:          handleV1OmniAIThreadsGetMessages,
-	HideHelpCommand: true,
-}
-
-var v1OmniAIThreadsGetThreadByID = cli.Command{
-	Name:    "get-thread-by-id",
-	Usage:   "Get a specific thread.",
-	Suggest: true,
-	Flags: []cli.Flag{
+		&requestflag.Flag[[]string]{
+			Name:      "status",
+			Usage:     "Comma-separated order statuses to filter by",
+			QueryPath: "status",
+		},
 		&requestflag.Flag[string]{
-			Name:      "thread-id",
-			Required:  true,
-			PathParam: "thread_id",
+			Name:      "symbol",
+			Usage:     "Filter by symbol",
+			QueryPath: "symbol",
 		},
-		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
-			QueryPath: "account_id",
+		&requestflag.Flag[any]{
+			Name:      "to",
+			Usage:     "The end date and time for the query range, inclusive (ISO 8601 format)",
+			QueryPath: "to",
 		},
-	},
-	Action:          handleV1OmniAIThreadsGetThreadByID,
-	HideHelpCommand: true,
-}
-
-var v1OmniAIThreadsGetThreadResponse = cli.Command{
-	Name:    "get-thread-response",
-	Usage:   "Get the active response for a thread.",
-	Suggest: true,
-	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:      "thread-id",
-			Required:  true,
-			PathParam: "thread_id",
-		},
-		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
-			QueryPath: "account_id",
+			Name:      "underlying-instrument-ids",
+			Usage:     "Comma-separated OEMS instrument UUIDs. Matches options orders whose resolved underlier is any of the given IDs.",
+			QueryPath: "underlying_instrument_ids",
 		},
 	},
-	Action:          handleV1OmniAIThreadsGetThreadResponse,
+	Action:          handleV1OrdersGetOrders,
 	HideHelpCommand: true,
 }
 
-var v1OmniAIThreadsGetThreads = cli.Command{
-	Name:    "get-threads",
-	Usage:   "List conversation threads.",
+var v1OrdersReplaceOrder = cli.Command{
+	Name:    "replace-order",
+	Usage:   "Replace an order with new parameters",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
 			Required:  true,
-			QueryPath: "account_id",
-		},
-		&requestflag.Flag[int64]{
-			Name:      "page-size",
-			Default:   100,
-			QueryPath: "page_size",
+			PathParam: "account_id",
 		},
 		&requestflag.Flag[string]{
-			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
-			QueryPath: "page_token",
+			Name:      "order-id",
+			Required:  true,
+			PathParam: "order_id",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "limit-price",
+			Usage:    "New limit price for the order",
+			BodyPath: "limit_price",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "quantity",
+			Usage:    "New quantity for the order",
+			BodyPath: "quantity",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "stop-price",
+			Usage:    "New stop price for the order",
+			BodyPath: "stop_price",
+		},
+		&requestflag.Flag[string]{
+			Name:     "time-in-force",
+			Usage:    "Strict time-in-force enum for order submission/replacement requests.",
+			BodyPath: "time_in_force",
 		},
 	},
-	Action:          handleV1OmniAIThreadsGetThreads,
+	Action:          handleV1OrdersReplaceOrder,
 	HideHelpCommand: true,
 }
 
-func handleV1OmniAIThreadsCreateMessage(ctx context.Context, cmd *cli.Command) error {
+var v1OrdersSubmitOrders = cli.Command{
+	Name:    "submit-orders",
+	Usage:   "Submit new orders",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[[]map[string]any]{
+			Name:     "order",
+			Required: true,
+			BodyRoot: true,
+		},
+	},
+	Action:          handleV1OrdersSubmitOrders,
+	HideHelpCommand: true,
+}
+
+func handleV1OrdersCancelAllOpenOrders(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("thread-id") && len(unusedArgs) > 0 {
-		cmd.Set("thread-id", unusedArgs[0])
+	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
+		cmd.Set("account-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1OrderCancelAllOpenOrdersParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Orders.CancelAllOpenOrders(
+		ctx,
+		cmd.Value("account-id").(int64),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:orders cancel-all-open-orders",
+		Transform:      transform,
+	})
+}
+
+func handleV1OrdersCancelOpenOrder(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("order-id") && len(unusedArgs) > 0 {
+		cmd.Set("order-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1OrderCancelOpenOrderParams{
+		AccountID: cmd.Value("account-id").(int64),
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Orders.CancelOpenOrder(
+		ctx,
+		cmd.Value("order-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:orders cancel-open-order",
+		Transform:      transform,
+	})
+}
+
+func handleV1OrdersGetOrderByID(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("order-id") && len(unusedArgs) > 0 {
+		cmd.Set("order-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1OrderGetOrderByIDParams{
+		AccountID: cmd.Value("account-id").(int64),
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Orders.GetOrderByID(
+		ctx,
+		cmd.Value("order-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:orders get-order-by-id",
+		Transform:      transform,
+	})
+}
+
+func handleV1OrdersGetOrders(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
+		cmd.Set("account-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1OrderGetOrdersParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Orders.GetOrders(
+		ctx,
+		cmd.Value("account-id").(int64),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:orders get-orders",
+		Transform:      transform,
+	})
+}
+
+func handleV1OrdersReplaceOrder(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("order-id") && len(unusedArgs) > 0 {
+		cmd.Set("order-id", unusedArgs[0])
 		unusedArgs = unusedArgs[1:]
 	}
 	if len(unusedArgs) > 0 {
@@ -214,13 +431,15 @@ func handleV1OmniAIThreadsCreateMessage(ctx context.Context, cmd *cli.Command) e
 		return err
 	}
 
-	params := clearstreet.V1OmniAIThreadNewMessageParams{}
+	params := clearstreet.V1OrderReplaceOrderParams{
+		AccountID: cmd.Value("account-id").(int64),
+	}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Threads.NewMessage(
+	_, err = client.V1.Orders.ReplaceOrder(
 		ctx,
-		cmd.Value("thread-id").(string),
+		cmd.Value("order-id").(string),
 		params,
 		options...,
 	)
@@ -236,15 +455,18 @@ func handleV1OmniAIThreadsCreateMessage(ctx context.Context, cmd *cli.Command) e
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:threads create-message",
+		Title:          "v1:orders replace-order",
 		Transform:      transform,
 	})
 }
 
-func handleV1OmniAIThreadsCreateThread(ctx context.Context, cmd *cli.Command) error {
+func handleV1OrdersSubmitOrders(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-
+	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
+		cmd.Set("account-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
@@ -260,57 +482,13 @@ func handleV1OmniAIThreadsCreateThread(ctx context.Context, cmd *cli.Command) er
 		return err
 	}
 
-	params := clearstreet.V1OmniAIThreadNewThreadParams{}
+	params := clearstreet.V1OrderSubmitOrdersParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Threads.NewThread(ctx, params, options...)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:threads create-thread",
-		Transform:      transform,
-	})
-}
-
-func handleV1OmniAIThreadsGetMessages(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("thread-id") && len(unusedArgs) > 0 {
-		cmd.Set("thread-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		EmptyBody,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1OmniAIThreadGetMessagesParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Threads.GetMessages(
+	_, err = client.V1.Orders.SubmitOrders(
 		ctx,
-		cmd.Value("thread-id").(string),
+		cmd.Value("account-id").(int64),
 		params,
 		options...,
 	)
@@ -326,146 +504,7 @@ func handleV1OmniAIThreadsGetMessages(ctx context.Context, cmd *cli.Command) err
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:threads get-messages",
-		Transform:      transform,
-	})
-}
-
-func handleV1OmniAIThreadsGetThreadByID(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("thread-id") && len(unusedArgs) > 0 {
-		cmd.Set("thread-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		EmptyBody,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1OmniAIThreadGetThreadByIDParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Threads.GetThreadByID(
-		ctx,
-		cmd.Value("thread-id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:threads get-thread-by-id",
-		Transform:      transform,
-	})
-}
-
-func handleV1OmniAIThreadsGetThreadResponse(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("thread-id") && len(unusedArgs) > 0 {
-		cmd.Set("thread-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		EmptyBody,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1OmniAIThreadGetThreadResponseParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Threads.GetThreadResponse(
-		ctx,
-		cmd.Value("thread-id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:threads get-thread-response",
-		Transform:      transform,
-	})
-}
-
-func handleV1OmniAIThreadsGetThreads(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		EmptyBody,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1OmniAIThreadGetThreadsParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.OmniAI.Threads.GetThreads(ctx, params, options...)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:omni-ai:threads get-threads",
+		Title:          "v1:orders submit-orders",
 		Transform:      transform,
 	})
 }
