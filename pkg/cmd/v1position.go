@@ -14,9 +14,93 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1AccountsOrdersCancelAllOpenOrders = cli.Command{
-	Name:    "cancel-all-open-orders",
-	Usage:   "Cancel all orders for an account",
+var v1PositionsCancelPositionInstruction = cli.Command{
+	Name:    "cancel-position-instruction",
+	Usage:   "Cancel an outstanding exercise / DNE / CEA instruction by its server- assigned\n`id`. Returns the updated instruction with status `CANCEL_REQUESTED`; the\nterminal `CANCELLED` / `CANCEL_FAILED` state arrives asynchronously via\nsubsequent GETs.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "instruction-id",
+			Required:  true,
+			PathParam: "instruction_id",
+		},
+	},
+	Action:          handleV1PositionsCancelPositionInstruction,
+	HideHelpCommand: true,
+}
+
+var v1PositionsClosePosition = cli.Command{
+	Name:    "close-position",
+	Usage:   "Delete a position within an account for an instrument.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-id",
+			Usage:     "OEMS instrument UUID",
+			Required:  true,
+			PathParam: "instrument_id",
+		},
+		&requestflag.Flag[*bool]{
+			Name:     "cancel-orders",
+			BodyPath: "cancel_orders",
+		},
+	},
+	Action:          handleV1PositionsClosePosition,
+	HideHelpCommand: true,
+}
+
+var v1PositionsClosePositions = cli.Command{
+	Name:    "close-positions",
+	Usage:   "Delete all positions within an account.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[*bool]{
+			Name:     "cancel-orders",
+			BodyPath: "cancel_orders",
+		},
+	},
+	Action:          handleV1PositionsClosePositions,
+	HideHelpCommand: true,
+}
+
+var v1PositionsGetPositionInstructions = cli.Command{
+	Name:    "get-position-instructions",
+	Usage:   "Returns the current lifecycle state of exercise / DNE / CEA instructions for the\naccount. Optionally filter by a specific instrument.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-id",
+			Usage:     "OEMS instrument UUID",
+			QueryPath: "instrument_id",
+		},
+	},
+	Action:          handleV1PositionsGetPositionInstructions,
+	HideHelpCommand: true,
+}
+
+var v1PositionsGetPositions = cli.Command{
+	Name:    "get-positions",
+	Usage:   "Retrieves all positions for the specified trading account.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -28,91 +112,6 @@ var v1AccountsOrdersCancelAllOpenOrders = cli.Command{
 			Name:      "instrument-id",
 			Usage:     "Comma-separated OEMS instrument UUIDs",
 			QueryPath: "instrument_ids",
-		},
-		&requestflag.Flag[string]{
-			Name:      "instrument-type",
-			Usage:     "Filter by instrument type (e.g., COMMON_STOCK, OPTION)",
-			QueryPath: "instrument_type",
-		},
-		&requestflag.Flag[string]{
-			Name:      "side",
-			Usage:     "Filter by order side (BUY or SELL)",
-			QueryPath: "side",
-		},
-		&requestflag.Flag[string]{
-			Name:      "type",
-			Usage:     "Filter by order type (e.g., MARKET, LIMIT)",
-			QueryPath: "type",
-		},
-	},
-	Action:          handleV1AccountsOrdersCancelAllOpenOrders,
-	HideHelpCommand: true,
-}
-
-var v1AccountsOrdersCancelOpenOrder = cli.Command{
-	Name:    "cancel-open-order",
-	Usage:   "Cancel a specific order",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Required:  true,
-			PathParam: "account_id",
-		},
-		&requestflag.Flag[string]{
-			Name:      "order-id",
-			Required:  true,
-			PathParam: "order_id",
-		},
-	},
-	Action:          handleV1AccountsOrdersCancelOpenOrder,
-	HideHelpCommand: true,
-}
-
-var v1AccountsOrdersGetOrderByID = cli.Command{
-	Name:    "get-order-by-id",
-	Usage:   "Get Order By ID",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Required:  true,
-			PathParam: "account_id",
-		},
-		&requestflag.Flag[string]{
-			Name:      "order-id",
-			Required:  true,
-			PathParam: "order_id",
-		},
-	},
-	Action:          handleV1AccountsOrdersGetOrderByID,
-	HideHelpCommand: true,
-}
-
-var v1AccountsOrdersGetOrders = cli.Command{
-	Name:    "get-orders",
-	Usage:   "List orders for an account with optional filtering",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Required:  true,
-			PathParam: "account_id",
-		},
-		&requestflag.Flag[any]{
-			Name:      "from",
-			Usage:     "The start date and time for the query range, inclusive (ISO 8601 format)",
-			QueryPath: "from",
-		},
-		&requestflag.Flag[[]string]{
-			Name:      "instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs",
-			QueryPath: "instrument_ids",
-		},
-		&requestflag.Flag[string]{
-			Name:      "instrument-type",
-			Usage:     "Instrument type filter (e.g., COMMON_STOCK, OPTION)",
-			QueryPath: "instrument_type",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
@@ -124,74 +123,24 @@ var v1AccountsOrdersGetOrders = cli.Command{
 			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
-		&requestflag.Flag[[]string]{
-			Name:      "status",
-			Usage:     "Comma-separated order statuses to filter by",
-			QueryPath: "status",
+		&requestflag.Flag[string]{
+			Name:      "sort-by",
+			Usage:     "Field to sort by",
+			QueryPath: "sort_by",
 		},
 		&requestflag.Flag[string]{
-			Name:      "symbol",
-			Usage:     "Filter by symbol",
-			QueryPath: "symbol",
-		},
-		&requestflag.Flag[any]{
-			Name:      "to",
-			Usage:     "The end date and time for the query range, inclusive (ISO 8601 format)",
-			QueryPath: "to",
-		},
-		&requestflag.Flag[string]{
-			Name:      "underlying-instrument-ids",
-			Usage:     "Comma-separated OEMS instrument UUIDs. Matches options orders whose resolved underlier is any of the given IDs.",
-			QueryPath: "underlying_instrument_ids",
+			Name:      "sort-direction",
+			Usage:     "Sort direction",
+			QueryPath: "sort_direction",
 		},
 	},
-	Action:          handleV1AccountsOrdersGetOrders,
+	Action:          handleV1PositionsGetPositions,
 	HideHelpCommand: true,
 }
 
-var v1AccountsOrdersReplaceOrder = cli.Command{
-	Name:    "replace-order",
-	Usage:   "Replace an order with new parameters",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			Required:  true,
-			PathParam: "account_id",
-		},
-		&requestflag.Flag[string]{
-			Name:      "order-id",
-			Required:  true,
-			PathParam: "order_id",
-		},
-		&requestflag.Flag[*string]{
-			Name:     "limit-price",
-			Usage:    "New limit price for the order",
-			BodyPath: "limit_price",
-		},
-		&requestflag.Flag[*string]{
-			Name:     "quantity",
-			Usage:    "New quantity for the order",
-			BodyPath: "quantity",
-		},
-		&requestflag.Flag[*string]{
-			Name:     "stop-price",
-			Usage:    "New stop price for the order",
-			BodyPath: "stop_price",
-		},
-		&requestflag.Flag[string]{
-			Name:     "time-in-force",
-			Usage:    "Strict time-in-force enum for order submission/replacement requests.",
-			BodyPath: "time_in_force",
-		},
-	},
-	Action:          handleV1AccountsOrdersReplaceOrder,
-	HideHelpCommand: true,
-}
-
-var v1AccountsOrdersSubmitOrders = cli.Command{
-	Name:    "submit-orders",
-	Usage:   "Submit new orders",
+var v1PositionsSubmitPositionInstructions = requestflag.WithInnerFlags(cli.Command{
+	Name:    "submit-position-instructions",
+	Usage:   "Submit one or more option lifecycle instructions against the account. Each row\nis routed to `oems-csc` independently; per-row rejections are surfaced on the\ncorresponding response entry without failing the batch.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -200,20 +149,43 @@ var v1AccountsOrdersSubmitOrders = cli.Command{
 			PathParam: "account_id",
 		},
 		&requestflag.Flag[[]map[string]any]{
-			Name:     "order",
+			Name:     "instruction",
 			Required: true,
 			BodyRoot: true,
 		},
 	},
-	Action:          handleV1AccountsOrdersSubmitOrders,
+	Action:          handleV1PositionsSubmitPositionInstructions,
 	HideHelpCommand: true,
-}
+}, map[string][]requestflag.HasOuterFlag{
+	"instruction": {
+		&requestflag.InnerFlag[string]{
+			Name:       "instruction.instruction-type",
+			Usage:      "The instruction type a caller wants `oems-csc` to take against an options position.\n\nMaps onto FIX `PosTransType` (tag 709) + `PosMaintAction` (tag 712) +\n`ContraryInstructionIndicator` (tag 719) per `oems-csc`'s `classify_action`.",
+			InnerField: "instruction_type",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "instruction.instrument-id",
+			Usage:      "OEMS instrument identifier. api-gw resolves this to `security_id` +\n`security_id_source` via the instrument cache before dispatching to\n`oems-csc`. Unknown ids return 404.",
+			InnerField: "instrument_id",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "instruction.quantity",
+			Usage:      "Quantity of contracts to exercise / DNE / CEA.",
+			InnerField: "quantity",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "instruction.instruction-id",
+			Usage:      "Caller-supplied instruction id. Echoed back on the response and used\nas the FIX `pos_req_id` (tag 710) for idempotency. If omitted the\nserver generates a UUID.",
+			InnerField: "instruction_id",
+		},
+	},
+})
 
-func handleV1AccountsOrdersCancelAllOpenOrders(ctx context.Context, cmd *cli.Command) error {
+func handleV1PositionsCancelPositionInstruction(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
-		cmd.Set("account-id", unusedArgs[0])
+	if !cmd.IsSet("instruction-id") && len(unusedArgs) > 0 {
+		cmd.Set("instruction-id", unusedArgs[0])
 		unusedArgs = unusedArgs[1:]
 	}
 	if len(unusedArgs) > 0 {
@@ -231,64 +203,15 @@ func handleV1AccountsOrdersCancelAllOpenOrders(ctx context.Context, cmd *cli.Com
 		return err
 	}
 
-	params := clearstreet.V1AccountOrderCancelAllOpenOrdersParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Orders.CancelAllOpenOrders(
-		ctx,
-		cmd.Value("account-id").(int64),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:orders cancel-all-open-orders",
-		Transform:      transform,
-	})
-}
-
-func handleV1AccountsOrdersCancelOpenOrder(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("order-id") && len(unusedArgs) > 0 {
-		cmd.Set("order-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		EmptyBody,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1AccountOrderCancelOpenOrderParams{
+	params := clearstreet.V1PositionCancelPositionInstructionParams{
 		AccountID: cmd.Value("account-id").(int64),
 	}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Orders.CancelOpenOrder(
+	_, err = client.V1.Positions.CancelPositionInstruction(
 		ctx,
-		cmd.Value("order-id").(string),
+		cmd.Value("instruction-id").(string),
 		params,
 		options...,
 	)
@@ -304,116 +227,16 @@ func handleV1AccountsOrdersCancelOpenOrder(ctx context.Context, cmd *cli.Command
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:orders cancel-open-order",
+		Title:          "v1:positions cancel-position-instruction",
 		Transform:      transform,
 	})
 }
 
-func handleV1AccountsOrdersGetOrderByID(ctx context.Context, cmd *cli.Command) error {
+func handleV1PositionsClosePosition(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("order-id") && len(unusedArgs) > 0 {
-		cmd.Set("order-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		EmptyBody,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1AccountOrderGetOrderByIDParams{
-		AccountID: cmd.Value("account-id").(int64),
-	}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Orders.GetOrderByID(
-		ctx,
-		cmd.Value("order-id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:orders get-order-by-id",
-		Transform:      transform,
-	})
-}
-
-func handleV1AccountsOrdersGetOrders(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
-		cmd.Set("account-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
-		EmptyBody,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := clearstreet.V1AccountOrderGetOrdersParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Orders.GetOrders(
-		ctx,
-		cmd.Value("account-id").(int64),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:orders get-orders",
-		Transform:      transform,
-	})
-}
-
-func handleV1AccountsOrdersReplaceOrder(ctx context.Context, cmd *cli.Command) error {
-	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("order-id") && len(unusedArgs) > 0 {
-		cmd.Set("order-id", unusedArgs[0])
+	if !cmd.IsSet("instrument-id") && len(unusedArgs) > 0 {
+		cmd.Set("instrument-id", unusedArgs[0])
 		unusedArgs = unusedArgs[1:]
 	}
 	if len(unusedArgs) > 0 {
@@ -431,15 +254,15 @@ func handleV1AccountsOrdersReplaceOrder(ctx context.Context, cmd *cli.Command) e
 		return err
 	}
 
-	params := clearstreet.V1AccountOrderReplaceOrderParams{
+	params := clearstreet.V1PositionClosePositionParams{
 		AccountID: cmd.Value("account-id").(int64),
 	}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Orders.ReplaceOrder(
+	_, err = client.V1.Positions.ClosePosition(
 		ctx,
-		cmd.Value("order-id").(string),
+		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
 		params,
 		options...,
 	)
@@ -455,12 +278,12 @@ func handleV1AccountsOrdersReplaceOrder(ctx context.Context, cmd *cli.Command) e
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:orders replace-order",
+		Title:          "v1:positions close-position",
 		Transform:      transform,
 	})
 }
 
-func handleV1AccountsOrdersSubmitOrders(ctx context.Context, cmd *cli.Command) error {
+func handleV1PositionsClosePositions(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
@@ -482,11 +305,11 @@ func handleV1AccountsOrdersSubmitOrders(ctx context.Context, cmd *cli.Command) e
 		return err
 	}
 
-	params := clearstreet.V1AccountOrderSubmitOrdersParams{}
+	params := clearstreet.V1PositionClosePositionsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Accounts.Orders.SubmitOrders(
+	_, err = client.V1.Positions.ClosePositions(
 		ctx,
 		cmd.Value("account-id").(int64),
 		params,
@@ -504,7 +327,154 @@ func handleV1AccountsOrdersSubmitOrders(ctx context.Context, cmd *cli.Command) e
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:accounts:orders submit-orders",
+		Title:          "v1:positions close-positions",
+		Transform:      transform,
+	})
+}
+
+func handleV1PositionsGetPositionInstructions(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
+		cmd.Set("account-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1PositionGetPositionInstructionsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Positions.GetPositionInstructions(
+		ctx,
+		cmd.Value("account-id").(int64),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:positions get-position-instructions",
+		Transform:      transform,
+	})
+}
+
+func handleV1PositionsGetPositions(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
+		cmd.Set("account-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1PositionGetPositionsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Positions.GetPositions(
+		ctx,
+		cmd.Value("account-id").(int64),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:positions get-positions",
+		Transform:      transform,
+	})
+}
+
+func handleV1PositionsSubmitPositionInstructions(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
+		cmd.Set("account-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatIndices,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1PositionSubmitPositionInstructionsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Positions.SubmitPositionInstructions(
+		ctx,
+		cmd.Value("account-id").(int64),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:positions submit-position-instructions",
 		Transform:      transform,
 	})
 }
