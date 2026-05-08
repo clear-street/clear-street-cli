@@ -12,8 +12,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/stainless-sdks/clear-street-cli/internal/autocomplete"
-	"github.com/stainless-sdks/clear-street-cli/internal/requestflag"
+	"github.com/clear-street/clear-street-cli/internal/autocomplete"
+	"github.com/clear-street/clear-street-cli/internal/requestflag"
 	docs "github.com/urfave/cli-docs/v3"
 	"github.com/urfave/cli/v3"
 )
@@ -73,6 +73,11 @@ func init() {
 				Name:  "transform-error",
 				Usage: "The GJSON transformation for errors.",
 			},
+			&cli.BoolFlag{
+				Name:    "raw-output",
+				Aliases: []string{"r"},
+				Usage:   "If the result is a string, print it without JSON quotes. This can be useful for making output transforms talk to non-JSON-based systems.",
+			},
 			&requestflag.Flag[string]{
 				Name:  "api-key",
 				Usage: "A JWT issued by the authentication service.",
@@ -84,338 +89,163 @@ func init() {
 		},
 		Commands: []*cli.Command{
 			{
-				Name:     "active:v1:accounts",
+				Name:     "v1:accounts",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1AccountsGetAccountByID,
-					&activeV1AccountsGetAccounts,
-					&activeV1AccountsPatchAccountByID,
+					&v1AccountsGetAccountBalances,
+					&v1AccountsGetAccountByID,
+					&v1AccountsGetAccounts,
+					&v1AccountsGetPortfolioHistory,
+					&v1AccountsPatchAccountByID,
 				},
 			},
 			{
-				Name:     "active:v1:accounts:balances",
+				Name:     "v1:api-version",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1AccountsBalancesGetAccountBalances,
+					&v1APIVersionGetVersion,
 				},
 			},
 			{
-				Name:     "active:v1:accounts:locates",
+				Name:     "v1:calendar",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1AccountsLocatesCreateLocateRequest,
-					&activeV1AccountsLocatesGetLocateRequests,
-					&activeV1AccountsLocatesUpdateLocateRequest,
+					&v1CalendarGetClock,
+					&v1CalendarGetMarketHoursCalendar,
 				},
 			},
 			{
-				Name:     "active:v1:accounts:locates:inventory",
+				Name:     "v1:instrument-data",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1AccountsLocatesInventoryGetLocateInventory,
+					&v1InstrumentDataGetAllInstrumentEvents,
+					&v1InstrumentDataGetInstrumentAnalystConsensus,
+					&v1InstrumentDataGetInstrumentBalanceSheetStatements,
+					&v1InstrumentDataGetInstrumentCashFlowStatements,
+					&v1InstrumentDataGetInstrumentEvents,
+					&v1InstrumentDataGetInstrumentFundamentals,
+					&v1InstrumentDataGetInstrumentIncomeStatements,
 				},
 			},
 			{
-				Name:     "active:v1:accounts:orders",
+				Name:     "v1:instrument-data:market-data",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1AccountsOrdersCancelAllOrders,
-					&activeV1AccountsOrdersCancelOrder,
-					&activeV1AccountsOrdersGetOrderByID,
-					&activeV1AccountsOrdersGetOrders,
-					&activeV1AccountsOrdersReplaceOrder,
-					&activeV1AccountsOrdersSubmitOrders,
+					&v1InstrumentDataMarketDataGetDailySummaries,
+					&v1InstrumentDataMarketDataGetSnapshots,
 				},
 			},
 			{
-				Name:     "active:v1:accounts:portfolio-history",
+				Name:     "v1:instrument-data:news",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1AccountsPortfolioHistoryGetPortfolioHistory,
+					&v1InstrumentDataNewsGetNews,
 				},
 			},
 			{
-				Name:     "active:v1:accounts:positions",
+				Name:     "v1:instruments",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1AccountsPositionsClosePosition,
-					&activeV1AccountsPositionsClosePositions,
-					&activeV1AccountsPositionsGetPositions,
+					&v1InstrumentsGetInstrumentByID,
+					&v1InstrumentsGetInstruments,
+					&v1InstrumentsGetOptionContracts,
+					&v1InstrumentsSearchInstruments,
 				},
 			},
 			{
-				Name:     "active:v1:api-keys",
+				Name:     "v1:omni-ai:entitlements",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1APIKeysCreate,
-					&activeV1APIKeysList,
-					&activeV1APIKeysRevoke,
-					&activeV1APIKeysRevokeAll,
+					&v1OmniAIEntitlementsCreateEntitlements,
+					&v1OmniAIEntitlementsDeleteEntitlement,
+					&v1OmniAIEntitlementsGetEntitlementAgreements,
+					&v1OmniAIEntitlementsGetEntitlements,
 				},
 			},
 			{
-				Name:     "active:v1:calendars:dividends",
+				Name:     "v1:omni-ai:messages",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1CalendarsDividendsGetDividendsCalendar,
+					&v1OmniAIMessagesGetMessageByID,
+					&v1OmniAIMessagesSubmitFeedback,
 				},
 			},
 			{
-				Name:     "active:v1:calendars:earnings",
+				Name:     "v1:omni-ai:responses",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1CalendarsEarningsGetEarningsCalendar,
+					&v1OmniAIResponsesCancelResponse,
+					&v1OmniAIResponsesGetResponseByID,
 				},
 			},
 			{
-				Name:     "active:v1:calendars:economic",
+				Name:     "v1:omni-ai:threads",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1CalendarsEconomicGetEconomicCalendar,
+					&v1OmniAIThreadsCreateMessage,
+					&v1OmniAIThreadsCreateThread,
+					&v1OmniAIThreadsGetMessages,
+					&v1OmniAIThreadsGetThreadByID,
+					&v1OmniAIThreadsGetThreadResponse,
+					&v1OmniAIThreadsGetThreads,
 				},
 			},
 			{
-				Name:     "active:v1:calendars:market-hours",
+				Name:     "v1:orders",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1CalendarsMarketHoursGetMarketHoursCalendar,
+					&v1OrdersCancelAllOpenOrders,
+					&v1OrdersCancelOpenOrder,
+					&v1OrdersGetOrderByID,
+					&v1OrdersGetOrders,
+					&v1OrdersReplaceOrder,
+					&v1OrdersSubmitOrders,
 				},
 			},
 			{
-				Name:     "active:v1:calendars:mergers-acquisitions",
+				Name:     "v1:positions",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1CalendarsMergersAcquisitionsGetMergersAndAcquisitionsCalendar,
+					&v1PositionsCancelPositionInstruction,
+					&v1PositionsClosePosition,
+					&v1PositionsClosePositions,
+					&v1PositionsGetPositionInstructions,
+					&v1PositionsGetPositions,
+					&v1PositionsSubmitPositionInstructions,
 				},
 			},
 			{
-				Name:     "active:v1:calendars:splits",
+				Name:     "v1:watchlist",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1CalendarsSplitsGetSplitsCalendar,
+					&v1WatchlistAddWatchlistItem,
+					&v1WatchlistCreateWatchlist,
+					&v1WatchlistDeleteWatchlist,
+					&v1WatchlistDeleteWatchlistItem,
+					&v1WatchlistGetWatchlistByID,
+					&v1WatchlistGetWatchlists,
 				},
 			},
 			{
-				Name:     "active:v1:calendars:summary",
+				Name:     "v1:websocket",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&activeV1CalendarsSummaryGetCalendarSummary,
-				},
-			},
-			{
-				Name:     "active:v1:clock",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1ClockGetClock,
-				},
-			},
-			{
-				Name:     "active:v1:instruments",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsGetInstrumentByID,
-					&activeV1InstrumentsGetInstruments,
-				},
-			},
-			{
-				Name:     "active:v1:instruments:analyst-reporting",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsAnalystReportingGetInstrumentAnalystConsensus,
-				},
-			},
-			{
-				Name:     "active:v1:instruments:events",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsEventsGetAllInstrumentEvents,
-					&activeV1InstrumentsEventsGetInstrumentEvents,
-				},
-			},
-			{
-				Name:     "active:v1:instruments:options:contracts",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsOptionsContractsGetOptionContracts,
-				},
-			},
-			{
-				Name:     "active:v1:instruments:reporting",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsReportingGetInstrumentReporting,
-				},
-			},
-			{
-				Name:     "active:v1:instruments:venues",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1InstrumentsVenuesGetVenues,
-				},
-			},
-			{
-				Name:     "active:v1:iris:feedback",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1IrisFeedbackCreateFeedbackDeprecated,
-				},
-			},
-			{
-				Name:     "active:v1:iris:runs",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1IrisRunsCancelRunDeprecated,
-					&activeV1IrisRunsGetRunDeprecated,
-					&activeV1IrisRunsStartRunDeprecated,
-				},
-			},
-			{
-				Name:     "active:v1:iris:threads",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1IrisThreadsGetThreadDeprecated,
-					&activeV1IrisThreadsListThreadsDeprecated,
-				},
-			},
-			{
-				Name:     "active:v1:iris:threads:messages",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1IrisThreadsMessagesListMessagesDeprecated,
-				},
-			},
-			{
-				Name:     "active:v1:market-data:snapshot",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1MarketDataSnapshotGetSnapshots,
-				},
-			},
-			{
-				Name:     "active:v1:news",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1NewsGetNews,
-				},
-			},
-			{
-				Name:     "active:v1:omni-ai:feedback",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1OmniAIFeedbackCreateFeedback,
-				},
-			},
-			{
-				Name:     "active:v1:omni-ai:runs",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1OmniAIRunsCancelRun,
-					&activeV1OmniAIRunsGetRun,
-					&activeV1OmniAIRunsStartRun,
-				},
-			},
-			{
-				Name:     "active:v1:omni-ai:threads",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1OmniAIThreadsGetThread,
-					&activeV1OmniAIThreadsListThreads,
-				},
-			},
-			{
-				Name:     "active:v1:omni-ai:threads:messages",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1OmniAIThreadsMessagesListMessages,
-				},
-			},
-			{
-				Name:     "active:v1:saved-screeners",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1SavedScreenersCreateScreener,
-					&activeV1SavedScreenersDeleteScreener,
-					&activeV1SavedScreenersGetScreenerByID,
-					&activeV1SavedScreenersListScreeners,
-					&activeV1SavedScreenersUpdateScreener,
-				},
-			},
-			{
-				Name:     "active:v1:screener",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1ScreenerGetScreener,
-				},
-			},
-			{
-				Name:     "active:v1:version",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1VersionGetVersion,
-					&activeV1VersionUpdateVersion,
-				},
-			},
-			{
-				Name:     "active:v1:watchlists",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1WatchlistsCreateWatchlist,
-					&activeV1WatchlistsDeleteWatchlist,
-					&activeV1WatchlistsGetWatchlistByID,
-					&activeV1WatchlistsGetWatchlists,
-				},
-			},
-			{
-				Name:     "active:v1:watchlists:items",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1WatchlistsItemsAddWatchlistItem,
-					&activeV1WatchlistsItemsDeleteWatchlistItem,
-				},
-			},
-			{
-				Name:     "active:v1:ws",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&activeV1WsWebsocketHandler,
+					&v1WebsocketWebsocketHandler,
 				},
 			},
 			{
