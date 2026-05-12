@@ -52,6 +52,7 @@ var v1PositionsClosePosition = cli.Command{
 		},
 		&requestflag.Flag[*bool]{
 			Name:     "cancel-orders",
+			Usage:    "Whether to cancel existing open orders for the position before submitting closing orders.",
 			BodyPath: "cancel_orders",
 		},
 	},
@@ -71,6 +72,7 @@ var v1PositionsClosePositions = cli.Command{
 		},
 		&requestflag.Flag[*bool]{
 			Name:     "cancel-orders",
+			Usage:    "Whether to cancel existing open orders for the position before submitting closing orders.",
 			BodyPath: "cancel_orders",
 		},
 	},
@@ -115,12 +117,13 @@ var v1PositionsGetPositions = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 		&requestflag.Flag[string]{
