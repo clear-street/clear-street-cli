@@ -111,12 +111,13 @@ var v1OmniAIThreadsGetMessages = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   100,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 	},
@@ -179,12 +180,13 @@ var v1OmniAIThreadsGetThreads = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   100,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 	},
