@@ -143,7 +143,7 @@ var v1PositionsGetPositions = cli.Command{
 
 var v1PositionsSubmitPositionInstructions = requestflag.WithInnerFlags(cli.Command{
 	Name:    "submit-position-instructions",
-	Usage:   "Submit one or more position instructions (Exercise, Do-Not-Exercise, Contrary\nExercise Advice) against the account. Each row is processed independently; a\nrejected row is returned with an error on the corresponding response entry\nwithout failing the batch.",
+	Usage:   "Submit one or more position instructions (Exercise, Do-Not-Exercise, Contrary\nExercise Advice) against the account.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
