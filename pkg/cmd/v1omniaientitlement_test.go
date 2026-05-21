@@ -15,22 +15,22 @@ func TestV1OmniAIEntitlementsCreateEntitlements(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:omni-ai:entitlements", "create-entitlements",
+			"--account-id", "100019",
+			"--account-id", "100021",
 			"--agreement-id", "01JZ0000000000000000000000",
-			"--requested-entitlement-code", "omni.account_data",
-			"--trading-account-id", "100019",
-			"--trading-account-id", "100021",
+			"--entitlement-code", "omni.account_data",
 		)
 	})
 
 	t.Run("piping data", func(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
-			"agreement_id: 01JZ0000000000000000000000\n" +
-			"requested_entitlement_codes:\n" +
-			"  - omni.account_data\n" +
-			"trading_account_ids:\n" +
+			"account_ids:\n" +
 			"  - 100019\n" +
-			"  - 100021\n")
+			"  - 100021\n" +
+			"agreement_id: 01JZ0000000000000000000000\n" +
+			"entitlement_codes:\n" +
+			"  - omni.account_data\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
