@@ -19,20 +19,20 @@ var v1OmniAIEntitlementsCreateEntitlements = cli.Command{
 	Usage:   "Record consent and upsert one-or-more active grants.",
 	Suggest: true,
 	Flags: []cli.Flag{
+		&requestflag.Flag[[]int64]{
+			Name:     "account-id",
+			Required: true,
+			BodyPath: "account_ids",
+		},
 		&requestflag.Flag[string]{
 			Name:     "agreement-id",
 			Required: true,
 			BodyPath: "agreement_id",
 		},
 		&requestflag.Flag[[]string]{
-			Name:     "requested-entitlement-code",
+			Name:     "entitlement-code",
 			Required: true,
-			BodyPath: "requested_entitlement_codes",
-		},
-		&requestflag.Flag[[]int64]{
-			Name:     "trading-account-id",
-			Required: true,
-			BodyPath: "trading_account_ids",
+			BodyPath: "entitlement_codes",
 		},
 	},
 	Action:          handleV1OmniAIEntitlementsCreateEntitlements,
