@@ -37,6 +37,23 @@ func TestV1OrdersCancelOpenOrder(t *testing.T) {
 	})
 }
 
+func TestV1OrdersGetExecutions(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:orders", "get-executions",
+			"--account-id", "0",
+			"--from", "'2019-12-27T18:11:19.117Z'",
+			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--page-size", "1",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
+			"--to", "'2019-12-27T18:11:19.117Z'",
+		)
+	})
+}
+
 func TestV1OrdersGetOrderByID(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
