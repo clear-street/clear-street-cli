@@ -208,6 +208,7 @@ func init() {
 				Commands: []*cli.Command{
 					&v1OrdersCancelAllOpenOrders,
 					&v1OrdersCancelOpenOrder,
+					&v1OrdersGetExecutions,
 					&v1OrdersGetOrderByID,
 					&v1OrdersGetOrders,
 					&v1OrdersReplaceOrder,
