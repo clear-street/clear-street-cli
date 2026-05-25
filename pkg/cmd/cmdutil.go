@@ -60,10 +60,10 @@ func getDefaultRequestOptions(cmd *cli.Command) []option.RequestOption {
 		switch environment {
 		case "production":
 			opts = append(opts, option.WithEnvironmentProduction())
-		case "staging":
-			opts = append(opts, option.WithEnvironmentStaging())
+		case "dev":
+			opts = append(opts, option.WithEnvironmentDev())
 		default:
-			log.Fatalf("Unknown environment: %s. Valid environments are %s", environment, "production, staging")
+			log.Fatalf("Unknown environment: %s. Valid environments are %s", environment, "production, dev")
 		}
 	}
 
