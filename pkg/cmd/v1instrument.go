@@ -66,6 +66,11 @@ var v1InstrumentsGetInstruments = cli.Command{
 			QueryPath: "is_marginable",
 		},
 		&requestflag.Flag[bool]{
+			Name:      "is-ptp",
+			Usage:     "Filter by publicly traded partnership (PTP) status",
+			QueryPath: "is_ptp",
+		},
+		&requestflag.Flag[bool]{
 			Name:      "is-restricted",
 			Usage:     "Filter by restricted status",
 			QueryPath: "is_restricted",
@@ -167,6 +172,11 @@ var v1InstrumentsSearchInstruments = cli.Command{
 			Name:      "include-inactive",
 			Usage:     "Include inactive instruments. Default false.",
 			QueryPath: "include_inactive",
+		},
+		&requestflag.Flag[bool]{
+			Name:      "include-ptp",
+			Usage:     "Include publicly traded partnership (PTP) instruments. Default true (penalized in ranking).",
+			QueryPath: "include_ptp",
 		},
 		&requestflag.Flag[bool]{
 			Name:      "include-restricted",
