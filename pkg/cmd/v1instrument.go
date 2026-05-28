@@ -50,11 +50,6 @@ var v1InstrumentsGetInstruments = cli.Command{
 			Usage:     "Comma-separated OEMS instrument UUIDs",
 			QueryPath: "instrument_ids",
 		},
-		&requestflag.Flag[string]{
-			Name:      "instrument-type",
-			Usage:     "Filter by instrument type. OPTION is not supported on this endpoint; use GET /instruments/options/contracts to list option contracts. If omitted, returns all supported instrument types except options.",
-			QueryPath: "instrument_type",
-		},
 		&requestflag.Flag[bool]{
 			Name:      "is-liquidation-only",
 			Usage:     "Filter by liquidation only status",
