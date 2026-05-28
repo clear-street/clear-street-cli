@@ -66,11 +66,6 @@ var v1InstrumentsGetInstruments = cli.Command{
 			QueryPath: "is_ptp",
 		},
 		&requestflag.Flag[bool]{
-			Name:      "is-restricted",
-			Usage:     "Filter by restricted status",
-			QueryPath: "is_restricted",
-		},
-		&requestflag.Flag[bool]{
 			Name:      "is-short-prohibited",
 			Usage:     "Filter by short prohibited status",
 			QueryPath: "is_short_prohibited",
@@ -172,11 +167,6 @@ var v1InstrumentsSearchInstruments = cli.Command{
 			Name:      "include-ptp",
 			Usage:     "Include publicly traded partnership (PTP) instruments. Default true (penalized in ranking).",
 			QueryPath: "include_ptp",
-		},
-		&requestflag.Flag[bool]{
-			Name:      "include-restricted",
-			Usage:     "Include restricted instruments. Default true (penalized in ranking).",
-			QueryPath: "include_restricted",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
