@@ -50,6 +50,11 @@ var v1InstrumentsGetInstruments = cli.Command{
 			Usage:     "Comma-separated OEMS instrument UUIDs",
 			QueryPath: "instrument_ids",
 		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-type",
+			Usage:     "Filter by instrument type (e.g. COMMON_STOCK, OPTION)",
+			QueryPath: "instrument_type",
+		},
 		&requestflag.Flag[bool]{
 			Name:      "is-liquidation-only",
 			Usage:     "Filter by liquidation only status",
