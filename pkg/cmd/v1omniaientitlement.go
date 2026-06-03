@@ -88,7 +88,7 @@ func handleV1OmniAIEntitlementsCreateEntitlements(ctx context.Context, cmd *cli.
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)
@@ -132,7 +132,7 @@ func handleV1OmniAIEntitlementsDeleteEntitlement(ctx context.Context, cmd *cli.C
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -171,7 +171,7 @@ func handleV1OmniAIEntitlementsGetEntitlementAgreements(ctx context.Context, cmd
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -210,7 +210,7 @@ func handleV1OmniAIEntitlementsGetEntitlements(ctx context.Context, cmd *cli.Com
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)

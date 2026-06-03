@@ -86,7 +86,7 @@ func handleV1InstrumentDataNewsGetNews(ctx context.Context, cmd *cli.Command) er
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)

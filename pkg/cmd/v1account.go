@@ -138,7 +138,7 @@ func handleV1AccountsGetAccountBalances(ctx context.Context, cmd *cli.Command) e
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -187,7 +187,7 @@ func handleV1AccountsGetAccountByID(ctx context.Context, cmd *cli.Command) error
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -226,7 +226,7 @@ func handleV1AccountsGetAccounts(ctx context.Context, cmd *cli.Command) error {
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -270,7 +270,7 @@ func handleV1AccountsGetPortfolioHistory(ctx context.Context, cmd *cli.Command) 
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -319,7 +319,7 @@ func handleV1AccountsPatchAccountByID(ctx context.Context, cmd *cli.Command) err
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)

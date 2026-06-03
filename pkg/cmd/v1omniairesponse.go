@@ -70,7 +70,7 @@ func handleV1OmniAIResponsesCancelResponse(ctx context.Context, cmd *cli.Command
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -119,7 +119,7 @@ func handleV1OmniAIResponsesGetResponseByID(ctx context.Context, cmd *cli.Comman
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)

@@ -31,7 +31,7 @@ func handleV1WebsocketWebsocketHandler(ctx context.Context, cmd *cli.Command) er
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
