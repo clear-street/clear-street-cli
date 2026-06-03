@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.2.0 (2026-06-03)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/clear-street/clear-street-cli/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** api update ([80b9aa9](https://github.com/clear-street/clear-street-cli/commit/80b9aa9e59c9daf35d69d25091473e7acee59bc4))
+* **api:** api update ([9c58252](https://github.com/clear-street/clear-street-cli/commit/9c58252cbe424cc77832c8825d5569a78ff66685))
+* **api:** api update ([55dcd17](https://github.com/clear-street/clear-street-cli/commit/55dcd175d665958c41a8b49ebb25262139fb5084))
+* **api:** api update ([d2a6594](https://github.com/clear-street/clear-street-cli/commit/d2a659495f97ff0cf1677d7c990d64f5ab695649))
+* **api:** api update ([c2927de](https://github.com/clear-street/clear-street-cli/commit/c2927def607354511612dae4ff55f32f1d9483c4))
+* **api:** api update ([a14768a](https://github.com/clear-street/clear-street-cli/commit/a14768a35b6f31557d56c6e2b8142e8db1447630))
+* **api:** api update ([0552dac](https://github.com/clear-street/clear-street-cli/commit/0552dac691c415bb45499ee73dcc97194dade877))
+* **api:** api update ([1ecc6b7](https://github.com/clear-street/clear-street-cli/commit/1ecc6b7debf75fc90304080ccb412f994ce61dee))
+* **api:** api update ([17162a8](https://github.com/clear-street/clear-street-cli/commit/17162a84c0e08550d522b2e77456a13eb443de94))
+* **api:** api update ([c93a0df](https://github.com/clear-street/clear-street-cli/commit/c93a0dfe2368993efc060e4d19c306c024a4677d))
+* **api:** api update ([8bb4b70](https://github.com/clear-street/clear-street-cli/commit/8bb4b706c45fc687ecad7cd3eaa35d691f06d986))
+* **api:** api update ([1f32838](https://github.com/clear-street/clear-street-cli/commit/1f32838672016598b02488015780ff5f5934e05c))
+* **api:** manual updates ([a24a8bb](https://github.com/clear-street/clear-street-cli/commit/a24a8bbf94d231da85fba4f2b17394678eba6023))
+
 ## 0.1.0 (2026-05-08)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/clear-street/clear-street-cli/compare/v0.0.1...v0.1.0)

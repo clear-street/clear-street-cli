@@ -37,6 +37,23 @@ func TestV1OrdersCancelOpenOrder(t *testing.T) {
 	})
 }
 
+func TestV1OrdersGetExecutions(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:orders", "get-executions",
+			"--account-id", "0",
+			"--from", "'2019-12-27T18:11:19.117Z'",
+			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--page-size", "1",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
+			"--to", "'2019-12-27T18:11:19.117Z'",
+		)
+	})
+}
+
 func TestV1OrdersGetOrderByID(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
@@ -66,7 +83,7 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--status", "PENDING_NEW",
 			"--symbol", "symbol",
 			"--to", "'2019-12-27T18:11:19.117Z'",
-			"--underlying-instrument-ids", "underlying_instrument_ids",
+			"--underlying-instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		)
 	})
 }
@@ -112,7 +129,7 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"--api-key", "string",
 			"v1:orders", "submit-orders",
 			"--account-id", "0",
-			"--order", "{legs: [{instrument_type: OPTION, ratio: ratio, security: 0193bb84-447a-706f-996f-097254663f02, side: BUY, id: '1', position_effect: OPEN}, {instrument_type: OPTION, ratio: ratio, security: 0193bb84-4db4-78ec-b4fd-cba8be61cf8a, side: SELL, id: '2', position_effect: OPEN}, {instrument_type: OPTION, ratio: ratio, security: 0193bb84-5264-7f20-8fd3-35df82cd6ef0, side: BUY, id: '3', position_effect: OPEN}], order_type: LIMIT, time_in_force: DAY, id: my-mleg-ref-20251001-001, limit_price: '0.50', quantity: '1'}",
+			"--order", "{legs: [{ratio: ratio, security: 0193bb84-447a-706f-996f-097254663f02, side: BUY, id: '1', position_effect: OPEN}, {ratio: ratio, security: 0193bb84-4db4-78ec-b4fd-cba8be61cf8a, side: SELL, id: '2', position_effect: OPEN}, {ratio: ratio, security: 0193bb84-5264-7f20-8fd3-35df82cd6ef0, side: BUY, id: '3', position_effect: OPEN}], order_type: LIMIT, time_in_force: DAY, id: my-mleg-ref-20251001-001, limit_price: '0.50', quantity: '1'}",
 		)
 	})
 
@@ -120,20 +137,17 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"- legs:\n" +
-			"    - instrument_type: OPTION\n" +
-			"      ratio: ratio\n" +
+			"    - ratio: ratio\n" +
 			"      security: 0193bb84-447a-706f-996f-097254663f02\n" +
 			"      side: BUY\n" +
 			"      id: '1'\n" +
 			"      position_effect: OPEN\n" +
-			"    - instrument_type: OPTION\n" +
-			"      ratio: ratio\n" +
+			"    - ratio: ratio\n" +
 			"      security: 0193bb84-4db4-78ec-b4fd-cba8be61cf8a\n" +
 			"      side: SELL\n" +
 			"      id: '2'\n" +
 			"      position_effect: OPEN\n" +
-			"    - instrument_type: OPTION\n" +
-			"      ratio: ratio\n" +
+			"    - ratio: ratio\n" +
 			"      security: 0193bb84-5264-7f20-8fd3-35df82cd6ef0\n" +
 			"      side: BUY\n" +
 			"      id: '3'\n" +

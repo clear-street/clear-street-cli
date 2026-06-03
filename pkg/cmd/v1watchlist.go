@@ -108,12 +108,13 @@ var v1WatchlistGetWatchlists = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 	},
@@ -135,7 +136,7 @@ func handleV1WatchlistAddWatchlistItem(ctx context.Context, cmd *cli.Command) er
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)
@@ -181,7 +182,7 @@ func handleV1WatchlistCreateWatchlist(ctx context.Context, cmd *cli.Command) err
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)
@@ -225,7 +226,7 @@ func handleV1WatchlistDeleteWatchlist(ctx context.Context, cmd *cli.Command) err
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -267,7 +268,7 @@ func handleV1WatchlistDeleteWatchlistItem(ctx context.Context, cmd *cli.Command)
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -318,7 +319,7 @@ func handleV1WatchlistGetWatchlistByID(ctx context.Context, cmd *cli.Command) er
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -357,7 +358,7 @@ func handleV1WatchlistGetWatchlists(ctx context.Context, cmd *cli.Command) error
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)

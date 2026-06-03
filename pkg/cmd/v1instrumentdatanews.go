@@ -46,12 +46,13 @@ var v1InstrumentDataNewsGetNews = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 		&requestflag.Flag[string]{
@@ -85,7 +86,7 @@ func handleV1InstrumentDataNewsGetNews(ctx context.Context, cmd *cli.Command) er
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)

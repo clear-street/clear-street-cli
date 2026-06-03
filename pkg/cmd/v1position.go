@@ -16,7 +16,7 @@ import (
 
 var v1PositionsCancelPositionInstruction = cli.Command{
 	Name:    "cancel-position-instruction",
-	Usage:   "Cancel an outstanding exercise / DNE / CEA instruction by its server- assigned\n`id`. Returns the updated instruction with status `CANCEL_REQUESTED`; the\nterminal `CANCELLED` / `CANCEL_FAILED` state arrives asynchronously via\nsubsequent GETs.",
+	Usage:   "Cancel an outstanding position instruction by its server-assigned `id`. Returns\nthe updated instruction with status `CANCEL_REQUESTED`. The terminal `CANCELLED`\nor `CANCEL_FAILED` state arrives asynchronously and is observable via subsequent\nGETs.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -52,6 +52,7 @@ var v1PositionsClosePosition = cli.Command{
 		},
 		&requestflag.Flag[*bool]{
 			Name:     "cancel-orders",
+			Usage:    "Whether to cancel existing open orders for the position before submitting closing orders.",
 			BodyPath: "cancel_orders",
 		},
 	},
@@ -71,6 +72,7 @@ var v1PositionsClosePositions = cli.Command{
 		},
 		&requestflag.Flag[*bool]{
 			Name:     "cancel-orders",
+			Usage:    "Whether to cancel existing open orders for the position before submitting closing orders.",
 			BodyPath: "cancel_orders",
 		},
 	},
@@ -80,7 +82,7 @@ var v1PositionsClosePositions = cli.Command{
 
 var v1PositionsGetPositionInstructions = cli.Command{
 	Name:    "get-position-instructions",
-	Usage:   "Returns the current lifecycle state of exercise / DNE / CEA instructions for the\naccount. Optionally filter by a specific instrument.",
+	Usage:   "Returns the current lifecycle state of the account's position instructions.\nOptionally filter by a specific contract.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -115,12 +117,13 @@ var v1PositionsGetPositions = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 		&requestflag.Flag[string]{
@@ -140,7 +143,7 @@ var v1PositionsGetPositions = cli.Command{
 
 var v1PositionsSubmitPositionInstructions = requestflag.WithInnerFlags(cli.Command{
 	Name:    "submit-position-instructions",
-	Usage:   "Submit one or more option lifecycle instructions against the account. Each row\nis routed to `oems-csc` independently; per-row rejections are surfaced on the\ncorresponding response entry without failing the batch.",
+	Usage:   "Submit one or more position instructions (Exercise, Do-Not-Exercise, Contrary\nExercise Advice) against the account.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -160,22 +163,22 @@ var v1PositionsSubmitPositionInstructions = requestflag.WithInnerFlags(cli.Comma
 	"instruction": {
 		&requestflag.InnerFlag[string]{
 			Name:       "instruction.instruction-type",
-			Usage:      "The instruction type a caller wants `oems-csc` to take against an options position.\n\nMaps onto FIX `PosTransType` (tag 709) + `PosMaintAction` (tag 712) +\n`ContraryInstructionIndicator` (tag 719) per `oems-csc`'s `classify_action`.",
+			Usage:      "The action to take against an options position.",
 			InnerField: "instruction_type",
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "instruction.instrument-id",
-			Usage:      "OEMS instrument identifier. api-gw resolves this to `security_id` +\n`security_id_source` via the instrument cache before dispatching to\n`oems-csc`. Unknown ids return 404.",
+			Usage:      "Identifier of the options contract to act on. Unknown ids return 404.",
 			InnerField: "instrument_id",
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "instruction.quantity",
-			Usage:      "Quantity of contracts to exercise / DNE / CEA.",
+			Usage:      "Number of contracts to include in the instruction.",
 			InnerField: "quantity",
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "instruction.instruction-id",
-			Usage:      "Caller-supplied instruction id. Echoed back on the response and used\nas the FIX `pos_req_id` (tag 710) for idempotency. If omitted the\nserver generates a UUID.",
+			Usage:      "Caller-supplied idempotency key. Echoed on the response. The server\ngenerates a unique id when omitted.",
 			InnerField: "instruction_id",
 		},
 	},
@@ -195,7 +198,7 @@ func handleV1PositionsCancelPositionInstruction(ctx context.Context, cmd *cli.Co
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -246,7 +249,7 @@ func handleV1PositionsClosePosition(ctx context.Context, cmd *cli.Command) error
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)
@@ -297,7 +300,7 @@ func handleV1PositionsClosePositions(ctx context.Context, cmd *cli.Command) erro
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)
@@ -346,7 +349,7 @@ func handleV1PositionsGetPositionInstructions(ctx context.Context, cmd *cli.Comm
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -395,7 +398,7 @@ func handleV1PositionsGetPositions(ctx context.Context, cmd *cli.Command) error 
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -444,7 +447,7 @@ func handleV1PositionsSubmitPositionInstructions(ctx context.Context, cmd *cli.C
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)

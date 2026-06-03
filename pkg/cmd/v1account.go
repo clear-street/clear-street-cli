@@ -56,12 +56,13 @@ var v1AccountsGetAccounts = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 	},
@@ -81,6 +82,7 @@ var v1AccountsGetPortfolioHistory = cli.Command{
 		},
 		&requestflag.Flag[any]{
 			Name:      "start-date",
+			Usage:     "Start date for the portfolio history range, in YYYY-MM-DD format.",
 			Required:  true,
 			QueryPath: "start_date",
 		},
@@ -136,7 +138,7 @@ func handleV1AccountsGetAccountBalances(ctx context.Context, cmd *cli.Command) e
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -185,7 +187,7 @@ func handleV1AccountsGetAccountByID(ctx context.Context, cmd *cli.Command) error
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -224,7 +226,7 @@ func handleV1AccountsGetAccounts(ctx context.Context, cmd *cli.Command) error {
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -268,7 +270,7 @@ func handleV1AccountsGetPortfolioHistory(ctx context.Context, cmd *cli.Command) 
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -317,7 +319,7 @@ func handleV1AccountsPatchAccountByID(ctx context.Context, cmd *cli.Command) err
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)

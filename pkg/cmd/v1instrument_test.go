@@ -33,7 +33,7 @@ func TestV1InstrumentsGetInstruments(t *testing.T) {
 			"--instrument-type", "COMMON_STOCK",
 			"--is-liquidation-only=true",
 			"--is-marginable=true",
-			"--is-restricted=true",
+			"--is-ptp=true",
 			"--is-short-prohibited=true",
 			"--is-threshold-security=true",
 			"--page-size", "1",
@@ -71,7 +71,7 @@ func TestV1InstrumentsSearchInstruments(t *testing.T) {
 			"--country", "country",
 			"--currency", "currency",
 			"--include-inactive=true",
-			"--include-restricted=true",
+			"--include-ptp=true",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 		)

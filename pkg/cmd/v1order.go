@@ -69,6 +69,47 @@ var v1OrdersCancelOpenOrder = cli.Command{
 	HideHelpCommand: true,
 }
 
+var v1OrdersGetExecutions = cli.Command{
+	Name:    "get-executions",
+	Usage:   "Retrieves filled and partially-filled execution reports for the specified\ntrading account, ordered by transaction time (nanosecond precision) descending.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[any]{
+			Name:      "from",
+			Usage:     "The start date and time for the query range, inclusive (ISO 8601 format)",
+			QueryPath: "from",
+		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-id",
+			Usage:     "OEMS instrument UUID",
+			QueryPath: "instrument_id",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Default:   1000,
+			QueryPath: "page_size",
+		},
+		&requestflag.Flag[string]{
+			Name:      "page-token",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
+			QueryPath: "page_token",
+		},
+		&requestflag.Flag[any]{
+			Name:      "to",
+			Usage:     "The end date and time for the query range, inclusive (ISO 8601 format)",
+			QueryPath: "to",
+		},
+	},
+	Action:          handleV1OrdersGetExecutions,
+	HideHelpCommand: true,
+}
+
 var v1OrdersGetOrderByID = cli.Command{
 	Name:    "get-order-by-id",
 	Usage:   "Get Order By ID",
@@ -116,12 +157,13 @@ var v1OrdersGetOrders = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 		&requestflag.Flag[[]string]{
@@ -139,8 +181,8 @@ var v1OrdersGetOrders = cli.Command{
 			Usage:     "The end date and time for the query range, inclusive (ISO 8601 format)",
 			QueryPath: "to",
 		},
-		&requestflag.Flag[string]{
-			Name:      "underlying-instrument-ids",
+		&requestflag.Flag[[]string]{
+			Name:      "underlying-instrument-id",
 			Usage:     "Comma-separated OEMS instrument UUIDs. Matches options orders whose resolved underlier is any of the given IDs.",
 			QueryPath: "underlying_instrument_ids",
 		},
@@ -223,7 +265,7 @@ func handleV1OrdersCancelAllOpenOrders(ctx context.Context, cmd *cli.Command) er
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -272,7 +314,7 @@ func handleV1OrdersCancelOpenOrder(ctx context.Context, cmd *cli.Command) error 
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -309,6 +351,55 @@ func handleV1OrdersCancelOpenOrder(ctx context.Context, cmd *cli.Command) error 
 	})
 }
 
+func handleV1OrdersGetExecutions(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
+		cmd.Set("account-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1OrderGetExecutionsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Orders.GetExecutions(
+		ctx,
+		cmd.Value("account-id").(int64),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:orders get-executions",
+		Transform:      transform,
+	})
+}
+
 func handleV1OrdersGetOrderByID(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
@@ -323,7 +414,7 @@ func handleV1OrdersGetOrderByID(ctx context.Context, cmd *cli.Command) error {
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -374,7 +465,7 @@ func handleV1OrdersGetOrders(ctx context.Context, cmd *cli.Command) error {
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -423,7 +514,7 @@ func handleV1OrdersReplaceOrder(ctx context.Context, cmd *cli.Command) error {
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)
@@ -474,7 +565,7 @@ func handleV1OrdersSubmitOrders(ctx context.Context, cmd *cli.Command) error {
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		ApplicationJSON,
 		false,
 	)

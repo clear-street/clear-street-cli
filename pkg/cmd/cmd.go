@@ -25,7 +25,7 @@ var (
 
 func init() {
 	Command = &cli.Command{
-		Name:      "clear-street",
+		Name:      "clst",
 		Usage:     "CLI for the clear-street API",
 		Suggest:   true,
 		Version:   Version,
@@ -208,6 +208,7 @@ func init() {
 				Commands: []*cli.Command{
 					&v1OrdersCancelAllOpenOrders,
 					&v1OrdersCancelOpenOrder,
+					&v1OrdersGetExecutions,
 					&v1OrdersGetOrderByID,
 					&v1OrdersGetOrders,
 					&v1OrdersReplaceOrder,
@@ -251,7 +252,7 @@ func init() {
 			{
 				Name:            "@manpages",
 				Usage:           "Generate documentation for 'man'",
-				UsageText:       "clear-street @manpages [-o clear-street.1] [--gzip]",
+				UsageText:       "clst @manpages [-o clst.1] [--gzip]",
 				Hidden:          true,
 				Action:          generateManpages,
 				HideHelpCommand: true,
@@ -304,7 +305,7 @@ func generateManpages(ctx context.Context, c *cli.Command) error {
 		// handle error
 	}
 	if c.Bool("text") {
-		file, err := os.Create(filepath.Join(dir, "man1", "clear-street.1"))
+		file, err := os.Create(filepath.Join(dir, "man1", "clst.1"))
 		if err != nil {
 			return err
 		}
@@ -314,7 +315,7 @@ func generateManpages(ctx context.Context, c *cli.Command) error {
 		}
 	}
 	if c.Bool("gzip") {
-		file, err := os.Create(filepath.Join(dir, "man1", "clear-street.1.gz"))
+		file, err := os.Create(filepath.Join(dir, "man1", "clst.1.gz"))
 		if err != nil {
 			return err
 		}

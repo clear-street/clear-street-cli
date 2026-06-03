@@ -52,7 +52,7 @@ var v1InstrumentsGetInstruments = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-type",
-			Usage:     "Filter by instrument type. OPTION is not supported on this endpoint; use GET /instruments/options/contracts to list option contracts. If omitted, returns all supported instrument types except options.",
+			Usage:     "Filter by instrument type (e.g. COMMON_STOCK, OPTION)",
 			QueryPath: "instrument_type",
 		},
 		&requestflag.Flag[bool]{
@@ -66,9 +66,9 @@ var v1InstrumentsGetInstruments = cli.Command{
 			QueryPath: "is_marginable",
 		},
 		&requestflag.Flag[bool]{
-			Name:      "is-restricted",
-			Usage:     "Filter by restricted status",
-			QueryPath: "is_restricted",
+			Name:      "is-ptp",
+			Usage:     "Filter by publicly traded partnership (PTP) status",
+			QueryPath: "is_ptp",
 		},
 		&requestflag.Flag[bool]{
 			Name:      "is-short-prohibited",
@@ -82,12 +82,13 @@ var v1InstrumentsGetInstruments = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 	},
@@ -112,12 +113,13 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 		&requestflag.Flag[string]{
@@ -167,18 +169,19 @@ var v1InstrumentsSearchInstruments = cli.Command{
 			QueryPath: "include_inactive",
 		},
 		&requestflag.Flag[bool]{
-			Name:      "include-restricted",
-			Usage:     "Include restricted instruments. Default true (penalized in ranking).",
-			QueryPath: "include_restricted",
+			Name:      "include-ptp",
+			Usage:     "Include publicly traded partnership (PTP) instruments. Default true (penalized in ranking).",
+			QueryPath: "include_ptp",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
 			Default:   100,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{
 			Name:      "page-token",
-			Usage:     "Token for retrieving the next page of results. Contains encoded pagination state (limit + offset).\nWhen provided, page_size is ignored.",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
 		},
 	},
@@ -200,7 +203,7 @@ func handleV1InstrumentsGetInstrumentByID(ctx context.Context, cmd *cli.Command)
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -246,7 +249,7 @@ func handleV1InstrumentsGetInstruments(ctx context.Context, cmd *cli.Command) er
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -287,7 +290,7 @@ func handleV1InstrumentsGetOptionContracts(ctx context.Context, cmd *cli.Command
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -328,7 +331,7 @@ func handleV1InstrumentsSearchInstruments(ctx context.Context, cmd *cli.Command)
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)

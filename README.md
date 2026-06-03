@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 To test or install the CLI locally, you need [Go](https://go.dev/doc/install) version 1.22 or later installed.
 
 ```sh
-go install 'github.com/clear-street/clear-street-cli/cmd/clear-street@latest'
+go install 'github.com/clear-street/clear-street-cli/cmd/clst@latest'
 ```
 
 Once you have run `go install`, the binary is placed in your Go bin directory:
@@ -44,11 +44,11 @@ After cloning the git repository for this project, you can use the
 The CLI follows a resource-based command structure:
 
 ```sh
-clear-street [resource] <command> [flags...]
+clst [resource] <command> [flags...]
 ```
 
 ```sh
-clear-street v1:accounts get-accounts \
+clst v1:accounts get-accounts \
   --api-key 'My API Key'
 ```
 
@@ -71,15 +71,15 @@ For details about specific commands, use the `--help` flag.
 To pass files to your API, you can use the `@myfile.ext` syntax:
 
 ```bash
-clear-street <command> --arg @abe.jpg
+clst <command> --arg @abe.jpg
 ```
 
 Files can also be passed inside JSON or YAML blobs:
 
 ```bash
-clear-street <command> --arg '{image: "@abe.jpg"}'
+clst <command> --arg '{image: "@abe.jpg"}'
 # Equivalent:
-clear-street <command> <<YAML
+clst <command> <<YAML
 arg:
   image: "@abe.jpg"
 YAML
@@ -89,7 +89,7 @@ If you need to pass a string literal that begins with an `@` sign, you can
 escape the `@` sign to avoid accidentally passing a file.
 
 ```bash
-clear-street <command> --username '\@abe'
+clst <command> --username '\@abe'
 ```
 
 #### Explicit encoding
@@ -103,7 +103,7 @@ base64-encoding). Note that absolute paths will begin with `@file://` or
 `@data://`, followed by a third `/` (for example, `@file:///tmp/file.txt`).
 
 ```bash
-clear-street <command> --arg @data://file.txt
+clst <command> --arg @data://file.txt
 ```
 
 ## Linking different Go SDK versions
