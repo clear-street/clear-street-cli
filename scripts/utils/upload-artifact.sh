@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -exuo pipefail
 
-BINARY_NAME="clear-street"
+BINARY_NAME="clst"
 DIST_DIR="dist"
 FILENAME="dist.zip"
 

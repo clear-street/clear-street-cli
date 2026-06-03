@@ -56,7 +56,7 @@ func handleV1InstrumentDataMarketDataGetDailySummaries(ctx context.Context, cmd 
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -97,7 +97,7 @@ func handleV1InstrumentDataMarketDataGetSnapshots(ctx context.Context, cmd *cli.
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)

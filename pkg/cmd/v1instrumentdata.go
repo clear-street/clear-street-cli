@@ -234,7 +234,7 @@ func handleV1InstrumentDataGetAllInstrumentEvents(ctx context.Context, cmd *cli.
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -278,7 +278,7 @@ func handleV1InstrumentDataGetInstrumentAnalystConsensus(ctx context.Context, cm
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -327,7 +327,7 @@ func handleV1InstrumentDataGetInstrumentBalanceSheetStatements(ctx context.Conte
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -376,7 +376,7 @@ func handleV1InstrumentDataGetInstrumentCashFlowStatements(ctx context.Context, 
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -425,7 +425,7 @@ func handleV1InstrumentDataGetInstrumentEvents(ctx context.Context, cmd *cli.Com
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -474,7 +474,7 @@ func handleV1InstrumentDataGetInstrumentFundamentals(ctx context.Context, cmd *c
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
@@ -516,7 +516,7 @@ func handleV1InstrumentDataGetInstrumentIncomeStatements(ctx context.Context, cm
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatIndices,
+		apiquery.ArrayQueryFormatComma,
 		EmptyBody,
 		false,
 	)
