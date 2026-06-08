@@ -31,7 +31,7 @@ var v1InstrumentDataGetAllInstrumentEvents = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Filter by OEMS instrument ID(s). Comma-delimited list of UUIDs. Example: `instrument_ids=550e8400-e29b-41d4-a716-446655440000`.",
+			Usage:     "Filter by instrument ID(s). Comma-delimited list of UUIDs. Example: `instrument_ids=550e8400-e29b-41d4-a716-446655440000`.",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
@@ -51,7 +51,7 @@ var v1InstrumentDataGetInstrumentAnalystConsensus = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -77,7 +77,7 @@ var v1InstrumentDataGetInstrumentBalanceSheetStatements = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -114,7 +114,7 @@ var v1InstrumentDataGetInstrumentCashFlowStatements = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -151,7 +151,7 @@ var v1InstrumentDataGetInstrumentEvents = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -177,7 +177,7 @@ var v1InstrumentDataGetInstrumentFundamentals = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -193,7 +193,7 @@ var v1InstrumentDataGetInstrumentIncomeStatements = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			Required:  true,
 			PathParam: "instrument_id",
 		},

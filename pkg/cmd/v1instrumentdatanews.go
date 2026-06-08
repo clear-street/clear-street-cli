@@ -36,7 +36,7 @@ var v1InstrumentDataNewsGetNews = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-delimited OEMS instrument UUIDs to filter by.",
+			Usage:     "Comma-delimited instrument identifiers to filter by.",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{

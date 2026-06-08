@@ -26,7 +26,7 @@ var v1AccountsGetAccountBalances = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "top-margin-contributors-limit",
-			Usage:     "Limit the number of top margin contributors returned by the engine.",
+			Usage:     "Limit the number of top margin contributors returned.",
 			QueryPath: "top_margin_contributors_limit",
 		},
 	},

@@ -46,7 +46,7 @@ var v1PositionsClosePosition = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -92,7 +92,7 @@ var v1PositionsGetPositionInstructions = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			QueryPath: "instrument_id",
 		},
 	},
@@ -112,7 +112,7 @@ var v1PositionsGetPositions = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs",
+			Usage:     "Comma-separated instrument identifiers",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[int64]{
