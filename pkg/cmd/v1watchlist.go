@@ -26,7 +26,7 @@ var v1WatchlistAddWatchlistItem = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "instrument-id",
-			Usage:    "OEMS instrument UUID",
+			Usage:    "Instrument identifier",
 			Required: true,
 			BodyPath: "instrument_id",
 		},

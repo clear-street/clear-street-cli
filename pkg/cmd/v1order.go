@@ -26,7 +26,7 @@ var v1OrdersCancelAllOpenOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs",
+			Usage:     "Comma-separated instrument identifiers",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
@@ -86,7 +86,7 @@ var v1OrdersGetExecutions = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			QueryPath: "instrument_id",
 		},
 		&requestflag.Flag[int64]{
@@ -147,7 +147,7 @@ var v1OrdersGetOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs",
+			Usage:     "Comma-separated instrument identifiers",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
@@ -183,7 +183,7 @@ var v1OrdersGetOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "underlying-instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs. Matches options orders whose resolved underlier is any of the given IDs.",
+			Usage:     "Comma-separated instrument identifiers. Matches options orders whose resolved underlier is any of the given IDs.",
 			QueryPath: "underlying_instrument_ids",
 		},
 	},
