@@ -9,7 +9,6 @@ import (
 )
 
 func TestV1InstrumentDataGetAllInstrumentEvents(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -24,7 +23,6 @@ func TestV1InstrumentDataGetAllInstrumentEvents(t *testing.T) {
 }
 
 func TestV1InstrumentDataGetInstrumentAnalystConsensus(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -38,7 +36,6 @@ func TestV1InstrumentDataGetInstrumentAnalystConsensus(t *testing.T) {
 }
 
 func TestV1InstrumentDataGetInstrumentBalanceSheetStatements(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -54,7 +51,6 @@ func TestV1InstrumentDataGetInstrumentBalanceSheetStatements(t *testing.T) {
 }
 
 func TestV1InstrumentDataGetInstrumentCashFlowStatements(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -70,7 +66,6 @@ func TestV1InstrumentDataGetInstrumentCashFlowStatements(t *testing.T) {
 }
 
 func TestV1InstrumentDataGetInstrumentEvents(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -84,7 +79,6 @@ func TestV1InstrumentDataGetInstrumentEvents(t *testing.T) {
 }
 
 func TestV1InstrumentDataGetInstrumentFundamentals(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -96,7 +90,6 @@ func TestV1InstrumentDataGetInstrumentFundamentals(t *testing.T) {
 }
 
 func TestV1InstrumentDataGetInstrumentIncomeStatements(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

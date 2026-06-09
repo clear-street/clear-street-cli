@@ -9,7 +9,6 @@ import (
 )
 
 func TestV1OmniAIEntitlementsCreateEntitlements(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -40,7 +39,6 @@ func TestV1OmniAIEntitlementsCreateEntitlements(t *testing.T) {
 }
 
 func TestV1OmniAIEntitlementsDeleteEntitlement(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -52,7 +50,6 @@ func TestV1OmniAIEntitlementsDeleteEntitlement(t *testing.T) {
 }
 
 func TestV1OmniAIEntitlementsGetEntitlementAgreements(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -63,7 +60,6 @@ func TestV1OmniAIEntitlementsGetEntitlementAgreements(t *testing.T) {
 }
 
 func TestV1OmniAIEntitlementsGetEntitlements(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

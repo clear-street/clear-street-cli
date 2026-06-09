@@ -9,7 +9,6 @@ import (
 )
 
 func TestV1OrdersCancelAllOpenOrders(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -25,7 +24,6 @@ func TestV1OrdersCancelAllOpenOrders(t *testing.T) {
 }
 
 func TestV1OrdersCancelOpenOrder(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -38,7 +36,6 @@ func TestV1OrdersCancelOpenOrder(t *testing.T) {
 }
 
 func TestV1OrdersGetExecutions(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -55,7 +52,6 @@ func TestV1OrdersGetExecutions(t *testing.T) {
 }
 
 func TestV1OrdersGetOrderByID(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -68,7 +64,6 @@ func TestV1OrdersGetOrderByID(t *testing.T) {
 }
 
 func TestV1OrdersGetOrders(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -89,7 +84,6 @@ func TestV1OrdersGetOrders(t *testing.T) {
 }
 
 func TestV1OrdersReplaceOrder(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -122,7 +116,6 @@ func TestV1OrdersReplaceOrder(t *testing.T) {
 }
 
 func TestV1OrdersSubmitOrders(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

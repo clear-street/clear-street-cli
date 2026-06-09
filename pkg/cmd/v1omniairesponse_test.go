@@ -9,7 +9,6 @@ import (
 )
 
 func TestV1OmniAIResponsesCancelResponse(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -22,7 +21,6 @@ func TestV1OmniAIResponsesCancelResponse(t *testing.T) {
 }
 
 func TestV1OmniAIResponsesGetResponseByID(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
