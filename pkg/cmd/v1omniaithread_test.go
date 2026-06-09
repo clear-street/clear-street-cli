@@ -10,7 +10,6 @@ import (
 )
 
 func TestV1OmniAIThreadsCreateMessage(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -40,7 +39,6 @@ func TestV1OmniAIThreadsCreateMessage(t *testing.T) {
 }
 
 func TestV1OmniAIThreadsCreateThread(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -95,7 +93,6 @@ func TestV1OmniAIThreadsCreateThread(t *testing.T) {
 }
 
 func TestV1OmniAIThreadsGetMessages(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -110,7 +107,6 @@ func TestV1OmniAIThreadsGetMessages(t *testing.T) {
 }
 
 func TestV1OmniAIThreadsGetThreadByID(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -123,7 +119,6 @@ func TestV1OmniAIThreadsGetThreadByID(t *testing.T) {
 }
 
 func TestV1OmniAIThreadsGetThreadResponse(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -136,7 +131,6 @@ func TestV1OmniAIThreadsGetThreadResponse(t *testing.T) {
 }
 
 func TestV1OmniAIThreadsGetThreads(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

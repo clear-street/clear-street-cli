@@ -9,7 +9,6 @@ import (
 )
 
 func TestV1CalendarGetClock(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -20,7 +19,6 @@ func TestV1CalendarGetClock(t *testing.T) {
 }
 
 func TestV1CalendarGetMarketHoursCalendar(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

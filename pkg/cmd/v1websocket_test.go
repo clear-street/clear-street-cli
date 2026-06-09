@@ -9,7 +9,7 @@ import (
 )
 
 func TestV1WebsocketWebsocketHandler(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
+	t.Skip("websocket upgrade endpoint is currently not modeled correctly for stainless")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
