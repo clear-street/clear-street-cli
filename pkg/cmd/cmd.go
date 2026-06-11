@@ -242,14 +242,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "v1:websocket",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1WebsocketWebsocketHandler,
-				},
-			},
-			{
 				Name:            "@manpages",
 				Usage:           "Generate documentation for 'man'",
 				UsageText:       "clst @manpages [-o clst.1] [--gzip]",
