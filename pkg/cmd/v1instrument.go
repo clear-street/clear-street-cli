@@ -47,7 +47,7 @@ var v1InstrumentsGetInstruments = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated instrument identifiers",
+			Usage:     "Comma-separated instrument identifiers: unique identifiers or symbols (symbol for equities, OSI for options)",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
