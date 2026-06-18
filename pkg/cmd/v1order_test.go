@@ -73,6 +73,7 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--from", "'2019-12-27T18:11:19.117Z'",
 			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--instrument-type", "COMMON_STOCK",
+			"--order-id", "string",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--status", "PENDING_NEW",
