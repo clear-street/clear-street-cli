@@ -155,6 +155,11 @@ var v1OrdersGetOrders = cli.Command{
 			Usage:     "Instrument type filter (e.g., COMMON_STOCK, OPTION)",
 			QueryPath: "instrument_type",
 		},
+		&requestflag.Flag[[]string]{
+			Name:      "order-id",
+			Usage:     "Comma-separated order IDs to filter by. When provided, only orders whose order ID is in this set are returned.",
+			QueryPath: "order_ids",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
 			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
