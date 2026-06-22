@@ -17,7 +17,7 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 			"v1:screener", "create-screener",
 			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
 			"--field-filter", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
-			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: LESS_THAN, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
+			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
 			"--name", "name",
 			"--sort", "[{field: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, direction: DESC}]",
 		)
@@ -41,7 +41,7 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 			"--field-filter.period", "QUARTER",
 			"--field-filter.value-type", "DECIMAL",
 			"--filter.left", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
-			"--filter.op", "{name: LESS_THAN, args: [LEFT_INCLUSIVE]}",
+			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
 			"--name", "name",
 			"--sort.field", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
@@ -69,7 +69,7 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 			"      period: QUARTER\n" +
 			"      value_type: DECIMAL\n" +
 			"    op:\n" +
-			"      name: LESS_THAN\n" +
+			"      name: GREATER_OR_EQUAL\n" +
 			"      args:\n" +
 			"        - LEFT_INCLUSIVE\n" +
 			"    right:\n" +
@@ -140,7 +140,7 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
 			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
 			"--field-filter", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
-			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: LESS_THAN, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
+			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
 			"--name", "name",
 			"--sort", "[{field: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, direction: DESC}]",
 		)
@@ -165,7 +165,7 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 			"--field-filter.period", "QUARTER",
 			"--field-filter.value-type", "DECIMAL",
 			"--filter.left", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
-			"--filter.op", "{name: LESS_THAN, args: [LEFT_INCLUSIVE]}",
+			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
 			"--name", "name",
 			"--sort.field", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
@@ -193,7 +193,7 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 			"      period: QUARTER\n" +
 			"      value_type: DECIMAL\n" +
 			"    op:\n" +
-			"      name: LESS_THAN\n" +
+			"      name: GREATER_OR_EQUAL\n" +
 			"      args:\n" +
 			"        - LEFT_INCLUSIVE\n" +
 			"    right:\n" +
@@ -232,7 +232,7 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"v1:screener", "search-screener",
 			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, {name: price, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, {name: volume, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
 			"--field-filter", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
-			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: LESS_THAN, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
+			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
 			"--page-size", "25",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--sort-case-sensitive=true",
@@ -266,7 +266,7 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"--field-filter.period", "QUARTER",
 			"--field-filter.value-type", "DECIMAL",
 			"--filter.left", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
-			"--filter.op", "{name: LESS_THAN, args: [LEFT_INCLUSIVE]}",
+			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
 			"--page-size", "25",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
@@ -304,7 +304,7 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"      period: QUARTER\n" +
 			"      value_type: DECIMAL\n" +
 			"    op:\n" +
-			"      name: LESS_THAN\n" +
+			"      name: GREATER_OR_EQUAL\n" +
 			"      args:\n" +
 			"        - LEFT_INCLUSIVE\n" +
 			"    right:\n" +
