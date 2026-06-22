@@ -38,6 +38,8 @@ func TestV1AccountsGetAccounts(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:accounts", "get-accounts",
+			"--account-id", "account_id",
+			"--account-name", "account_name",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 		)

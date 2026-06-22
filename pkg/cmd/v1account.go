@@ -51,9 +51,19 @@ var v1AccountsGetAccountByID = cli.Command{
 
 var v1AccountsGetAccounts = cli.Command{
 	Name:    "get-accounts",
-	Usage:   "List accounts the authenticated user has permission to access",
+	Usage:   "List accounts the authenticated user has permission to access.",
 	Suggest: true,
 	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "account-id",
+			Usage:     "Filter to accounts whose id starts with this value (lexicographic prefix match on the decimal id, e.g. `100` matches `100345`).",
+			QueryPath: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "account-name",
+			Usage:     "Filter to accounts whose full name contains this value (case-insensitive substring match).",
+			QueryPath: "account_name",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
 			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
