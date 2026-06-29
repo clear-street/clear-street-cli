@@ -25,11 +25,6 @@ var v1ScreenerCreateScreener = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "columns",
 		},
 		&requestflag.Flag[any]{
-			Name:     "field-filter",
-			Usage:    "Deprecated: use `columns` instead. Ignored when `columns` is provided.",
-			BodyPath: "field_filter",
-		},
-		&requestflag.Flag[any]{
 			Name:     "filter",
 			Usage:    "Structured search filter criteria",
 			BodyPath: "filters",
@@ -69,32 +64,6 @@ var v1ScreenerCreateScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:                  "column.value-type",
-			Usage:                 "The data type of a screener field value.",
-			InnerField:            "value_type",
-			OuterIsArrayOfObjects: true,
-		},
-	},
-	"field-filter": {
-		&requestflag.InnerFlag[string]{
-			Name:                  "field-filter.name",
-			Usage:                 "The field name.",
-			InnerField:            "name",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.lookback",
-			Usage:                 "Historical lookback window for price/change fields.",
-			InnerField:            "lookback",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.period",
-			Usage:                 "Reporting period for financial data fields.",
-			InnerField:            "period",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.value-type",
 			Usage:                 "The data type of a screener field value.",
 			InnerField:            "value_type",
 			OuterIsArrayOfObjects: true,
@@ -191,11 +160,6 @@ var v1ScreenerReplaceScreener = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "columns",
 		},
 		&requestflag.Flag[any]{
-			Name:     "field-filter",
-			Usage:    "Deprecated: use `columns` instead. Ignored when `columns` is provided.",
-			BodyPath: "field_filter",
-		},
-		&requestflag.Flag[any]{
 			Name:     "filter",
 			Usage:    "Structured search filter criteria",
 			BodyPath: "filters",
@@ -235,32 +199,6 @@ var v1ScreenerReplaceScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:                  "column.value-type",
-			Usage:                 "The data type of a screener field value.",
-			InnerField:            "value_type",
-			OuterIsArrayOfObjects: true,
-		},
-	},
-	"field-filter": {
-		&requestflag.InnerFlag[string]{
-			Name:                  "field-filter.name",
-			Usage:                 "The field name.",
-			InnerField:            "name",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.lookback",
-			Usage:                 "Historical lookback window for price/change fields.",
-			InnerField:            "lookback",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.period",
-			Usage:                 "Reporting period for financial data fields.",
-			InnerField:            "period",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.value-type",
 			Usage:                 "The data type of a screener field value.",
 			InnerField:            "value_type",
 			OuterIsArrayOfObjects: true,
@@ -313,11 +251,6 @@ var v1ScreenerSearchScreener = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "columns",
 		},
 		&requestflag.Flag[any]{
-			Name:     "field-filter",
-			Usage:    "Deprecated: use `columns` instead. Ignored when `columns` is provided.",
-			BodyPath: "field_filter",
-		},
-		&requestflag.Flag[any]{
 			Name:     "filter",
 			Usage:    "Filter conditions to apply.",
 			BodyPath: "filters",
@@ -367,32 +300,6 @@ var v1ScreenerSearchScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:                  "column.value-type",
-			Usage:                 "The data type of a screener field value.",
-			InnerField:            "value_type",
-			OuterIsArrayOfObjects: true,
-		},
-	},
-	"field-filter": {
-		&requestflag.InnerFlag[string]{
-			Name:                  "field-filter.name",
-			Usage:                 "The field name.",
-			InnerField:            "name",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.lookback",
-			Usage:                 "Historical lookback window for price/change fields.",
-			InnerField:            "lookback",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.period",
-			Usage:                 "Reporting period for financial data fields.",
-			InnerField:            "period",
-			OuterIsArrayOfObjects: true,
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:                  "field-filter.value-type",
 			Usage:                 "The data type of a screener field value.",
 			InnerField:            "value_type",
 			OuterIsArrayOfObjects: true,
