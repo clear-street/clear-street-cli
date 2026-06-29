@@ -16,7 +16,6 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 			"--api-key", "string",
 			"v1:screener", "create-screener",
 			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
-			"--field-filter", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
 			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
 			"--name", "name",
 			"--sort", "[{field: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, direction: DESC}]",
@@ -36,10 +35,6 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 			"--column.lookback", "ONE_DAY",
 			"--column.period", "QUARTER",
 			"--column.value-type", "DECIMAL",
-			"--field-filter.name", "market_cap",
-			"--field-filter.lookback", "ONE_DAY",
-			"--field-filter.period", "QUARTER",
-			"--field-filter.value-type", "DECIMAL",
 			"--filter.left", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
 			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
@@ -53,11 +48,6 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"columns:\n" +
-			"  - name: market_cap\n" +
-			"    lookback: ONE_DAY\n" +
-			"    period: QUARTER\n" +
-			"    value_type: DECIMAL\n" +
-			"field_filter:\n" +
 			"  - name: market_cap\n" +
 			"    lookback: ONE_DAY\n" +
 			"    period: QUARTER\n" +
@@ -139,7 +129,6 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 			"v1:screener", "replace-screener",
 			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
 			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
-			"--field-filter", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
 			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
 			"--name", "name",
 			"--sort", "[{field: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, direction: DESC}]",
@@ -160,10 +149,6 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 			"--column.lookback", "ONE_DAY",
 			"--column.period", "QUARTER",
 			"--column.value-type", "DECIMAL",
-			"--field-filter.name", "market_cap",
-			"--field-filter.lookback", "ONE_DAY",
-			"--field-filter.period", "QUARTER",
-			"--field-filter.value-type", "DECIMAL",
 			"--filter.left", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
 			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
@@ -177,11 +162,6 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"columns:\n" +
-			"  - name: market_cap\n" +
-			"    lookback: ONE_DAY\n" +
-			"    period: QUARTER\n" +
-			"    value_type: DECIMAL\n" +
-			"field_filter:\n" +
 			"  - name: market_cap\n" +
 			"    lookback: ONE_DAY\n" +
 			"    period: QUARTER\n" +
@@ -231,7 +211,6 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"--api-key", "string",
 			"v1:screener", "search-screener",
 			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, {name: price, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, {name: volume, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
-			"--field-filter", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
 			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
 			"--page-size", "25",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
@@ -261,10 +240,6 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"--column.lookback", "ONE_DAY",
 			"--column.period", "QUARTER",
 			"--column.value-type", "DECIMAL",
-			"--field-filter.name", "market_cap",
-			"--field-filter.lookback", "ONE_DAY",
-			"--field-filter.period", "QUARTER",
-			"--field-filter.value-type", "DECIMAL",
 			"--filter.left", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
 			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
@@ -289,11 +264,6 @@ func TestV1ScreenerSearchScreener(t *testing.T) {
 			"    period: QUARTER\n" +
 			"    value_type: DECIMAL\n" +
 			"  - name: volume\n" +
-			"    lookback: ONE_DAY\n" +
-			"    period: QUARTER\n" +
-			"    value_type: DECIMAL\n" +
-			"field_filter:\n" +
-			"  - name: market_cap\n" +
 			"    lookback: ONE_DAY\n" +
 			"    period: QUARTER\n" +
 			"    value_type: DECIMAL\n" +
