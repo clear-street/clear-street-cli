@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
+	"github.com/clear-street/clear-street-cli/internal/requestflag"
 )
 
 func TestV1OrdersCancelAllOpenOrders(t *testing.T) {
@@ -124,6 +125,34 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"v1:orders", "submit-orders",
 			"--account-id", "0",
 			"--order", "{order_type: LIMIT, quantity: '1', side: BUY, time_in_force: DAY, id: my-ref-id-20251001-002, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e, limit_offset: '0.50', limit_price: '48.00', position_effect: OPEN, stop_price: '52.00', symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
+		)
+	})
+
+	t.Run("inner flags", func(t *testing.T) {
+		// Check that inner flags have been set up correctly
+		requestflag.CheckInnerFlags(v1OrdersSubmitOrders)
+
+		// Alternative argument passing style using inner flags
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:orders", "submit-orders",
+			"--account-id", "0",
+			"--order.order-type", "LIMIT",
+			"--order.quantity", "1",
+			"--order.side", "BUY",
+			"--order.time-in-force", "DAY",
+			"--order.id", "my-ref-id-20251001-002",
+			"--order.expires-at", "2025-10-15T16:00:00.000000000Z",
+			"--order.extended-hours=true",
+			"--order.instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--order.limit-offset", "0.50",
+			"--order.limit-price", "48.00",
+			"--order.position-effect", "OPEN",
+			"--order.stop-price", "52.00",
+			"--order.symbol", "TSLA",
+			"--order.trailing-offset", "2.00",
+			"--order.trailing-offset-type", "PRICE",
 		)
 	})
 
