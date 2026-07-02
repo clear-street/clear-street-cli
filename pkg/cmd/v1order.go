@@ -236,7 +236,7 @@ var v1OrdersReplaceOrder = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1OrdersSubmitOrders = cli.Command{
+var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 	Name:    "submit-orders",
 	Usage:   "Submit new orders",
 	Suggest: true,
@@ -254,7 +254,85 @@ var v1OrdersSubmitOrders = cli.Command{
 	},
 	Action:          handleV1OrdersSubmitOrders,
 	HideHelpCommand: true,
-}
+}, map[string][]requestflag.HasOuterFlag{
+	"order": {
+		&requestflag.InnerFlag[string]{
+			Name:       "order.order-type",
+			Usage:      "Strict order-type enum for order submission/replacement requests.",
+			InnerField: "order_type",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "order.quantity",
+			Usage:      "Quantity to trade. For COMMON_STOCK: shares (may be fractional if supported).\nFor OPTION (single-leg): contracts (must be an integer)",
+			InnerField: "quantity",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "order.side",
+			Usage:      "Side of an order",
+			InnerField: "side",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "order.time-in-force",
+			Usage:      "Strict time-in-force enum for order submission/replacement requests.",
+			InnerField: "time_in_force",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.id",
+			Usage:      "Optional client-provided unique ID (idempotency). Required to be unique per account.",
+			InnerField: "id",
+		},
+		&requestflag.InnerFlag[any]{
+			Name:       "order.expires-at",
+			Usage:      "The timestamp when the order should expire (UTC). Required when time_in_force is GOOD_TILL_DATE.",
+			InnerField: "expires_at",
+		},
+		&requestflag.InnerFlag[*bool]{
+			Name:       "order.extended-hours",
+			Usage:      "Allow trading outside regular trading hours. Some brokers disallow options outside RTH.",
+			InnerField: "extended_hours",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.instrument-id",
+			Usage:      "Instrument identifier",
+			InnerField: "instrument_id",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.limit-offset",
+			Usage:      "Limit offset for trailing stop-limit orders (signed)",
+			InnerField: "limit_offset",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.limit-price",
+			Usage:      "Limit price (required for LIMIT and STOP_LIMIT orders)",
+			InnerField: "limit_price",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "order.position-effect",
+			Usage:      "Position effect for options orders",
+			InnerField: "position_effect",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.stop-price",
+			Usage:      "Stop price (required for STOP and STOP_LIMIT orders)",
+			InnerField: "stop_price",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.symbol",
+			Usage:      "Trading symbol. For equities, use the ticker symbol (e.g., \"TSLA\").\nFor options, use the OSI symbol (e.g., \"TSLA  250117C00190000\").\nEither `symbol` or `instrument_id` must be provided.",
+			InnerField: "symbol",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.trailing-offset",
+			Usage:      "Trailing offset amount (required for trailing orders)",
+			InnerField: "trailing_offset",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.trailing-offset-type",
+			Usage:      "Trailing offset type for trailing stop orders.",
+			InnerField: "trailing_offset_type",
+		},
+	},
+})
 
 func handleV1OrdersCancelAllOpenOrders(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
