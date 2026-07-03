@@ -84,10 +84,10 @@ var v1OrdersGetExecutions = cli.Command{
 			Usage:     "The start date and time for the query range, inclusive (ISO 8601 format)",
 			QueryPath: "from",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
-			QueryPath: "instrument_id",
+			Usage:     "Comma-separated instrument identifiers (UUIDs) or symbols (e.g. `AAPL`) to filter by. When provided, only executions for any of the listed instruments are returned.",
+			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
