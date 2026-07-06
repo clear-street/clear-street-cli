@@ -306,11 +306,6 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Limit price (required for LIMIT and STOP_LIMIT orders)",
 			InnerField: "limit_price",
 		},
-		&requestflag.InnerFlag[string]{
-			Name:       "order.position-effect",
-			Usage:      "Position effect for options orders",
-			InnerField: "position_effect",
-		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "order.stop-price",
 			Usage:      "Stop price (required for STOP and STOP_LIMIT orders)",
