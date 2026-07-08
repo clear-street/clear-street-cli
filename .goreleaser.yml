@@ -67,7 +67,7 @@ snapshot:
 
 nfpms:
   - license: Apache-2.0
-    maintainer: support@clearstreet.io
+    maintainer: concierge@clearstreet.com
     bindir: /usr
     formats:
       - apk
