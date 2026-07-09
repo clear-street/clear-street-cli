@@ -1,6 +1,6 @@
 # Clear Street CLI
 
-The official CLI for the Clear Street REST API.
+The official CLI for the [Clear Street REST API](https://docs.clearstreet.com/?utm_source=github&utm_medium=developer&utm_campaign=developer_tools&utm_content=cli_readme_docs).
 
 It is generated with [Stainless](https://www.stainless.com/).
 
