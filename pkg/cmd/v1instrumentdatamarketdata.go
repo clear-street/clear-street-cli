@@ -16,12 +16,12 @@ import (
 
 var v1InstrumentDataMarketDataGetDailySummaries = cli.Command{
 	Name:    "get-daily-summaries",
-	Usage:   "Returns the most recent OHLV and current price for the requested OEMS\ninstruments. Backed by the in-memory Polygon snapshot cache.",
+	Usage:   "Returns the most recent open, high, low, volume (OHLV) and current price for the\nrequested instruments.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-ids",
-			Usage:     "Comma-separated OEMS instrument UUIDs (required, 1..=100)",
+			Usage:     "Comma-separated instrument identifiers (required, 1..=100)",
 			Required:  true,
 			QueryPath: "instrument_ids",
 		},
@@ -37,7 +37,7 @@ var v1InstrumentDataMarketDataGetSnapshots = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs.",
+			Usage:     "Comma-separated instrument identifiers.",
 			QueryPath: "instrument_ids",
 		},
 	},

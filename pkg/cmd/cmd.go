@@ -229,6 +229,19 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:screener",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1ScreenerCreateScreener,
+					&v1ScreenerDeleteScreener,
+					&v1ScreenerGetScreenerByID,
+					&v1ScreenerGetScreeners,
+					&v1ScreenerReplaceScreener,
+					&v1ScreenerSearchScreener,
+				},
+			},
+			{
 				Name:     "v1:watchlist",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -239,14 +252,6 @@ func init() {
 					&v1WatchlistDeleteWatchlistItem,
 					&v1WatchlistGetWatchlistByID,
 					&v1WatchlistGetWatchlists,
-				},
-			},
-			{
-				Name:     "v1:websocket",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1WebsocketWebsocketHandler,
 				},
 			},
 			{

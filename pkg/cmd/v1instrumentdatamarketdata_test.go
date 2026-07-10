@@ -9,7 +9,6 @@ import (
 )
 
 func TestV1InstrumentDataMarketDataGetDailySummaries(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -21,7 +20,6 @@ func TestV1InstrumentDataMarketDataGetDailySummaries(t *testing.T) {
 }
 
 func TestV1InstrumentDataMarketDataGetSnapshots(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

@@ -10,7 +10,6 @@ import (
 )
 
 func TestV1AccountsGetAccountBalances(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -23,7 +22,6 @@ func TestV1AccountsGetAccountBalances(t *testing.T) {
 }
 
 func TestV1AccountsGetAccountByID(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -35,12 +33,13 @@ func TestV1AccountsGetAccountByID(t *testing.T) {
 }
 
 func TestV1AccountsGetAccounts(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
 			"v1:accounts", "get-accounts",
+			"--account-id", "account_id",
+			"--account-name", "account_name",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 		)
@@ -48,7 +47,6 @@ func TestV1AccountsGetAccounts(t *testing.T) {
 }
 
 func TestV1AccountsGetPortfolioHistory(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -62,7 +60,6 @@ func TestV1AccountsGetPortfolioHistory(t *testing.T) {
 }
 
 func TestV1AccountsPatchAccountByID(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

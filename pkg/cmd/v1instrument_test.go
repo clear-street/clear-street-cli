@@ -9,7 +9,6 @@ import (
 )
 
 func TestV1InstrumentsGetInstrumentByID(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -22,7 +21,6 @@ func TestV1InstrumentsGetInstrumentByID(t *testing.T) {
 }
 
 func TestV1InstrumentsGetInstruments(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -43,7 +41,6 @@ func TestV1InstrumentsGetInstruments(t *testing.T) {
 }
 
 func TestV1InstrumentsGetOptionContracts(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -60,7 +57,6 @@ func TestV1InstrumentsGetOptionContracts(t *testing.T) {
 }
 
 func TestV1InstrumentsSearchInstruments(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

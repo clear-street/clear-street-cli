@@ -21,7 +21,7 @@ var v1InstrumentsGetInstrumentByID = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -47,7 +47,7 @@ var v1InstrumentsGetInstruments = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs",
+			Usage:     "Comma-separated instrument identifiers: unique identifiers or symbols (symbol for equities, OSI for options)",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
@@ -129,7 +129,7 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "underlying-instrument-id",
-			Usage:     "OEMS instrument UUID",
+			Usage:     "Instrument identifier",
 			QueryPath: "underlying_instrument_id",
 		},
 	},
@@ -144,7 +144,7 @@ var v1InstrumentsSearchInstruments = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "q",
-			Usage:     "Search term applied case-insensitively to ticker symbols, alternate identifiers (CUSIP, ISIN, OPRA root, CMS), and company names for non-option instruments. Option searches match symbols and alternate identifiers.",
+			Usage:     "Search term applied case-insensitively to ticker symbols, alternate identifiers (CUSIP, ISIN, OPRA root), and company names for non-option instruments. Option searches match symbols and alternate identifiers.",
 			Required:  true,
 			QueryPath: "q",
 		},

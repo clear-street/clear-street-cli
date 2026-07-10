@@ -10,7 +10,6 @@ import (
 )
 
 func TestV1PositionsCancelPositionInstruction(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -23,7 +22,6 @@ func TestV1PositionsCancelPositionInstruction(t *testing.T) {
 }
 
 func TestV1PositionsClosePosition(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -49,7 +47,6 @@ func TestV1PositionsClosePosition(t *testing.T) {
 }
 
 func TestV1PositionsClosePositions(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -73,7 +70,6 @@ func TestV1PositionsClosePositions(t *testing.T) {
 }
 
 func TestV1PositionsGetPositionInstructions(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -86,7 +82,6 @@ func TestV1PositionsGetPositionInstructions(t *testing.T) {
 }
 
 func TestV1PositionsGetPositions(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -103,7 +98,6 @@ func TestV1PositionsGetPositions(t *testing.T) {
 }
 
 func TestV1PositionsSubmitPositionInstructions(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,

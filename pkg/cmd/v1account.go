@@ -26,7 +26,7 @@ var v1AccountsGetAccountBalances = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "top-margin-contributors-limit",
-			Usage:     "Limit the number of top margin contributors returned by the engine.",
+			Usage:     "Limit the number of top margin contributors returned.",
 			QueryPath: "top_margin_contributors_limit",
 		},
 	},
@@ -51,9 +51,19 @@ var v1AccountsGetAccountByID = cli.Command{
 
 var v1AccountsGetAccounts = cli.Command{
 	Name:    "get-accounts",
-	Usage:   "List accounts the authenticated user has permission to access",
+	Usage:   "List accounts the authenticated user has permission to access.",
 	Suggest: true,
 	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "account-id",
+			Usage:     "Filter to accounts whose id starts with this value (lexicographic prefix match on the decimal id, e.g. `100` matches `100345`).",
+			QueryPath: "account_id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "account-name",
+			Usage:     "Filter to accounts whose full name contains this value (case-insensitive substring match).",
+			QueryPath: "account_name",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
 			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
@@ -118,7 +128,7 @@ var v1AccountsPatchAccountByID = requestflag.WithInnerFlags(cli.Command{
 	"risk": {
 		&requestflag.InnerFlag[*string]{
 			Name:       "risk.max-notional",
-			Usage:      "The maximum notional value available to the account",
+			Usage:      "The maximum notional value available to the account\nWhen a null/undefined value is observed, it indicates that there is no available data.",
 			InnerField: "max_notional",
 		},
 	},

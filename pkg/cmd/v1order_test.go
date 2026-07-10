@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/clear-street/clear-street-cli/internal/mocktest"
+	"github.com/clear-street/clear-street-cli/internal/requestflag"
 )
 
 func TestV1OrdersCancelAllOpenOrders(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -25,7 +25,6 @@ func TestV1OrdersCancelAllOpenOrders(t *testing.T) {
 }
 
 func TestV1OrdersCancelOpenOrder(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -38,7 +37,6 @@ func TestV1OrdersCancelOpenOrder(t *testing.T) {
 }
 
 func TestV1OrdersGetExecutions(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -55,7 +53,6 @@ func TestV1OrdersGetExecutions(t *testing.T) {
 }
 
 func TestV1OrdersGetOrderByID(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -68,7 +65,6 @@ func TestV1OrdersGetOrderByID(t *testing.T) {
 }
 
 func TestV1OrdersGetOrders(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -78,6 +74,7 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--from", "'2019-12-27T18:11:19.117Z'",
 			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--instrument-type", "COMMON_STOCK",
+			"--order-id", "string",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--status", "PENDING_NEW",
@@ -89,7 +86,6 @@ func TestV1OrdersGetOrders(t *testing.T) {
 }
 
 func TestV1OrdersReplaceOrder(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -97,9 +93,9 @@ func TestV1OrdersReplaceOrder(t *testing.T) {
 			"v1:orders", "replace-order",
 			"--account-id", "0",
 			"--order-id", "order_id",
-			"--limit-price", "150.50",
-			"--quantity", "125",
-			"--stop-price", "148.00",
+			"--limit-price", "49.00",
+			"--quantity", "1",
+			"--stop-price", "52.00",
 			"--time-in-force", "DAY",
 		)
 	})
@@ -107,9 +103,9 @@ func TestV1OrdersReplaceOrder(t *testing.T) {
 	t.Run("piping data", func(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
-			"limit_price: '150.50'\n" +
-			"quantity: '125'\n" +
-			"stop_price: '148.00'\n" +
+			"limit_price: '49.00'\n" +
+			"quantity: '1'\n" +
+			"stop_price: '52.00'\n" +
 			"time_in_force: DAY\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
@@ -122,41 +118,60 @@ func TestV1OrdersReplaceOrder(t *testing.T) {
 }
 
 func TestV1OrdersSubmitOrders(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
 			"v1:orders", "submit-orders",
 			"--account-id", "0",
-			"--order", "{legs: [{ratio: ratio, security: 0193bb84-447a-706f-996f-097254663f02, side: BUY, id: '1', position_effect: OPEN}, {ratio: ratio, security: 0193bb84-4db4-78ec-b4fd-cba8be61cf8a, side: SELL, id: '2', position_effect: OPEN}, {ratio: ratio, security: 0193bb84-5264-7f20-8fd3-35df82cd6ef0, side: BUY, id: '3', position_effect: OPEN}], order_type: LIMIT, time_in_force: DAY, id: my-mleg-ref-20251001-001, limit_price: '0.50', quantity: '1'}",
+			"--order", "{order_type: LIMIT, quantity: '1', side: BUY, time_in_force: DAY, id: my-ref-id-20251001-002, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e, limit_offset: '0.50', limit_price: '48.00', stop_price: '52.00', symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
+		)
+	})
+
+	t.Run("inner flags", func(t *testing.T) {
+		// Check that inner flags have been set up correctly
+		requestflag.CheckInnerFlags(v1OrdersSubmitOrders)
+
+		// Alternative argument passing style using inner flags
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:orders", "submit-orders",
+			"--account-id", "0",
+			"--order.order-type", "LIMIT",
+			"--order.quantity", "1",
+			"--order.side", "BUY",
+			"--order.time-in-force", "DAY",
+			"--order.id", "my-ref-id-20251001-002",
+			"--order.expires-at", "2025-10-15T16:00:00.000000000Z",
+			"--order.extended-hours=true",
+			"--order.instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--order.limit-offset", "0.50",
+			"--order.limit-price", "48.00",
+			"--order.stop-price", "52.00",
+			"--order.symbol", "TSLA",
+			"--order.trailing-offset", "2.00",
+			"--order.trailing-offset-type", "PRICE",
 		)
 	})
 
 	t.Run("piping data", func(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
-			"- legs:\n" +
-			"    - ratio: ratio\n" +
-			"      security: 0193bb84-447a-706f-996f-097254663f02\n" +
-			"      side: BUY\n" +
-			"      id: '1'\n" +
-			"      position_effect: OPEN\n" +
-			"    - ratio: ratio\n" +
-			"      security: 0193bb84-4db4-78ec-b4fd-cba8be61cf8a\n" +
-			"      side: SELL\n" +
-			"      id: '2'\n" +
-			"      position_effect: OPEN\n" +
-			"    - ratio: ratio\n" +
-			"      security: 0193bb84-5264-7f20-8fd3-35df82cd6ef0\n" +
-			"      side: BUY\n" +
-			"      id: '3'\n" +
-			"      position_effect: OPEN\n" +
-			"  order_type: LIMIT\n" +
+			"- order_type: LIMIT\n" +
+			"  quantity: '1'\n" +
+			"  side: BUY\n" +
 			"  time_in_force: DAY\n" +
-			"  id: my-mleg-ref-20251001-001\n" +
-			"  limit_price: '0.50'\n" +
-			"  quantity: '1'\n")
+			"  id: my-ref-id-20251001-002\n" +
+			"  expires_at: '2025-10-15T16:00:00.000000000Z'\n" +
+			"  extended_hours: true\n" +
+			"  instrument_id: 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e\n" +
+			"  limit_offset: '0.50'\n" +
+			"  limit_price: '48.00'\n" +
+			"  stop_price: '52.00'\n" +
+			"  symbol: TSLA\n" +
+			"  trailing_offset: '2.00'\n" +
+			"  trailing_offset_type: PRICE\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",

@@ -26,7 +26,7 @@ var v1OrdersCancelAllOpenOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs",
+			Usage:     "Comma-separated instrument identifiers",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
@@ -84,10 +84,10 @@ var v1OrdersGetExecutions = cli.Command{
 			Usage:     "The start date and time for the query range, inclusive (ISO 8601 format)",
 			QueryPath: "from",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "OEMS instrument UUID",
-			QueryPath: "instrument_id",
+			Usage:     "Comma-separated instrument identifiers (UUIDs) or symbols (e.g. `AAPL`) to filter by. When provided, only executions for any of the listed instruments are returned.",
+			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
@@ -147,13 +147,18 @@ var v1OrdersGetOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs",
+			Usage:     "Comma-separated instrument identifiers",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-type",
 			Usage:     "Instrument type filter (e.g., COMMON_STOCK, OPTION)",
 			QueryPath: "instrument_type",
+		},
+		&requestflag.Flag[[]string]{
+			Name:      "order-id",
+			Usage:     "Comma-separated order IDs to filter by. When provided, only orders whose order ID is in this set are returned.",
+			QueryPath: "order_ids",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
@@ -183,7 +188,7 @@ var v1OrdersGetOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "underlying-instrument-id",
-			Usage:     "Comma-separated OEMS instrument UUIDs. Matches options orders whose resolved underlier is any of the given IDs.",
+			Usage:     "Comma-separated instrument identifiers. Matches options orders whose resolved underlier is any of the given IDs.",
 			QueryPath: "underlying_instrument_ids",
 		},
 	},
@@ -231,7 +236,7 @@ var v1OrdersReplaceOrder = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1OrdersSubmitOrders = cli.Command{
+var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 	Name:    "submit-orders",
 	Usage:   "Submit new orders",
 	Suggest: true,
@@ -249,7 +254,80 @@ var v1OrdersSubmitOrders = cli.Command{
 	},
 	Action:          handleV1OrdersSubmitOrders,
 	HideHelpCommand: true,
-}
+}, map[string][]requestflag.HasOuterFlag{
+	"order": {
+		&requestflag.InnerFlag[string]{
+			Name:       "order.order-type",
+			Usage:      "Strict order-type enum for order submission/replacement requests.",
+			InnerField: "order_type",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "order.quantity",
+			Usage:      "Quantity to trade. For COMMON_STOCK: shares (may be fractional if supported).\nFor OPTION (single-leg): contracts (must be an integer)",
+			InnerField: "quantity",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "order.side",
+			Usage:      "Side of an order",
+			InnerField: "side",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "order.time-in-force",
+			Usage:      "Strict time-in-force enum for order submission/replacement requests.",
+			InnerField: "time_in_force",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.id",
+			Usage:      "Optional client-provided unique ID (idempotency). Required to be unique per account.",
+			InnerField: "id",
+		},
+		&requestflag.InnerFlag[any]{
+			Name:       "order.expires-at",
+			Usage:      "The timestamp when the order should expire (UTC). Required when time_in_force is GOOD_TILL_DATE.",
+			InnerField: "expires_at",
+		},
+		&requestflag.InnerFlag[*bool]{
+			Name:       "order.extended-hours",
+			Usage:      "Allow trading outside regular trading hours. Some brokers disallow options outside RTH.",
+			InnerField: "extended_hours",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.instrument-id",
+			Usage:      "Instrument identifier",
+			InnerField: "instrument_id",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.limit-offset",
+			Usage:      "Limit offset for trailing stop-limit orders (signed)",
+			InnerField: "limit_offset",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.limit-price",
+			Usage:      "Limit price (required for LIMIT and STOP_LIMIT orders)",
+			InnerField: "limit_price",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.stop-price",
+			Usage:      "Stop price (required for STOP and STOP_LIMIT orders)",
+			InnerField: "stop_price",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.symbol",
+			Usage:      "Trading symbol. For equities, use the ticker symbol (e.g., \"TSLA\").\nFor options, use the OSI symbol (e.g., \"TSLA  250117C00190000\").\nEither `symbol` or `instrument_id` must be provided.",
+			InnerField: "symbol",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.trailing-offset",
+			Usage:      "Trailing offset amount (required for trailing orders)",
+			InnerField: "trailing_offset",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.trailing-offset-type",
+			Usage:      "Trailing offset type for trailing stop orders.",
+			InnerField: "trailing_offset_type",
+		},
+	},
+})
 
 func handleV1OrdersCancelAllOpenOrders(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)

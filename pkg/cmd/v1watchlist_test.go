@@ -9,7 +9,6 @@ import (
 )
 
 func TestV1WatchlistAddWatchlistItem(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -33,7 +32,6 @@ func TestV1WatchlistAddWatchlistItem(t *testing.T) {
 }
 
 func TestV1WatchlistCreateWatchlist(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -55,7 +53,6 @@ func TestV1WatchlistCreateWatchlist(t *testing.T) {
 }
 
 func TestV1WatchlistDeleteWatchlist(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -67,7 +64,6 @@ func TestV1WatchlistDeleteWatchlist(t *testing.T) {
 }
 
 func TestV1WatchlistDeleteWatchlistItem(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -80,7 +76,6 @@ func TestV1WatchlistDeleteWatchlistItem(t *testing.T) {
 }
 
 func TestV1WatchlistGetWatchlistByID(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
@@ -92,7 +87,6 @@ func TestV1WatchlistGetWatchlistByID(t *testing.T) {
 }
 
 func TestV1WatchlistGetWatchlists(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
