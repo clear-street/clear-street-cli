@@ -147,7 +147,7 @@ var v1OrdersGetOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated instrument identifiers",
+			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols).",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
@@ -188,7 +188,7 @@ var v1OrdersGetOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "underlying-instrument-id",
-			Usage:     "Comma-separated instrument identifiers. Matches options orders whose resolved underlier is any of the given IDs.",
+			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols). Matches options orders whose resolved underlier is any of the given instruments.",
 			QueryPath: "underlying_instrument_ids",
 		},
 	},
