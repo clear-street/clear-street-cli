@@ -31,6 +31,7 @@ var v1CalendarGetMarketHoursCalendar = cli.Command{
 		&requestflag.Flag[string]{
 			Name:      "date",
 			Usage:     "The date to query market hours for (YYYY-MM-DD). Defaults to today.",
+			Required:  true,
 			QueryPath: "date",
 		},
 		&requestflag.Flag[string]{
