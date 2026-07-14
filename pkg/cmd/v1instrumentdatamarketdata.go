@@ -37,7 +37,7 @@ var v1InstrumentDataMarketDataGetSnapshots = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated instrument identifiers.",
+			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols).",
 			QueryPath: "instrument_ids",
 		},
 	},
