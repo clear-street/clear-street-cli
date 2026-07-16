@@ -69,8 +69,8 @@ var v1OmniAIEntitlementsGetEntitlements = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
-			Name:      "account-id",
-			QueryPath: "account_id",
+			Name:      "trading-account-id",
+			QueryPath: "trading_account_id",
 		},
 	},
 	Action:          handleV1OmniAIEntitlementsGetEntitlements,
