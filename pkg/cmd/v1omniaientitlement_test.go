@@ -65,7 +65,7 @@ func TestV1OmniAIEntitlementsGetEntitlements(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:omni-ai:entitlements", "get-entitlements",
-			"--account-id", "0",
+			"--trading-account-id", "0",
 		)
 	})
 }
