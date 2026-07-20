@@ -96,7 +96,6 @@ func TestV1OrdersReplaceOrder(t *testing.T) {
 			"--limit-price", "49.00",
 			"--quantity", "1",
 			"--stop-price", "52.00",
-			"--time-in-force", "DAY",
 		)
 	})
 
@@ -105,8 +104,7 @@ func TestV1OrdersReplaceOrder(t *testing.T) {
 		pipeData := []byte("" +
 			"limit_price: '49.00'\n" +
 			"quantity: '1'\n" +
-			"stop_price: '52.00'\n" +
-			"time_in_force: DAY\n")
+			"stop_price: '52.00'\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",

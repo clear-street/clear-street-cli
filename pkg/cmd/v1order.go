@@ -226,11 +226,6 @@ var v1OrdersReplaceOrder = cli.Command{
 			Usage:    "New stop price for the order",
 			BodyPath: "stop_price",
 		},
-		&requestflag.Flag[string]{
-			Name:     "time-in-force",
-			Usage:    "Strict time-in-force enum for order submission/replacement requests.",
-			BodyPath: "time_in_force",
-		},
 	},
 	Action:          handleV1OrdersReplaceOrder,
 	HideHelpCommand: true,
@@ -273,7 +268,7 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "order.time-in-force",
-			Usage:      "Strict time-in-force enum for order submission/replacement requests.",
+			Usage:      "Strict time-in-force enum for order submission requests.",
 			InnerField: "time_in_force",
 		},
 		&requestflag.InnerFlag[*string]{
