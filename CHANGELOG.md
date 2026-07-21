@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.4.0 (2026-07-21)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/clear-street/clear-street-cli/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **api:** api update ([b8037fa](https://github.com/clear-street/clear-street-cli/commit/b8037fa959fd8ce937b3ddc5f98be16c3c0cb26d))
+* **api:** api update ([71f711e](https://github.com/clear-street/clear-street-cli/commit/71f711ecaccc2bf760e4b7b6adec4e1cbc577a8f))
+* **api:** api update ([20fc395](https://github.com/clear-street/clear-street-cli/commit/20fc3958742875666d99b3c3aec4bf16148327b5))
+* **api:** api update ([fcd860e](https://github.com/clear-street/clear-street-cli/commit/fcd860e298615b9c94d9081a00b261cb31fc3d0d))
+* **api:** api update ([226798d](https://github.com/clear-street/clear-street-cli/commit/226798d5b87b2c9f026e3fed2824b093fdb7c49c))
+* **api:** api update ([d394ef2](https://github.com/clear-street/clear-street-cli/commit/d394ef2642bd6cad22cce0248bcf39cf27094705))
+* **api:** api update ([cc3b356](https://github.com/clear-street/clear-street-cli/commit/cc3b35624e610309d3db12147f4c6475ac14c191))
+* **api:** manual updates ([49b0d2f](https://github.com/clear-street/clear-street-cli/commit/49b0d2f54b76190973e7998d5409b24b4c904882))
+* **api:** manual updates ([1905474](https://github.com/clear-street/clear-street-cli/commit/1905474522189097cfaa5feb0e900f1c06e7c96c))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([8f2d8a8](https://github.com/clear-street/clear-street-cli/commit/8f2d8a864b0e15d610f78ea17c71ecbefa8f1b34))
+
 ## 0.3.0 (2026-07-09)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/clear-street/clear-street-cli/compare/v0.2.0...v0.3.0)
