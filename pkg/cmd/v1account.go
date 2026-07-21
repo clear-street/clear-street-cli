@@ -36,7 +36,7 @@ var v1AccountsGetAccountBalances = cli.Command{
 
 var v1AccountsGetAccountByID = cli.Command{
 	Name:    "get-account-by-id",
-	Usage:   "Fetch account details by ID",
+	Usage:   "Fetch account details by ID, including the mailing address, date of birth, phone\nnumber, and country of tax residency of the account-holder entity when on file.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
