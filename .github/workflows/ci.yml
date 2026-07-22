@@ -27,9 +27,25 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: ./.github/actions/setup-go
+      - name: Generate Go SDK token
+        if: startsWith(github.repository, 'clear-street-internal/') || startsWith(github.repository, 'clear-street/')
+        id: go-sdk-token
+        uses: actions/create-github-app-token@v3
         with:
-          stainless-api-key: ${{ secrets.STAINLESS_API_KEY }}
+          client-id: ${{ startsWith(github.repository, 'clear-street-internal/') && secrets.STLC_CLIENT_ID || secrets.STLC_CLIENT_ID_PROD }}
+          private-key: ${{ startsWith(github.repository, 'clear-street-internal/') && secrets.STLC_PRIVATE_KEY || secrets.STLC_CLIENT_PRIVATE_KEY_PROD }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.repository == 'clear-street-internal/clear-street-active-cli-staging' && 'clear-street-active-go-staging' || 'clear-street-go' }}
+
+      - name: Authenticate git for the Go SDK repo
+        if: steps.go-sdk-token.outputs.token != ''
+        env:
+          GH_TOKEN: ${{ steps.go-sdk-token.outputs.token }}
+        run: |
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+          echo "GIT_CONFIG_GLOBAL=${HOME}/.gitconfig" >> "$GITHUB_ENV"
+
+      - uses: ./.github/actions/setup-go
 
       - name: Link staging branch
         if: github.repository == 'stainless-sdks/clear-street-cli'
@@ -53,9 +69,25 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: ./.github/actions/setup-go
+      - name: Generate Go SDK token
+        if: startsWith(github.repository, 'clear-street-internal/') || startsWith(github.repository, 'clear-street/')
+        id: go-sdk-token
+        uses: actions/create-github-app-token@v3
         with:
-          stainless-api-key: ${{ secrets.STAINLESS_API_KEY }}
+          client-id: ${{ startsWith(github.repository, 'clear-street-internal/') && secrets.STLC_CLIENT_ID || secrets.STLC_CLIENT_ID_PROD }}
+          private-key: ${{ startsWith(github.repository, 'clear-street-internal/') && secrets.STLC_PRIVATE_KEY || secrets.STLC_CLIENT_PRIVATE_KEY_PROD }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.repository == 'clear-street-internal/clear-street-active-cli-staging' && 'clear-street-active-go-staging' || 'clear-street-go' }}
+
+      - name: Authenticate git for the Go SDK repo
+        if: steps.go-sdk-token.outputs.token != ''
+        env:
+          GH_TOKEN: ${{ steps.go-sdk-token.outputs.token }}
+        run: |
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+          echo "GIT_CONFIG_GLOBAL=${HOME}/.gitconfig" >> "$GITHUB_ENV"
+
+      - uses: ./.github/actions/setup-go
 
       - name: Link staging branch
         if: github.repository == 'stainless-sdks/clear-street-cli'
@@ -100,9 +132,25 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: ./.github/actions/setup-go
+      - name: Generate Go SDK token
+        if: startsWith(github.repository, 'clear-street-internal/') || startsWith(github.repository, 'clear-street/')
+        id: go-sdk-token
+        uses: actions/create-github-app-token@v3
         with:
-          stainless-api-key: ${{ secrets.STAINLESS_API_KEY }}
+          client-id: ${{ startsWith(github.repository, 'clear-street-internal/') && secrets.STLC_CLIENT_ID || secrets.STLC_CLIENT_ID_PROD }}
+          private-key: ${{ startsWith(github.repository, 'clear-street-internal/') && secrets.STLC_PRIVATE_KEY || secrets.STLC_CLIENT_PRIVATE_KEY_PROD }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.repository == 'clear-street-internal/clear-street-active-cli-staging' && 'clear-street-active-go-staging' || 'clear-street-go' }}
+
+      - name: Authenticate git for the Go SDK repo
+        if: steps.go-sdk-token.outputs.token != ''
+        env:
+          GH_TOKEN: ${{ steps.go-sdk-token.outputs.token }}
+        run: |
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+          echo "GIT_CONFIG_GLOBAL=${HOME}/.gitconfig" >> "$GITHUB_ENV"
+
+      - uses: ./.github/actions/setup-go
 
       - name: Link staging branch
         if: github.repository == 'stainless-sdks/clear-street-cli'
