@@ -16,7 +16,7 @@ import (
 
 var v1InstrumentDataGetAllInstrumentEvents = cli.Command{
 	Name:    "get-all-instrument-events",
-	Usage:   "List instrument events across all securities.",
+	Usage:   "List instrument events across all securities, grouped by date.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{
