@@ -25,7 +25,7 @@ func TestV1InstrumentDataMarketDataGetSnapshots(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:instrument-data:market-data", "get-snapshots",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 		)
 	})
 }

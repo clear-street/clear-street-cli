@@ -16,7 +16,7 @@ func TestV1OrdersCancelAllOpenOrders(t *testing.T) {
 			"--api-key", "string",
 			"v1:orders", "cancel-all-open-orders",
 			"--account-id", "0",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 			"--instrument-type", "COMMON_STOCK",
 			"--side", "BUY",
 			"--type", "MARKET",
@@ -44,7 +44,7 @@ func TestV1OrdersGetExecutions(t *testing.T) {
 			"v1:orders", "get-executions",
 			"--account-id", "0",
 			"--from", "'2019-12-27T18:11:19.117Z'",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--to", "'2019-12-27T18:11:19.117Z'",
@@ -72,7 +72,7 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"v1:orders", "get-orders",
 			"--account-id", "0",
 			"--from", "'2019-12-27T18:11:19.117Z'",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 			"--instrument-type", "COMMON_STOCK",
 			"--order-id", "string",
 			"--page-size", "1",
@@ -80,7 +80,7 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--status", "PENDING_NEW",
 			"--symbol", "symbol",
 			"--to", "'2019-12-27T18:11:19.117Z'",
-			"--underlying-instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--underlying-instrument-id", "x",
 		)
 	})
 }
@@ -122,7 +122,7 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"--api-key", "string",
 			"v1:orders", "submit-orders",
 			"--account-id", "0",
-			"--order", "{order_type: LIMIT, quantity: '1', side: BUY, time_in_force: DAY, id: my-ref-id-20251001-002, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e, limit_offset: '0.50', limit_price: '48.00', stop_price: '52.00', symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
+			"--order", "{order_type: LIMIT, quantity: '1', side: BUY, time_in_force: DAY, id: my-ref-id-20251001-002, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: x, limit_offset: '0.50', limit_price: '48.00', stop_price: '52.00', symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
 		)
 	})
 
@@ -143,7 +143,7 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"--order.id", "my-ref-id-20251001-002",
 			"--order.expires-at", "2025-10-15T16:00:00.000000000Z",
 			"--order.extended-hours=true",
-			"--order.instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--order.instrument-id", "x",
 			"--order.limit-offset", "0.50",
 			"--order.limit-price", "48.00",
 			"--order.stop-price", "52.00",
@@ -163,7 +163,7 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"  id: my-ref-id-20251001-002\n" +
 			"  expires_at: '2025-10-15T16:00:00.000000000Z'\n" +
 			"  extended_hours: true\n" +
-			"  instrument_id: 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e\n" +
+			"  instrument_id: x\n" +
 			"  limit_offset: '0.50'\n" +
 			"  limit_price: '48.00'\n" +
 			"  stop_price: '52.00'\n" +

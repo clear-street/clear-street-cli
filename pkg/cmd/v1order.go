@@ -288,7 +288,7 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "order.instrument-id",
-			Usage:      "Instrument identifier",
+			Usage:      "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			InnerField: "instrument_id",
 		},
 		&requestflag.InnerFlag[*string]{

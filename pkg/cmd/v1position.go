@@ -46,7 +46,7 @@ var v1PositionsClosePosition = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -92,7 +92,7 @@ var v1PositionsGetPositionInstructions = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			QueryPath: "instrument_id",
 		},
 	},

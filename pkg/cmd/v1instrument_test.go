@@ -14,7 +14,7 @@ func TestV1InstrumentsGetInstrumentByID(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:instruments", "get-instrument-by-id",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 			"--include-options-expiry-dates=true",
 		)
 	})
@@ -27,7 +27,7 @@ func TestV1InstrumentsGetInstruments(t *testing.T) {
 			"--api-key", "string",
 			"v1:instruments", "get-instruments",
 			"--easy-to-borrow=true",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 			"--instrument-type", "COMMON_STOCK",
 			"--is-liquidation-only=true",
 			"--is-marginable=true",
@@ -51,7 +51,7 @@ func TestV1InstrumentsGetOptionContracts(t *testing.T) {
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--underlier", "underlier",
-			"--underlying-instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--underlying-instrument-id", "x",
 		)
 	})
 }

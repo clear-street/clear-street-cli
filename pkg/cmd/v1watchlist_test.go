@@ -15,13 +15,13 @@ func TestV1WatchlistAddWatchlistItem(t *testing.T) {
 			"--api-key", "string",
 			"v1:watchlist", "add-watchlist-item",
 			"--watchlist-id", "550e8400-e29b-41d4-a716-446655440000",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 		)
 	})
 
 	t.Run("piping data", func(t *testing.T) {
 		// Test piping YAML data over stdin
-		pipeData := []byte("instrument_id: 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+		pipeData := []byte("instrument_id: x")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",

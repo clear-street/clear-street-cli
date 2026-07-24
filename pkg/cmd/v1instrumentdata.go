@@ -51,7 +51,7 @@ var v1InstrumentDataGetInstrumentAnalystConsensus = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -77,7 +77,7 @@ var v1InstrumentDataGetInstrumentBalanceSheetStatements = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -114,7 +114,7 @@ var v1InstrumentDataGetInstrumentCashFlowStatements = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -151,7 +151,7 @@ var v1InstrumentDataGetInstrumentEvents = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -177,7 +177,7 @@ var v1InstrumentDataGetInstrumentFundamentals = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -193,7 +193,7 @@ var v1InstrumentDataGetInstrumentIncomeStatements = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -292,7 +292,7 @@ func handleV1InstrumentDataGetInstrumentAnalystConsensus(ctx context.Context, cm
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.InstrumentData.GetInstrumentAnalystConsensus(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)
@@ -341,7 +341,7 @@ func handleV1InstrumentDataGetInstrumentBalanceSheetStatements(ctx context.Conte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.InstrumentData.GetInstrumentBalanceSheetStatements(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)
@@ -390,7 +390,7 @@ func handleV1InstrumentDataGetInstrumentCashFlowStatements(ctx context.Context, 
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.InstrumentData.GetInstrumentCashFlowStatements(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)
@@ -439,7 +439,7 @@ func handleV1InstrumentDataGetInstrumentEvents(ctx context.Context, cmd *cli.Com
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.InstrumentData.GetInstrumentEvents(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)
@@ -484,7 +484,7 @@ func handleV1InstrumentDataGetInstrumentFundamentals(ctx context.Context, cmd *c
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.InstrumentData.GetInstrumentFundamentals(ctx, clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)), options...)
+	_, err = client.V1.InstrumentData.GetInstrumentFundamentals(ctx, cmd.Value("instrument-id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -530,7 +530,7 @@ func handleV1InstrumentDataGetInstrumentIncomeStatements(ctx context.Context, cm
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.InstrumentData.GetInstrumentIncomeStatements(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)

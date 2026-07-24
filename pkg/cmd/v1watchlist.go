@@ -26,7 +26,7 @@ var v1WatchlistAddWatchlistItem = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "instrument-id",
-			Usage:    "Instrument identifier",
+			Usage:    "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required: true,
 			BodyPath: "instrument_id",
 		},

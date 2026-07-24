@@ -21,7 +21,7 @@ var v1InstrumentsGetInstrumentByID = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
 		},
@@ -103,7 +103,7 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
 			Name:      "contract-type",
-			Usage:     "The type of options contract",
+			Usage:     "Filter by contract type: CALL or PUT",
 			QueryPath: "contract_type",
 		},
 		&requestflag.Flag[any]{
@@ -129,7 +129,7 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "underlying-instrument-id",
-			Usage:     "Instrument identifier",
+			Usage:     "Instrument identifier or symbol of the underlying equity/index",
 			QueryPath: "underlying_instrument_id",
 		},
 	},
@@ -217,7 +217,7 @@ func handleV1InstrumentsGetInstrumentByID(ctx context.Context, cmd *cli.Command)
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Instruments.GetInstrumentByID(
 		ctx,
-		clearstreet.InstrumentIDOrSymbol(cmd.Value("instrument-id").(string)),
+		cmd.Value("instrument-id").(string),
 		params,
 		options...,
 	)

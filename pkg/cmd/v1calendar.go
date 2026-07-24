@@ -35,7 +35,7 @@ var v1CalendarGetMarketHoursCalendar = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "market",
-			Usage:     "Market type for market hours calendar endpoint",
+			Usage:     "Market type to query (us_equities, us_options). If omitted, returns all markets.",
 			QueryPath: "market",
 		},
 	},

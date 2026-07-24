@@ -28,7 +28,7 @@ func TestV1PositionsClosePosition(t *testing.T) {
 			"--api-key", "string",
 			"v1:positions", "close-position",
 			"--account-id", "0",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 			"--cancel-orders=false",
 		)
 	})
@@ -41,7 +41,7 @@ func TestV1PositionsClosePosition(t *testing.T) {
 			"--api-key", "string",
 			"v1:positions", "close-position",
 			"--account-id", "0",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 		)
 	})
 }
@@ -76,7 +76,7 @@ func TestV1PositionsGetPositionInstructions(t *testing.T) {
 			"--api-key", "string",
 			"v1:positions", "get-position-instructions",
 			"--account-id", "0",
-			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-id", "x",
 		)
 	})
 }
