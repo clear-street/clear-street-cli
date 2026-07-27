@@ -1,5 +1,41 @@
 # Changelog
 
+## [0.4.0](https://github.com/clear-street/clear-street-cli/compare/v0.3.0...v0.4.0) (2026-07-27)
+
+
+### Features
+
+* `stlc` automation ([7ec3689](https://github.com/clear-street/clear-street-cli/commit/7ec36896823b4d1587b8a63f7d28768038064f13))
+* `stlc` automation ([9b00d75](https://github.com/clear-street/clear-street-cli/commit/9b00d757783614fdf4f33d583f5c02acad75ddf5))
+* `stlc` automation ([3b9d057](https://github.com/clear-street/clear-street-cli/commit/3b9d0573a0278043899e26356e3372ef5f32476c))
+* **api:** api update ([bc10e32](https://github.com/clear-street/clear-street-cli/commit/bc10e326eb44d1867b433dd8455e80267eb9b777))
+* **api:** api update ([abaae2f](https://github.com/clear-street/clear-street-cli/commit/abaae2f362861af08ff2c053595ff6a696098adc))
+* **api:** api update ([8040b86](https://github.com/clear-street/clear-street-cli/commit/8040b86b6322408d02c3e75a89578667f16c029f))
+* **api:** api update ([b8037fa](https://github.com/clear-street/clear-street-cli/commit/b8037fa959fd8ce937b3ddc5f98be16c3c0cb26d))
+* **api:** api update ([71f711e](https://github.com/clear-street/clear-street-cli/commit/71f711ecaccc2bf760e4b7b6adec4e1cbc577a8f))
+* **api:** api update ([20fc395](https://github.com/clear-street/clear-street-cli/commit/20fc3958742875666d99b3c3aec4bf16148327b5))
+* **api:** api update ([fcd860e](https://github.com/clear-street/clear-street-cli/commit/fcd860e298615b9c94d9081a00b261cb31fc3d0d))
+* **api:** api update ([226798d](https://github.com/clear-street/clear-street-cli/commit/226798d5b87b2c9f026e3fed2824b093fdb7c49c))
+* **api:** api update ([d394ef2](https://github.com/clear-street/clear-street-cli/commit/d394ef2642bd6cad22cce0248bcf39cf27094705))
+* **api:** api update ([cc3b356](https://github.com/clear-street/clear-street-cli/commit/cc3b35624e610309d3db12147f4c6475ac14c191))
+* **api:** manual updates ([49b0d2f](https://github.com/clear-street/clear-street-cli/commit/49b0d2f54b76190973e7998d5409b24b4c904882))
+* **api:** manual updates ([1905474](https://github.com/clear-street/clear-street-cli/commit/1905474522189097cfaa5feb0e900f1c06e7c96c))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([8f2d8a8](https://github.com/clear-street/clear-street-cli/commit/8f2d8a864b0e15d610f78ea17c71ecbefa8f1b34))
+
+
+### Bug Fixes
+
+* Do not persist checkout creds but rely on GH App token ([6d70b19](https://github.com/clear-street/clear-street-cli/commit/6d70b19366da011a5b05fb15ed7ac6bdcde1d62d))
+* GH App authentication to go repo ([5c36028](https://github.com/clear-street/clear-street-cli/commit/5c36028a98ca4a6b897ca0309373b9387f1f51f0))
+* Use GitHub App token for staging sync ([13a8626](https://github.com/clear-street/clear-street-cli/commit/13a86269d45d4a5af1fb344ed7637c564142c31f))
+* Use GitHub App token for staging sync ([50285b7](https://github.com/clear-street/clear-street-cli/commit/50285b748b6c67b2b00d664ca09e2fa8931fe1cb))
+
+
+### Chores
+
+* add .github/workflows/security.yml (secure-by-default bootstrap) ([ea0274a](https://github.com/clear-street/clear-street-cli/commit/ea0274a70e461da1295a0b6fba6140dc91e77569))
+* add CODEOWNERS (secure-by-default bootstrap) ([e32f6f8](https://github.com/clear-street/clear-street-cli/commit/e32f6f8f7b103800630eb9948ec36680d6294f9c))
+
 ## 0.3.0 (2026-07-09)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/clear-street/clear-street-cli/compare/v0.2.0...v0.3.0)
