@@ -112,7 +112,7 @@ var v1OrdersGetExecutions = cli.Command{
 
 var v1OrdersGetOrderByID = cli.Command{
 	Name:    "get-order-by-id",
-	Usage:   "Get Order By ID",
+	Usage:   "Fetch a single order. The `{order_id}` path parameter accepts either the order's\n`id` or its `client_order_id`. A `client_order_id` can only be used while the\norder is open; after that, use the `id` returned in every order response, or\nfind the order with the list-orders endpoint's `order_ids` filter, which accepts\nboth identifiers at any time.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -157,7 +157,7 @@ var v1OrdersGetOrders = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "order-id",
-			Usage:     "Comma-separated order IDs to filter by. When provided, only orders whose order ID is in this set are returned.",
+			Usage:     "Comma-separated list of order identifiers. Each value may be an order's `id` or its `client_order_id`; only orders matching one of the given identifiers are returned.",
 			QueryPath: "order_ids",
 		},
 		&requestflag.Flag[int64]{
