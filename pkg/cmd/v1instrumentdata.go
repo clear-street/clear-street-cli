@@ -16,7 +16,7 @@ import (
 
 var v1InstrumentDataGetAllInstrumentEvents = cli.Command{
 	Name:    "get-all-instrument-events",
-	Usage:   "List instrument events across all securities, grouped by date.",
+	Usage:   "List instrument events across all securities, grouped by date. Results are\npaginated via `page_size` / `page_token`; a date's events may span two pages.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{
@@ -33,6 +33,17 @@ var v1InstrumentDataGetAllInstrumentEvents = cli.Command{
 			Name:      "instrument-id",
 			Usage:     "Filter by instrument. Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols). Example: `instrument_ids=550e8400-e29b-41d4-a716-446655440000,AAPL`.",
 			QueryPath: "instrument_ids",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Default:   1000,
+			QueryPath: "page_size",
+		},
+		&requestflag.Flag[string]{
+			Name:      "page-token",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
+			QueryPath: "page_token",
 		},
 		&requestflag.Flag[string]{
 			Name:      "to-date",
@@ -146,7 +157,7 @@ var v1InstrumentDataGetInstrumentCashFlowStatements = cli.Command{
 
 var v1InstrumentDataGetInstrumentEvents = cli.Command{
 	Name:    "get-instrument-events",
-	Usage:   "Retrieves corporate events (dividends, splits, etc.) for an instrument, grouped\nby event type.",
+	Usage:   "Retrieves corporate events (earnings, dividends, splits, IPO) for an instrument,\ngrouped by event type. Filter to specific types via `event_types`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -154,6 +165,11 @@ var v1InstrumentDataGetInstrumentEvents = cli.Command{
 			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			Required:  true,
 			PathParam: "instrument_id",
+		},
+		&requestflag.Flag[[]string]{
+			Name:      "event-type",
+			Usage:     "Filter by event type(s). Comma-delimited list. Example: `event_types=EARNINGS,IPO`.",
+			QueryPath: "event_types",
 		},
 		&requestflag.Flag[string]{
 			Name:      "from-date",

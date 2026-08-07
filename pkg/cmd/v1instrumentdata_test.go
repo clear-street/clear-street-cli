@@ -17,6 +17,8 @@ func TestV1InstrumentDataGetAllInstrumentEvents(t *testing.T) {
 			"--event-type", "EARNINGS",
 			"--from-date", "from_date",
 			"--instrument-id", "x",
+			"--page-size", "1",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--to-date", "to_date",
 		)
 	})
@@ -72,6 +74,7 @@ func TestV1InstrumentDataGetInstrumentEvents(t *testing.T) {
 			"--api-key", "string",
 			"v1:instrument-data", "get-instrument-events",
 			"--instrument-id", "x",
+			"--event-type", "EARNINGS",
 			"--from-date", "from_date",
 			"--to-date", "to_date",
 		)
