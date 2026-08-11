@@ -116,6 +116,11 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 			Usage:     "Filter to contracts expiring on this date (YYYY-MM-DD)",
 			QueryPath: "expiry",
 		},
+		&requestflag.Flag[bool]{
+			Name:      "is-settle-on-open",
+			Usage:     "Filter by settlement cycle: true for early-settling (AM, settle-on-open) contracts, false for normal (PM) contracts. Omit to return both.",
+			QueryPath: "is_settle_on_open",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
 			Usage:     "The number of items to return per page. Only used when page_token is not provided.",

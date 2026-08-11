@@ -49,6 +49,7 @@ func TestV1InstrumentsGetOptionContracts(t *testing.T) {
 			"--contract-id", "x",
 			"--contract-type", "CALL",
 			"--expiry", "'2019-12-27'",
+			"--is-settle-on-open=true",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--underlier", "underlier",
