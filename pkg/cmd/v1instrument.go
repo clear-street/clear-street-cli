@@ -101,6 +101,11 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 	Usage:   "List options contracts.",
 	Suggest: true,
 	Flags: []cli.Flag{
+		&requestflag.Flag[[]string]{
+			Name:      "contract-id",
+			Usage:     "Comma-separated contract instrument IDs (UUID) or OSI option symbols to look up directly, bypassing underlier expansion. Mutually exclusive with underlier/underlying_instrument_id; up to 100 values.",
+			QueryPath: "contract_ids",
+		},
 		&requestflag.Flag[string]{
 			Name:      "contract-type",
 			Usage:     "Filter by contract type: CALL or PUT",

@@ -46,6 +46,7 @@ func TestV1InstrumentsGetOptionContracts(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:instruments", "get-option-contracts",
+			"--contract-id", "x",
 			"--contract-type", "CALL",
 			"--expiry", "'2019-12-27'",
 			"--page-size", "1",
