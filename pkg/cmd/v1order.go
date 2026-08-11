@@ -89,6 +89,11 @@ var v1OrdersGetExecutions = cli.Command{
 			Usage:     "Comma-separated instrument identifiers (UUIDs) or symbols (e.g. `AAPL`) to filter by. When provided, only executions for any of the listed instruments are returned.",
 			QueryPath: "instrument_ids",
 		},
+		&requestflag.Flag[[]string]{
+			Name:      "order-id",
+			Usage:     "Comma-separated order IDs to filter by. When provided, only executions belonging to an order in this set are returned.",
+			QueryPath: "order_ids",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
 			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
@@ -104,6 +109,11 @@ var v1OrdersGetExecutions = cli.Command{
 			Name:      "to",
 			Usage:     "The end date and time for the query range, inclusive (ISO 8601 format)",
 			QueryPath: "to",
+		},
+		&requestflag.Flag[[]string]{
+			Name:      "underlying-instrument-id",
+			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols). Matches option fills whose resolved underlier is any of the given instruments.",
+			QueryPath: "underlying_instrument_ids",
 		},
 	},
 	Action:          handleV1OrdersGetExecutions,

@@ -45,9 +45,11 @@ func TestV1OrdersGetExecutions(t *testing.T) {
 			"--account-id", "0",
 			"--from", "'2019-12-27T18:11:19.117Z'",
 			"--instrument-id", "x",
+			"--order-id", "string",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--to", "'2019-12-27T18:11:19.117Z'",
+			"--underlying-instrument-id", "x",
 		)
 	})
 }
