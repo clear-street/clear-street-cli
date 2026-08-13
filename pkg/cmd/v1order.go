@@ -222,6 +222,11 @@ var v1OrdersReplaceOrder = cli.Command{
 			PathParam: "order_id",
 		},
 		&requestflag.Flag[*string]{
+			Name:     "limit-offset",
+			Usage:    "New limit offset for trailing stop-limit orders (signed)",
+			BodyPath: "limit_offset",
+		},
+		&requestflag.Flag[*string]{
 			Name:     "limit-price",
 			Usage:    "New limit price for the order",
 			BodyPath: "limit_price",
@@ -235,6 +240,16 @@ var v1OrdersReplaceOrder = cli.Command{
 			Name:     "stop-price",
 			Usage:    "New stop price for the order",
 			BodyPath: "stop_price",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "trailing-offset",
+			Usage:    "New trailing offset for trailing orders",
+			BodyPath: "trailing_offset",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "trailing-offset-type",
+			Usage:    "Trailing offset type for trailing stop orders.",
+			BodyPath: "trailing_offset_type",
 		},
 	},
 	Action:          handleV1OrdersReplaceOrder,

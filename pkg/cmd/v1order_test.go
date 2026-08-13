@@ -95,18 +95,24 @@ func TestV1OrdersReplaceOrder(t *testing.T) {
 			"v1:orders", "replace-order",
 			"--account-id", "0",
 			"--order-id", "order_id",
+			"--limit-offset", "0.50",
 			"--limit-price", "49.00",
 			"--quantity", "1",
 			"--stop-price", "52.00",
+			"--trailing-offset", "2.00",
+			"--trailing-offset-type", "PRICE",
 		)
 	})
 
 	t.Run("piping data", func(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
+			"limit_offset: '0.50'\n" +
 			"limit_price: '49.00'\n" +
 			"quantity: '1'\n" +
-			"stop_price: '52.00'\n")
+			"stop_price: '52.00'\n" +
+			"trailing_offset: '2.00'\n" +
+			"trailing_offset_type: PRICE\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
