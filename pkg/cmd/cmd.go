@@ -101,17 +101,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "v1:alerts",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1AlertsCreateAlert,
-					&v1AlertsDeleteAlert,
-					&v1AlertsGetAlertByID,
-					&v1AlertsGetAlerts,
-				},
-			},
-			{
 				Name:     "v1:api-version",
 				Category: "API RESOURCE",
 				Suggest:  true,
