@@ -1,5 +1,37 @@
 # Changelog
 
+## [0.5.0](https://github.com/clear-street/clear-street-cli/compare/v0.4.0...v0.5.0) (2026-08-13)
+
+
+### Features
+
+* **api:** api update ([4a57bb9](https://github.com/clear-street/clear-street-cli/commit/4a57bb94b79e19f9a4ac5611c65fd1745d7e043f))
+* **api:** api update ([e9fd6d2](https://github.com/clear-street/clear-street-cli/commit/e9fd6d2d90c9693f542352c817a54ecfce9bd26c))
+* **api:** api update ([40189e3](https://github.com/clear-street/clear-street-cli/commit/40189e3e8f989d2cacea2976a6a4a978537e41c5))
+* **api:** api update ([55fb753](https://github.com/clear-street/clear-street-cli/commit/55fb7539fdbaa410fb8d7f8a4935de503f2fa85a))
+* **api:** api update ([e789c62](https://github.com/clear-street/clear-street-cli/commit/e789c621141ac388343b85b2260e04a557b347fe))
+* **api:** api update ([ae591ce](https://github.com/clear-street/clear-street-cli/commit/ae591ceaa315f4475b5148288e0b1cad4fac66fa))
+* **api:** api update ([c927623](https://github.com/clear-street/clear-street-cli/commit/c9276238e740eef549e9b4f1897f1615aca36c5f))
+* **api:** api update ([95ef953](https://github.com/clear-street/clear-street-cli/commit/95ef953139bd481998d686bbf2efcc3410f3591b))
+* **api:** api update ([b0b2ec6](https://github.com/clear-street/clear-street-cli/commit/b0b2ec6373c2acefd2bcfd8d7fd04c69438d3a19))
+* **api:** api update ([91c59f5](https://github.com/clear-street/clear-street-cli/commit/91c59f510c56366591e18235c81534da2be80952))
+* **api:** api update ([cda0f0e](https://github.com/clear-street/clear-street-cli/commit/cda0f0e67eb31a6eb234590296496ad6feafd50d))
+* **api:** api update ([37729b8](https://github.com/clear-street/clear-street-cli/commit/37729b842bc1d752e2fd9a08b4feb7bedea964a5))
+* **api:** api update ([ab84ca0](https://github.com/clear-street/clear-street-cli/commit/ab84ca0ef05438310a49d5c94418fe8ddfd2f0d7))
+* **api:** api update ([981ccc9](https://github.com/clear-street/clear-street-cli/commit/981ccc9cab5682e98bdee7c3defa1cf250bdb1c4))
+* **api:** api update ([e270cc9](https://github.com/clear-street/clear-street-cli/commit/e270cc905842b9e2cddd90783d7d7cbd710b020d))
+* **api:** api update ([2bd3034](https://github.com/clear-street/clear-street-cli/commit/2bd30341552007e64a362db6a6dcabdb035cbfa0))
+
+
+### Bug Fixes
+
+* **ci:** link staging Go SDK instead of defunct stainless-sdks repo ([aa68cc1](https://github.com/clear-street/clear-street-cli/commit/aa68cc1146cb266c87e0831b98ff63dc89c343bc))
+
+
+### Chores
+
+* Change versioning strategy from prerelease to default ([a0aa436](https://github.com/clear-street/clear-street-cli/commit/a0aa436aa1877dfa8a76a54bec379a809820c1b6))
+
 ## [0.4.0](https://github.com/clear-street/clear-street-cli/compare/v0.3.0...v0.4.0) (2026-07-27)
 
 
