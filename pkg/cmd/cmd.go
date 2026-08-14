@@ -229,6 +229,15 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:private-markets:offerings",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1PrivateMarketsOfferingsGetOfferingByID,
+					&v1PrivateMarketsOfferingsGetOfferings,
+				},
+			},
+			{
 				Name:     "v1:screener",
 				Category: "API RESOURCE",
 				Suggest:  true,
