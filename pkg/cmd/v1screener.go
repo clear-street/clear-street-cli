@@ -34,6 +34,11 @@ var v1ScreenerCreateScreener = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "The name for this screener configuration",
 			BodyPath: "name",
 		},
+		&requestflag.Flag[*bool]{
+			Name:     "shared",
+			Usage:    "Whether any user may fetch this screener by id. Omit to leave the\nexisting value unchanged (defaults to `false` when creating).",
+			BodyPath: "shared",
+		},
 		&requestflag.Flag[any]{
 			Name:     "sort",
 			Usage:    "Multi-field sort specifications",
@@ -135,6 +140,15 @@ var v1ScreenerGetScreenerByID = cli.Command{
 	HideHelpCommand: true,
 }
 
+var v1ScreenerGetScreenerCatalog = cli.Command{
+	Name:            "get-screener-catalog",
+	Usage:           "Returns the complete screener field catalog: the field `kinds`, the per-field\ndata, the enum universes, the request-side `rules`, the built-in variables and\nmodifiers, and the `POST /screener` default response fields.",
+	Suggest:         true,
+	Flags:           []cli.Flag{},
+	Action:          handleV1ScreenerGetScreenerCatalog,
+	HideHelpCommand: true,
+}
+
 var v1ScreenerGetScreeners = cli.Command{
 	Name:            "get-screeners",
 	Usage:           "List saved screener configurations.",
@@ -168,6 +182,11 @@ var v1ScreenerReplaceScreener = requestflag.WithInnerFlags(cli.Command{
 			Name:     "name",
 			Usage:    "The name for this screener configuration",
 			BodyPath: "name",
+		},
+		&requestflag.Flag[*bool]{
+			Name:     "shared",
+			Usage:    "Whether any user may fetch this screener by id. Omit to leave the\nexisting value unchanged (defaults to `false` when creating).",
+			BodyPath: "shared",
 		},
 		&requestflag.Flag[any]{
 			Name:     "sort",
@@ -445,6 +464,45 @@ func handleV1ScreenerGetScreenerByID(ctx context.Context, cmd *cli.Command) erro
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:screener get-screener-by-id",
+		Transform:      transform,
+	})
+}
+
+func handleV1ScreenerGetScreenerCatalog(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Screener.GetScreenerCatalog(ctx, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:screener get-screener-catalog",
 		Transform:      transform,
 	})
 }

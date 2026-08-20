@@ -288,7 +288,7 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "order.side",
-			Usage:      "Side of an order",
+			Usage:      "Side of the order (BUY or SELL).",
 			InnerField: "side",
 		},
 		&requestflag.InnerFlag[string]{
@@ -325,6 +325,11 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 			Name:       "order.limit-price",
 			Usage:      "Limit price (required for LIMIT and STOP_LIMIT orders)",
 			InnerField: "limit_price",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "order.position-intent",
+			Usage:      "Position effect for a multileg strategy leg: client-attested open/close\nintent. Required on every leg of a multileg order submission.",
+			InnerField: "position_intent",
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "order.stop-price",

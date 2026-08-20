@@ -245,6 +245,7 @@ func init() {
 					&v1ScreenerCreateScreener,
 					&v1ScreenerDeleteScreener,
 					&v1ScreenerGetScreenerByID,
+					&v1ScreenerGetScreenerCatalog,
 					&v1ScreenerGetScreeners,
 					&v1ScreenerReplaceScreener,
 					&v1ScreenerSearchScreener,

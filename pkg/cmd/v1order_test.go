@@ -130,7 +130,7 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"--api-key", "string",
 			"v1:orders", "submit-orders",
 			"--account-id", "0",
-			"--order", "{order_type: LIMIT, quantity: '1', side: BUY, time_in_force: DAY, id: my-ref-id-20251001-002, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: x, limit_offset: '0.50', limit_price: '48.00', stop_price: '52.00', symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
+			"--order", "{order_type: LIMIT, quantity: '1', side: BUY, time_in_force: DAY, id: my-ref-id-20251001-002, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: x, limit_offset: '0.50', limit_price: '48.00', position_intent: OPEN, stop_price: '52.00', symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
 		)
 	})
 
@@ -154,6 +154,7 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"--order.instrument-id", "x",
 			"--order.limit-offset", "0.50",
 			"--order.limit-price", "48.00",
+			"--order.position-intent", "OPEN",
 			"--order.stop-price", "52.00",
 			"--order.symbol", "TSLA",
 			"--order.trailing-offset", "2.00",
@@ -174,6 +175,7 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"  instrument_id: x\n" +
 			"  limit_offset: '0.50'\n" +
 			"  limit_price: '48.00'\n" +
+			"  position_intent: OPEN\n" +
 			"  stop_price: '52.00'\n" +
 			"  symbol: TSLA\n" +
 			"  trailing_offset: '2.00'\n" +

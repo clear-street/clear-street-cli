@@ -18,6 +18,7 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
 			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
 			"--name", "name",
+			"--shared=true",
 			"--sort", "[{field: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, direction: DESC}]",
 		)
 	})
@@ -39,6 +40,7 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
 			"--name", "name",
+			"--shared=true",
 			"--sort.field", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
 			"--sort.direction", "DESC",
 		)
@@ -74,6 +76,7 @@ func TestV1ScreenerCreateScreener(t *testing.T) {
 			"            name: SUBTRACT\n" +
 			"          period: QUARTER\n" +
 			"name: name\n" +
+			"shared: true\n" +
 			"sorts:\n" +
 			"  - field:\n" +
 			"      name: market_cap\n" +
@@ -111,6 +114,16 @@ func TestV1ScreenerGetScreenerByID(t *testing.T) {
 	})
 }
 
+func TestV1ScreenerGetScreenerCatalog(t *testing.T) {
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:screener", "get-screener-catalog",
+		)
+	})
+}
+
 func TestV1ScreenerGetScreeners(t *testing.T) {
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
@@ -131,6 +144,7 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
 			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
 			"--name", "name",
+			"--shared=true",
 			"--sort", "[{field: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, direction: DESC}]",
 		)
 	})
@@ -153,6 +167,7 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
 			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
 			"--name", "name",
+			"--shared=true",
 			"--sort.field", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
 			"--sort.direction", "DESC",
 		)
@@ -188,6 +203,7 @@ func TestV1ScreenerReplaceScreener(t *testing.T) {
 			"            name: SUBTRACT\n" +
 			"          period: QUARTER\n" +
 			"name: name\n" +
+			"shared: true\n" +
 			"sorts:\n" +
 			"  - field:\n" +
 			"      name: market_cap\n" +
