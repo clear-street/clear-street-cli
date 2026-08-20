@@ -177,9 +177,9 @@ var v1PositionsSubmitPositionInstructions = requestflag.WithInnerFlags(cli.Comma
 			InnerField: "quantity",
 		},
 		&requestflag.InnerFlag[*string]{
-			Name:       "instruction.instruction-id",
+			Name:       "instruction.client-instruction-id",
 			Usage:      "Caller-supplied idempotency key. Echoed on the response. The server\ngenerates a unique id when omitted.",
-			InnerField: "instruction_id",
+			InnerField: "client_instruction_id",
 		},
 	},
 })

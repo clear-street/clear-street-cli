@@ -104,7 +104,7 @@ func TestV1PositionsSubmitPositionInstructions(t *testing.T) {
 			"--api-key", "string",
 			"v1:positions", "submit-position-instructions",
 			"--account-id", "0",
-			"--instruction", "{instruction_type: EXERCISE, instrument_id: 0195f6d0-a1b2-7c3d-8e4f-5a6b7c8d9e02, quantity: '1', instruction_id: ui-20260424-001}",
+			"--instruction", "{instruction_type: EXERCISE, instrument_id: 0195f6d0-a1b2-7c3d-8e4f-5a6b7c8d9e02, quantity: '1', client_instruction_id: ui-20260424-001}",
 		)
 	})
 
@@ -121,7 +121,7 @@ func TestV1PositionsSubmitPositionInstructions(t *testing.T) {
 			"--instruction.instruction-type", "EXERCISE",
 			"--instruction.instrument-id", "0195f6d0-a1b2-7c3d-8e4f-5a6b7c8d9e02",
 			"--instruction.quantity", "1",
-			"--instruction.instruction-id", "ui-20260424-001",
+			"--instruction.client-instruction-id", "ui-20260424-001",
 		)
 	})
 
@@ -131,7 +131,7 @@ func TestV1PositionsSubmitPositionInstructions(t *testing.T) {
 			"- instruction_type: EXERCISE\n" +
 			"  instrument_id: 0195f6d0-a1b2-7c3d-8e4f-5a6b7c8d9e02\n" +
 			"  quantity: '1'\n" +
-			"  instruction_id: ui-20260424-001\n")
+			"  client_instruction_id: ui-20260424-001\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
