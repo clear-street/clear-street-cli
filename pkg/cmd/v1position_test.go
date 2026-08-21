@@ -77,6 +77,7 @@ func TestV1PositionsGetPositionInstructions(t *testing.T) {
 			"v1:positions", "get-position-instructions",
 			"--account-id", "0",
 			"--instrument-id", "x",
+			"--underlying-instrument-id", "x",
 		)
 	})
 }

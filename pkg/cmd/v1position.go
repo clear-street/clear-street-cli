@@ -95,6 +95,11 @@ var v1PositionsGetPositionInstructions = cli.Command{
 			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
 			QueryPath: "instrument_id",
 		},
+		&requestflag.Flag[string]{
+			Name:      "underlying-instrument-id",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
+			QueryPath: "underlying_instrument_id",
+		},
 	},
 	Action:          handleV1PositionsGetPositionInstructions,
 	HideHelpCommand: true,
