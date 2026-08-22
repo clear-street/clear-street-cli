@@ -235,7 +235,9 @@ func init() {
 				Commands: []*cli.Command{
 					&v1PrivateMarketsCreateIoi,
 					&v1PrivateMarketsDeleteIoi,
+					&v1PrivateMarketsGetCompanyByID,
 					&v1PrivateMarketsGetIois,
+					&v1PrivateMarketsGetSpvByID,
 					&v1PrivateMarketsUpdateIoi,
 				},
 			},
