@@ -83,6 +83,34 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--symbol", "symbol",
 			"--to", "'2019-12-27T18:11:19.117Z'",
 			"--underlying-instrument-id", "x",
+			"--updated-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
+		)
+	})
+
+	t.Run("inner flags", func(t *testing.T) {
+		// Check that inner flags have been set up correctly
+		requestflag.CheckInnerFlags(v1OrdersGetOrders)
+
+		// Alternative argument passing style using inner flags
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:orders", "get-orders",
+			"--account-id", "0",
+			"--from", "'2019-12-27T18:11:19.117Z'",
+			"--instrument-id", "x",
+			"--instrument-type", "COMMON_STOCK",
+			"--order-id", "string",
+			"--page-size", "1",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
+			"--status", "PENDING_NEW",
+			"--symbol", "symbol",
+			"--to", "'2019-12-27T18:11:19.117Z'",
+			"--underlying-instrument-id", "x",
+			"--updated-at.gt", "2019-12-27T18:11:19.117Z",
+			"--updated-at.gte", "2019-12-27T18:11:19.117Z",
+			"--updated-at.lt", "2019-12-27T18:11:19.117Z",
+			"--updated-at.lte", "2019-12-27T18:11:19.117Z",
 		)
 	})
 }

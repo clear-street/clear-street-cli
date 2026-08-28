@@ -140,7 +140,7 @@ var v1OrdersGetOrderByID = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1OrdersGetOrders = cli.Command{
+var v1OrdersGetOrders = requestflag.WithInnerFlags(cli.Command{
 	Name:    "get-orders",
 	Usage:   "List orders for an account with optional filtering",
 	Suggest: true,
@@ -201,10 +201,33 @@ var v1OrdersGetOrders = cli.Command{
 			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols). Matches options orders whose resolved underlier is any of the given instruments.",
 			QueryPath: "underlying_instrument_ids",
 		},
+		&requestflag.Flag[map[string]any]{
+			Name:      "updated-at",
+			QueryPath: "updated_at",
+		},
 	},
 	Action:          handleV1OrdersGetOrders,
 	HideHelpCommand: true,
-}
+}, map[string][]requestflag.HasOuterFlag{
+	"updated-at": {
+		&requestflag.InnerFlag[any]{
+			Name:       "updated-at.gt",
+			InnerField: "gt",
+		},
+		&requestflag.InnerFlag[any]{
+			Name:       "updated-at.gte",
+			InnerField: "gte",
+		},
+		&requestflag.InnerFlag[any]{
+			Name:       "updated-at.lt",
+			InnerField: "lt",
+		},
+		&requestflag.InnerFlag[any]{
+			Name:       "updated-at.lte",
+			InnerField: "lte",
+		},
+	},
+})
 
 var v1OrdersReplaceOrder = cli.Command{
 	Name:    "replace-order",
