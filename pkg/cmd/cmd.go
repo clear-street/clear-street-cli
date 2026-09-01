@@ -202,6 +202,15 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:omni-feed",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1OmniFeedGetFeed,
+					&v1OmniFeedPostFeedEvent,
+				},
+			},
+			{
 				Name:     "v1:orders",
 				Category: "API RESOURCE",
 				Suggest:  true,
