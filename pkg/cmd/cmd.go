@@ -229,28 +229,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "v1:private-markets",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1PrivateMarketsCreateIoi,
-					&v1PrivateMarketsDeleteIoi,
-					&v1PrivateMarketsGetCompanyByID,
-					&v1PrivateMarketsGetIois,
-					&v1PrivateMarketsGetSpvByID,
-					&v1PrivateMarketsUpdateIoi,
-				},
-			},
-			{
-				Name:     "v1:private-markets:offerings",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1PrivateMarketsOfferingsGetOfferingByID,
-					&v1PrivateMarketsOfferingsGetOfferings,
-				},
-			},
-			{
 				Name:     "v1:screener",
 				Category: "API RESOURCE",
 				Suggest:  true,

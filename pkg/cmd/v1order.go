@@ -212,18 +212,22 @@ var v1OrdersGetOrders = requestflag.WithInnerFlags(cli.Command{
 	"updated-at": {
 		&requestflag.InnerFlag[any]{
 			Name:       "updated-at.gt",
+			Usage:      "> **Alpha** — this parameter is experimental and may change or be removed at any time.",
 			InnerField: "gt",
 		},
 		&requestflag.InnerFlag[any]{
 			Name:       "updated-at.gte",
+			Usage:      "> **Alpha** — this parameter is experimental and may change or be removed at any time.",
 			InnerField: "gte",
 		},
 		&requestflag.InnerFlag[any]{
 			Name:       "updated-at.lt",
+			Usage:      "> **Alpha** — this parameter is experimental and may change or be removed at any time.",
 			InnerField: "lt",
 		},
 		&requestflag.InnerFlag[any]{
 			Name:       "updated-at.lte",
+			Usage:      "> **Alpha** — this parameter is experimental and may change or be removed at any time.",
 			InnerField: "lte",
 		},
 	},
