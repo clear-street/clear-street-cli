@@ -134,6 +134,92 @@ func TestV1ScreenerGetScreeners(t *testing.T) {
 	})
 }
 
+func TestV1ScreenerPatchScreener(t *testing.T) {
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:screener", "patch-screener",
+			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
+			"--column", "[{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}]",
+			"--filter", "[{left: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, op: {name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}, right: [{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]}]",
+			"--name", "name",
+			"--shared=true",
+			"--sort", "[{field: {name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}, direction: DESC}]",
+		)
+	})
+
+	t.Run("inner flags", func(t *testing.T) {
+		// Check that inner flags have been set up correctly
+		requestflag.CheckInnerFlags(v1ScreenerPatchScreener)
+
+		// Alternative argument passing style using inner flags
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:screener", "patch-screener",
+			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
+			"--column.name", "market_cap",
+			"--column.lookback", "ONE_DAY",
+			"--column.period", "QUARTER",
+			"--column.value-type", "DECIMAL",
+			"--filter.left", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
+			"--filter.op", "{name: GREATER_OR_EQUAL, args: [LEFT_INCLUSIVE]}",
+			"--filter.right", "[{value: 1000000000, variable: {name: today, lookback: ONE_DAY, modifier: {args: [30, DAY], name: SUBTRACT}, period: QUARTER}}]",
+			"--name", "name",
+			"--shared=true",
+			"--sort.field", "{name: market_cap, lookback: ONE_DAY, period: QUARTER, value_type: DECIMAL}",
+			"--sort.direction", "DESC",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"columns:\n" +
+			"  - name: market_cap\n" +
+			"    lookback: ONE_DAY\n" +
+			"    period: QUARTER\n" +
+			"    value_type: DECIMAL\n" +
+			"filters:\n" +
+			"  - left:\n" +
+			"      name: market_cap\n" +
+			"      lookback: ONE_DAY\n" +
+			"      period: QUARTER\n" +
+			"      value_type: DECIMAL\n" +
+			"    op:\n" +
+			"      name: GREATER_OR_EQUAL\n" +
+			"      args:\n" +
+			"        - LEFT_INCLUSIVE\n" +
+			"    right:\n" +
+			"      - value: 1000000000\n" +
+			"        variable:\n" +
+			"          name: today\n" +
+			"          lookback: ONE_DAY\n" +
+			"          modifier:\n" +
+			"            args:\n" +
+			"              - 30\n" +
+			"              - DAY\n" +
+			"            name: SUBTRACT\n" +
+			"          period: QUARTER\n" +
+			"name: name\n" +
+			"shared: true\n" +
+			"sorts:\n" +
+			"  - field:\n" +
+			"      name: market_cap\n" +
+			"      lookback: ONE_DAY\n" +
+			"      period: QUARTER\n" +
+			"      value_type: DECIMAL\n" +
+			"    direction: DESC\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:screener", "patch-screener",
+			"--screener-id", "550e8400-e29b-41d4-a716-446655440000",
+		)
+	})
+}
+
 func TestV1ScreenerReplaceScreener(t *testing.T) {
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(

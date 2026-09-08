@@ -269,6 +269,7 @@ func init() {
 					&v1ScreenerGetScreenerByID,
 					&v1ScreenerGetScreenerCatalog,
 					&v1ScreenerGetScreeners,
+					&v1ScreenerPatchScreener,
 					&v1ScreenerReplaceScreener,
 					&v1ScreenerSearchScreener,
 				},

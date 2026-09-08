@@ -158,6 +158,107 @@ var v1ScreenerGetScreeners = cli.Command{
 	HideHelpCommand: true,
 }
 
+var v1ScreenerPatchScreener = requestflag.WithInnerFlags(cli.Command{
+	Name:    "patch-screener",
+	Usage:   "Partially update a saved screener configuration.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "screener-id",
+			Required:  true,
+			PathParam: "screener_id",
+		},
+		&requestflag.Flag[any]{
+			Name:     "column",
+			Usage:    "Structured field references to include when running this screener.\nOmit or send `null` to leave unchanged; `[]` clears the stored columns.",
+			BodyPath: "columns",
+		},
+		&requestflag.Flag[any]{
+			Name:     "filter",
+			Usage:    "Structured search filter criteria. Omit or send `null` to leave\nunchanged; `[]` clears the stored filters.",
+			BodyPath: "filters",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "name",
+			Usage:    "The name for this screener configuration. Omit or send `null` to\nleave unchanged. Cannot be set to an empty string.",
+			BodyPath: "name",
+		},
+		&requestflag.Flag[*bool]{
+			Name:     "shared",
+			Usage:    "Whether any user may fetch this screener by id. Omit or send `null`\nto leave unchanged. `false` is a value, not a clear.",
+			BodyPath: "shared",
+		},
+		&requestflag.Flag[any]{
+			Name:     "sort",
+			Usage:    "Multi-field sort specifications. Omit or send `null` to leave\nunchanged; `[]` clears the stored sort.",
+			BodyPath: "sorts",
+		},
+	},
+	Action:          handleV1ScreenerPatchScreener,
+	HideHelpCommand: true,
+}, map[string][]requestflag.HasOuterFlag{
+	"column": {
+		&requestflag.InnerFlag[string]{
+			Name:                  "column.name",
+			Usage:                 "The field name.",
+			InnerField:            "name",
+			OuterIsArrayOfObjects: true,
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:                  "column.lookback",
+			Usage:                 "Historical lookback window for price/change fields.",
+			InnerField:            "lookback",
+			OuterIsArrayOfObjects: true,
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:                  "column.period",
+			Usage:                 "Reporting period for financial data fields.",
+			InnerField:            "period",
+			OuterIsArrayOfObjects: true,
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:                  "column.value-type",
+			Usage:                 "The data type of a screener field value.",
+			InnerField:            "value_type",
+			OuterIsArrayOfObjects: true,
+		},
+	},
+	"filter": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:                  "filter.left",
+			Usage:                 "A reference to a screener field.",
+			InnerField:            "left",
+			OuterIsArrayOfObjects: true,
+		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:                  "filter.op",
+			Usage:                 "Operator specification with optional behavioral arguments.",
+			InnerField:            "op",
+			OuterIsArrayOfObjects: true,
+		},
+		&requestflag.InnerFlag[any]{
+			Name:                  "filter.right",
+			Usage:                 "The value(s) to compare against. Omit together with `op` for an unenabled filter.",
+			InnerField:            "right",
+			OuterIsArrayOfObjects: true,
+		},
+	},
+	"sort": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:                  "sort.field",
+			Usage:                 "A reference to a screener field.",
+			InnerField:            "field",
+			OuterIsArrayOfObjects: true,
+		},
+		&requestflag.InnerFlag[string]{
+			Name:                  "sort.direction",
+			Usage:                 "Sort direction sorted results",
+			InnerField:            "direction",
+			OuterIsArrayOfObjects: true,
+		},
+	},
+})
+
 var v1ScreenerReplaceScreener = requestflag.WithInnerFlags(cli.Command{
 	Name:    "replace-screener",
 	Usage:   "Update a saved screener configuration.",
@@ -542,6 +643,55 @@ func handleV1ScreenerGetScreeners(ctx context.Context, cmd *cli.Command) error {
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:screener get-screeners",
+		Transform:      transform,
+	})
+}
+
+func handleV1ScreenerPatchScreener(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("screener-id") && len(unusedArgs) > 0 {
+		cmd.Set("screener-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1ScreenerPatchScreenerParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Screener.PatchScreener(
+		ctx,
+		cmd.Value("screener-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:screener patch-screener",
 		Transform:      transform,
 	})
 }
