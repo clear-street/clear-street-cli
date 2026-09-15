@@ -16,7 +16,7 @@ import (
 
 var v1InstrumentDataMarketDataGetDailySummaries = cli.Command{
 	Name:    "get-daily-summaries",
-	Usage:   "Returns the most recent open, high, low, volume (OHLV) and current price for the\nrequested instruments.",
+	Usage:   "**Deprecated**: use `GET /market-data/snapshot` instead, which now reports the\nsame open/high/low/volume/open-interest fields under `session` and top-level\n`open_interest`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -37,7 +37,7 @@ var v1InstrumentDataMarketDataGetSnapshots = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols).",
+			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols). Required; accepts 1 to 100 IDs. Duplicate resolved ids collapse to a single row.",
 			QueryPath: "instrument_ids",
 		},
 	},
