@@ -355,7 +355,7 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "order.position-intent",
-			Usage:      "Position effect for a multileg strategy leg: client-attested open/close\nintent. Required on every leg of a multileg order submission.",
+			Usage:      "Client-attested open/close intent for an order.",
 			InnerField: "position_intent",
 		},
 		&requestflag.InnerFlag[*string]{

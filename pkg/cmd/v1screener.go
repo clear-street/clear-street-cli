@@ -103,7 +103,7 @@ var v1ScreenerCreateScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:                  "sort.direction",
-			Usage:                 "Sort direction sorted results",
+			Usage:                 "Sort direction for sorted results",
 			InnerField:            "direction",
 			OuterIsArrayOfObjects: true,
 		},
@@ -252,7 +252,7 @@ var v1ScreenerPatchScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:                  "sort.direction",
-			Usage:                 "Sort direction sorted results",
+			Usage:                 "Sort direction for sorted results",
 			InnerField:            "direction",
 			OuterIsArrayOfObjects: true,
 		},
@@ -353,7 +353,7 @@ var v1ScreenerReplaceScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:                  "sort.direction",
-			Usage:                 "Sort direction sorted results",
+			Usage:                 "Sort direction for sorted results",
 			InnerField:            "direction",
 			OuterIsArrayOfObjects: true,
 		},
@@ -454,7 +454,7 @@ var v1ScreenerSearchScreener = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:                  "sort.direction",
-			Usage:                 "Sort direction sorted results",
+			Usage:                 "Sort direction for sorted results",
 			InnerField:            "direction",
 			OuterIsArrayOfObjects: true,
 		},
