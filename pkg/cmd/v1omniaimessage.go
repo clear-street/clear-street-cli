@@ -16,7 +16,7 @@ import (
 
 var v1OmniAIMessagesGetMessageByID = cli.Command{
 	Name:    "get-message-by-id",
-	Usage:   "Get a finalized message by ID.",
+	Usage:   "Read a finalized message using its parent thread for ownership and\nlinked-account authorization. In-progress assistant messages are not available\nhere; use the response polling endpoint instead.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -26,8 +26,7 @@ var v1OmniAIMessagesGetMessageByID = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
+			Usage:     "Lists only conversations for this account, or unlinked conversations when omitted.\nOther reads authorize the resource's linked account.\nOmit when no account is selected; empty values and the string null are invalid.",
 			QueryPath: "account_id",
 		},
 	},
@@ -37,7 +36,7 @@ var v1OmniAIMessagesGetMessageByID = cli.Command{
 
 var v1OmniAIMessagesSubmitFeedback = cli.Command{
 	Name:    "submit-feedback",
-	Usage:   "Submit feedback on a finalized assistant message.",
+	Usage:   "Attach a score and optional comment to a finalized assistant message. Feedback\nis only valid for messages with role `ASSISTANT` that have reached a terminal\noutcome.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -46,16 +45,15 @@ var v1OmniAIMessagesSubmitFeedback = cli.Command{
 			PathParam: "message_id",
 		},
 		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Usage:    "Account ID for the request",
-			Required: true,
-			BodyPath: "account_id",
-		},
-		&requestflag.Flag[int64]{
 			Name:     "score",
-			Usage:    "Feedback score (-1, 0, +1 or 1-5)",
+			Usage:    "Feedback score (-1, 0, +1 or 1-5).",
 			Required: true,
 			BodyPath: "score",
+		},
+		&requestflag.Flag[*int64]{
+			Name:     "account-id",
+			Usage:    "Optional selection. Feedback always uses the thread's linked account.",
+			BodyPath: "account_id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "comment",

@@ -16,7 +16,7 @@ import (
 
 var v1OmniAIResponsesCancelResponse = cli.Command{
 	Name:    "cancel-response",
-	Usage:   "Cancel a response.",
+	Usage:   "Cancel a queued or running response. Cancellation is idempotent after the\nresponse becomes terminal. A canceled turn still produces a finalized assistant\nmessage with outcome `canceled` in the thread history.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -26,8 +26,7 @@ var v1OmniAIResponsesCancelResponse = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
+			Usage:     "Lists only conversations for this account, or unlinked conversations when omitted.\nOther reads authorize the resource's linked account.\nOmit when no account is selected; empty values and the string null are invalid.",
 			QueryPath: "account_id",
 		},
 	},
@@ -37,7 +36,7 @@ var v1OmniAIResponsesCancelResponse = cli.Command{
 
 var v1OmniAIResponsesGetResponseByID = cli.Command{
 	Name:    "get-response-by-id",
-	Usage:   "Poll a response for assistant output.",
+	Usage:   "Poll the current snapshot of an in-progress or completed assistant response.\nWhile its status is `queued` or `running`, content may be partial and include\nthinking parts. Continue polling until it becomes `succeeded`, `failed`, or\n`canceled`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -47,8 +46,7 @@ var v1OmniAIResponsesGetResponseByID = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
+			Usage:     "Lists only conversations for this account, or unlinked conversations when omitted.\nOther reads authorize the resource's linked account.\nOmit when no account is selected; empty values and the string null are invalid.",
 			QueryPath: "account_id",
 		},
 	},

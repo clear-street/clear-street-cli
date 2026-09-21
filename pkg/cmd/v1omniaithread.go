@@ -14,9 +14,9 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1OmniAIThreadsCreateMessage = cli.Command{
+var v1OmniAIThreadsCreateMessage = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create-message",
-	Usage:   "Continue an existing conversation thread.",
+	Usage:   "Append a user message to an existing thread and start an assistant response.\nPoll the returned `response_id` via `GET /omni-ai/responses/{response_id}` for\nassistant output.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -24,44 +24,62 @@ var v1OmniAIThreadsCreateMessage = cli.Command{
 			Required:  true,
 			PathParam: "thread_id",
 		},
-		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
-			BodyPath: "account_id",
-		},
 		&requestflag.Flag[string]{
 			Name:     "text",
 			Required: true,
 			BodyPath: "text",
 		},
+		&requestflag.Flag[*int64]{
+			Name:     "account-id",
+			Usage:    "Selected account for creation or the first account-linked turn. Omit for an unlinked conversation.\nAn existing account link remains authoritative even when another account is selected.",
+			BodyPath: "account_id",
+		},
 		&requestflag.Flag[[]string]{
 			Name:     "capability",
 			BodyPath: "capabilities",
 		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "context",
+			Usage:    "Client snapshots attached to one instant-chat user message.\n\nContext is separate from visible message text and does not grant account access.\nThe compact JSON representation must not exceed 64 KiB.",
+			BodyPath: "context",
+		},
 	},
 	Action:          handleV1OmniAIThreadsCreateMessage,
 	HideHelpCommand: true,
-}
+}, map[string][]requestflag.HasOuterFlag{
+	"context": {
+		&requestflag.InnerFlag[[]map[string]any]{
+			Name:       "context.items",
+			Usage:      "One to four snapshots. Each snapshot's data may contain at most 32 levels of nesting.",
+			InnerField: "items",
+		},
+	},
+})
 
 var v1OmniAIThreadsCreateThread = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create-thread",
-	Usage:   "Create a new conversation thread.",
+	Usage:   "Atomically create a conversation and submit its first user turn. Use `instant`\nwith `text` for a prompt, or `deep_insights` with a ticker `target` and optional\n`thesis` for long-form research.",
 	Suggest: true,
 	Flags: []cli.Flag{
-		&requestflag.Flag[int64]{
-			Name:     "account-id",
-			Required: true,
-			BodyPath: "account_id",
-		},
 		&requestflag.Flag[string]{
 			Name:     "type",
 			Usage:    "Thread creation mode.",
 			Required: true,
 			BodyPath: "type",
 		},
+		&requestflag.Flag[*int64]{
+			Name:     "account-id",
+			Usage:    "Selected account for creation or the first account-linked turn. Omit for an unlinked conversation.\nAn existing account link remains authoritative even when another account is selected.",
+			BodyPath: "account_id",
+		},
 		&requestflag.Flag[[]string]{
 			Name:     "capability",
 			BodyPath: "capabilities",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "context",
+			Usage:    "Client snapshots attached to one instant-chat user message.\n\nContext is separate from visible message text and does not grant account access.\nThe compact JSON representation must not exceed 64 KiB.",
+			BodyPath: "context",
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "target",
@@ -80,6 +98,13 @@ var v1OmniAIThreadsCreateThread = requestflag.WithInnerFlags(cli.Command{
 	Action:          handleV1OmniAIThreadsCreateThread,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
+	"context": {
+		&requestflag.InnerFlag[[]map[string]any]{
+			Name:       "context.items",
+			Usage:      "One to four snapshots. Each snapshot's data may contain at most 32 levels of nesting.",
+			InnerField: "items",
+		},
+	},
 	"target": {
 		&requestflag.InnerFlag[string]{
 			Name:       "target.ticker",
@@ -95,7 +120,7 @@ var v1OmniAIThreadsCreateThread = requestflag.WithInnerFlags(cli.Command{
 
 var v1OmniAIThreadsGetMessages = cli.Command{
 	Name:    "get-messages",
-	Usage:   "List finalized messages in a thread.",
+	Usage:   "List finalized messages, including messages created before the account link.\nReturn the latest page by default, in chronological order within each page. Use\nthe returned page token to navigate history.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -105,8 +130,7 @@ var v1OmniAIThreadsGetMessages = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
+			Usage:     "Lists only conversations for this account, or unlinked conversations when omitted.\nOther reads authorize the resource's linked account.\nOmit when no account is selected; empty values and the string null are invalid.",
 			QueryPath: "account_id",
 		},
 		&requestflag.Flag[int64]{
@@ -127,7 +151,7 @@ var v1OmniAIThreadsGetMessages = cli.Command{
 
 var v1OmniAIThreadsGetThreadByID = cli.Command{
 	Name:    "get-thread-by-id",
-	Usage:   "Get a specific thread.",
+	Usage:   "Read an owned thread's metadata. Use `GET /omni-ai/threads/{thread_id}/messages`\nfor conversation history.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -137,8 +161,7 @@ var v1OmniAIThreadsGetThreadByID = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
+			Usage:     "Lists only conversations for this account, or unlinked conversations when omitted.\nOther reads authorize the resource's linked account.\nOmit when no account is selected; empty values and the string null are invalid.",
 			QueryPath: "account_id",
 		},
 	},
@@ -148,7 +171,7 @@ var v1OmniAIThreadsGetThreadByID = cli.Command{
 
 var v1OmniAIThreadsGetThreadResponse = cli.Command{
 	Name:    "get-thread-response",
-	Usage:   "Get the active response for a thread.",
+	Usage:   "Look up the currently active response without knowing its `response_id`. Use\nthis endpoint when reopening a thread whose assistant turn may still be in\nprogress.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -158,8 +181,7 @@ var v1OmniAIThreadsGetThreadResponse = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
+			Usage:     "Lists only conversations for this account, or unlinked conversations when omitted.\nOther reads authorize the resource's linked account.\nOmit when no account is selected; empty values and the string null are invalid.",
 			QueryPath: "account_id",
 		},
 	},
@@ -169,13 +191,12 @@ var v1OmniAIThreadsGetThreadResponse = cli.Command{
 
 var v1OmniAIThreadsGetThreads = cli.Command{
 	Name:    "get-threads",
-	Usage:   "List conversation threads.",
+	Usage:   "List authorized conversation metadata, newest first. Use `page_size` and\n`page_token` for pagination, and the messages endpoint for conversation history.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
 			Name:      "account-id",
-			Usage:     "Account ID for the request",
-			Required:  true,
+			Usage:     "Lists only conversations for this account, or unlinked conversations when omitted.\nOther reads authorize the resource's linked account.\nOmit when no account is selected; empty values and the string null are invalid.",
 			QueryPath: "account_id",
 		},
 		&requestflag.Flag[int64]{
