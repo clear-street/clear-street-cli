@@ -363,6 +363,11 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Stop price (required for STOP and STOP_LIMIT orders)",
 			InnerField: "stop_price",
 		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "order.strategy",
+			Usage:      "Optional execution strategy controlling how the order is worked in the market. Omit to use standard routing. One of `SOR`, `VWAP`, or `TWAP`.",
+			InnerField: "strategy",
+		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "order.symbol",
 			Usage:      "Trading symbol. For equities, use the ticker symbol (e.g., \"TSLA\").\nFor options, use the OSI symbol (e.g., \"TSLA  250117C00190000\").\nEither `symbol` or `instrument_id` must be provided.",
