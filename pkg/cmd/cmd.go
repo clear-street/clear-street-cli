@@ -114,6 +114,7 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1CalendarGetClock,
+					&v1CalendarGetEconomicEventsCalendar,
 					&v1CalendarGetMarketHoursCalendar,
 				},
 			},

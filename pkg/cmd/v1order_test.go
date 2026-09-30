@@ -83,7 +83,7 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--symbol", "symbol",
 			"--to", "'2019-12-27T18:11:19.117Z'",
 			"--underlying-instrument-id", "x",
-			"--updated-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
+			"--updated-at", "{gt: gt, gte: gte, lt: lt, lte: lte}",
 		)
 	})
 
@@ -107,10 +107,10 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--symbol", "symbol",
 			"--to", "'2019-12-27T18:11:19.117Z'",
 			"--underlying-instrument-id", "x",
-			"--updated-at.gt", "2019-12-27T18:11:19.117Z",
-			"--updated-at.gte", "2019-12-27T18:11:19.117Z",
-			"--updated-at.lt", "2019-12-27T18:11:19.117Z",
-			"--updated-at.lte", "2019-12-27T18:11:19.117Z",
+			"--updated-at.gt", "gt",
+			"--updated-at.gte", "gte",
+			"--updated-at.lt", "lt",
+			"--updated-at.lte", "lte",
 		)
 	})
 }

@@ -210,24 +210,24 @@ var v1OrdersGetOrders = requestflag.WithInnerFlags(cli.Command{
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"updated-at": {
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[string]{
 			Name:       "updated-at.gt",
-			Usage:      "> **Alpha** — this parameter is experimental and may change or be removed at any time.",
+			Usage:      "Return only rows where `updated_at` is strictly after the given value. A bare `YYYY-MM-DD` date expands to the end of that day (UTC), so this matches from the start of the following day. See [Range filters](https://docs.clearstreet.com/guides/api-fundamentals#range-filters) for accepted formats, bare-date expansion, and combining bounds. Returns 400 if the resulting range is inverted.",
 			InnerField: "gt",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[string]{
 			Name:       "updated-at.gte",
-			Usage:      "> **Alpha** — this parameter is experimental and may change or be removed at any time.",
+			Usage:      "Return only rows where `updated_at` is on or after the given value. A bare `YYYY-MM-DD` date expands to the start of that day (UTC). See [Range filters](https://docs.clearstreet.com/guides/api-fundamentals#range-filters) for accepted formats, bare-date expansion, and combining bounds. Returns 400 if the resulting range is inverted.",
 			InnerField: "gte",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[string]{
 			Name:       "updated-at.lt",
-			Usage:      "> **Alpha** — this parameter is experimental and may change or be removed at any time.",
+			Usage:      "Return only rows where `updated_at` is strictly before the given value. A bare `YYYY-MM-DD` date expands to the start of that day (UTC). See [Range filters](https://docs.clearstreet.com/guides/api-fundamentals#range-filters) for accepted formats, bare-date expansion, and combining bounds. Returns 400 if the resulting range is inverted.",
 			InnerField: "lt",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[string]{
 			Name:       "updated-at.lte",
-			Usage:      "> **Alpha** — this parameter is experimental and may change or be removed at any time.",
+			Usage:      "Return only rows where `updated_at` is on or before the given value. A bare `YYYY-MM-DD` date expands to the end of that day (UTC), so this matches through the end of that day. See [Range filters](https://docs.clearstreet.com/guides/api-fundamentals#range-filters) for accepted formats, bare-date expansion, and combining bounds. Returns 400 if the resulting range is inverted.",
 			InnerField: "lte",
 		},
 	},
