@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.0](https://github.com/clear-street/clear-street-cli/compare/v0.6.0...v0.7.0) (2026-10-01)
+
+
+### Features
+
+* **api:** api update ([d7ee3f1](https://github.com/clear-street/clear-street-cli/commit/d7ee3f19bb2160bdc26f275621c67ed80b863ccf))
+* **api:** api update ([2060642](https://github.com/clear-street/clear-street-cli/commit/20606427e27e9d102812f3623bf7c04d6b6ee617))
+* **api:** api update ([4e9fabc](https://github.com/clear-street/clear-street-cli/commit/4e9fabc61d62eeda4d55479e31a4103778bbe58a))
+* **api:** api update ([a5e06fc](https://github.com/clear-street/clear-street-cli/commit/a5e06fc346243bbd7726ccd15e2f4484b9a67125))
+* **api:** api update ([6bea42c](https://github.com/clear-street/clear-street-cli/commit/6bea42c3a8163de4d104612dda3c1cf5c2e3ed24))
+
 ## [0.6.0](https://github.com/clear-street/clear-street-cli/compare/v0.5.0...v0.6.0) (2026-09-18)
 
 
