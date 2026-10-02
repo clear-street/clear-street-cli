@@ -365,7 +365,7 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "order.strategy",
-			Usage:      "Optional execution strategy controlling how the order is worked in the market. Omit to use standard routing. One of `SOR`, `VWAP`, or `TWAP`.",
+			Usage:      "Optional execution strategy controlling how the order is worked in the market. Omit to use standard routing. One of `SOR`, `VWAP`, `TWAP`, or `DMA`.",
 			InnerField: "strategy",
 		},
 		&requestflag.InnerFlag[*string]{
