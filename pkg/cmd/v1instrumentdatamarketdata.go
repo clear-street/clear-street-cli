@@ -35,10 +35,20 @@ var v1InstrumentDataMarketDataGetSnapshots = cli.Command{
 	Usage:   "Get market data snapshots for one or more securities.",
 	Suggest: true,
 	Flags: []cli.Flag{
+		&requestflag.Flag[any]{
+			Name:      "expiry",
+			Usage:     "Filter the option chain to contracts expiring on this date (YYYY-MM-DD). Must be provided together with `underlying_instrument_id`.",
+			QueryPath: "expiry",
+		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols). Required; accepts 1 to 100 IDs. Duplicate resolved ids collapse to a single row.",
+			Usage:     "Comma-separated instrument IDs (UUID) or symbols (equity tickers or OSI option symbols). Accepts 1 to 100 IDs; duplicate resolved ids collapse to a single row. Required unless `underlying_instrument_id` and `expiry` are provided; mutually exclusive with that pair.",
 			QueryPath: "instrument_ids",
+		},
+		&requestflag.Flag[string]{
+			Name:      "underlying-instrument-id",
+			Usage:     "Instrument identifier or symbol of the underlying equity/index for an option chain. Must be provided together with `expiry`; mutually exclusive with `instrument_ids`.",
+			QueryPath: "underlying_instrument_id",
 		},
 	},
 	Action:          handleV1InstrumentDataMarketDataGetSnapshots,
