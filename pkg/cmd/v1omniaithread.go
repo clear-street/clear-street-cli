@@ -191,7 +191,7 @@ var v1OmniAIThreadsGetThreadResponse = cli.Command{
 
 var v1OmniAIThreadsGetThreads = cli.Command{
 	Name:    "get-threads",
-	Usage:   "List authorized conversation metadata, newest first. Use `page_size` and\n`page_token` for pagination, and the messages endpoint for conversation history.",
+	Usage:   "List authorized conversation metadata, most recently active first (by\n`updated_at`, which a new message moves). Use `page_size` and `page_token` for\npagination, and the messages endpoint for conversation history. A thread that\ngets a message while you page moves to the first page.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
