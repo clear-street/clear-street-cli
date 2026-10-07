@@ -161,6 +161,15 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:locates",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1LocatesGetLocateRateByID,
+					&v1LocatesGetLocateRates,
+				},
+			},
+			{
 				Name:     "v1:omni-ai:entitlements",
 				Category: "API RESOURCE",
 				Suggest:  true,
