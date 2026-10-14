@@ -165,8 +165,10 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
+					&v1LocatesGetLocateByID,
 					&v1LocatesGetLocateRateByID,
 					&v1LocatesGetLocateRates,
+					&v1LocatesGetLocates,
 				},
 			},
 			{
@@ -177,7 +179,9 @@ func init() {
 					&v1OmniAIEntitlementsCreateEntitlements,
 					&v1OmniAIEntitlementsDeleteEntitlement,
 					&v1OmniAIEntitlementsGetEntitlementAgreements,
+					&v1OmniAIEntitlementsGetEntitlementStatus,
 					&v1OmniAIEntitlementsGetEntitlements,
+					&v1OmniAIEntitlementsOptOutEntitlements,
 				},
 			},
 			{

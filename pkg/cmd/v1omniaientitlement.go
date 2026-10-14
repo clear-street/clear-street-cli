@@ -63,6 +63,20 @@ var v1OmniAIEntitlementsGetEntitlementAgreements = cli.Command{
 	HideHelpCommand: true,
 }
 
+var v1OmniAIEntitlementsGetEntitlementStatus = cli.Command{
+	Name:    "get-entitlement-status",
+	Usage:   "Whether each entitlement is enabled, per account. Accounts with no recorded\nchoice are enabled by default. Without `account_id`, covers every account the\ncaller can access.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			QueryPath: "account_id",
+		},
+	},
+	Action:          handleV1OmniAIEntitlementsGetEntitlementStatus,
+	HideHelpCommand: true,
+}
+
 var v1OmniAIEntitlementsGetEntitlements = cli.Command{
 	Name:    "get-entitlements",
 	Usage:   "List caller's active entitlement grants.",
@@ -74,6 +88,26 @@ var v1OmniAIEntitlementsGetEntitlements = cli.Command{
 		},
 	},
 	Action:          handleV1OmniAIEntitlementsGetEntitlements,
+	HideHelpCommand: true,
+}
+
+var v1OmniAIEntitlementsOptOutEntitlements = cli.Command{
+	Name:    "opt-out-entitlements",
+	Usage:   "Turn off one-or-more entitlements for the given accounts. Idempotent: accounts\nthat are already opted out are left as they are. To turn an entitlement back on,\nsign the agreement with `POST /omni-ai/entitlements`.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[[]int64]{
+			Name:     "account-id",
+			Required: true,
+			BodyPath: "account_ids",
+		},
+		&requestflag.Flag[[]string]{
+			Name:     "entitlement-code",
+			Required: true,
+			BodyPath: "entitlement_codes",
+		},
+	},
+	Action:          handleV1OmniAIEntitlementsOptOutEntitlements,
 	HideHelpCommand: true,
 }
 
@@ -199,6 +233,47 @@ func handleV1OmniAIEntitlementsGetEntitlementAgreements(ctx context.Context, cmd
 	})
 }
 
+func handleV1OmniAIEntitlementsGetEntitlementStatus(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1OmniAIEntitlementGetEntitlementStatusParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.OmniAI.Entitlements.GetEntitlementStatus(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:omni-ai:entitlements get-entitlement-status",
+		Transform:      transform,
+	})
+}
+
 func handleV1OmniAIEntitlementsGetEntitlements(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
@@ -236,6 +311,47 @@ func handleV1OmniAIEntitlementsGetEntitlements(ctx context.Context, cmd *cli.Com
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:omni-ai:entitlements get-entitlements",
+		Transform:      transform,
+	})
+}
+
+func handleV1OmniAIEntitlementsOptOutEntitlements(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1OmniAIEntitlementOptOutEntitlementsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.OmniAI.Entitlements.OptOutEntitlements(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:omni-ai:entitlements opt-out-entitlements",
 		Transform:      transform,
 	})
 }

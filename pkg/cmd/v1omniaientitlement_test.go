@@ -59,6 +59,17 @@ func TestV1OmniAIEntitlementsGetEntitlementAgreements(t *testing.T) {
 	})
 }
 
+func TestV1OmniAIEntitlementsGetEntitlementStatus(t *testing.T) {
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:omni-ai:entitlements", "get-entitlement-status",
+			"--account-id", "0",
+		)
+	})
+}
+
 func TestV1OmniAIEntitlementsGetEntitlements(t *testing.T) {
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
@@ -66,6 +77,34 @@ func TestV1OmniAIEntitlementsGetEntitlements(t *testing.T) {
 			"--api-key", "string",
 			"v1:omni-ai:entitlements", "get-entitlements",
 			"--account-id", "0",
+		)
+	})
+}
+
+func TestV1OmniAIEntitlementsOptOutEntitlements(t *testing.T) {
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:omni-ai:entitlements", "opt-out-entitlements",
+			"--account-id", "100019",
+			"--account-id", "100021",
+			"--entitlement-code", "omni.account_data",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"account_ids:\n" +
+			"  - 100019\n" +
+			"  - 100021\n" +
+			"entitlement_codes:\n" +
+			"  - omni.account_data\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:omni-ai:entitlements", "opt-out-entitlements",
 		)
 	})
 }
