@@ -52,6 +52,7 @@ func TestV1InstrumentsGetOptionContracts(t *testing.T) {
 			"--is-settle-on-open=true",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
+			"--root", "root",
 			"--underlier", "underlier",
 			"--underlying-instrument-id", "x",
 		)

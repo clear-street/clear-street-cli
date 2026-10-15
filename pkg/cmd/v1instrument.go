@@ -103,7 +103,7 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{
 			Name:      "contract-id",
-			Usage:     "Comma-separated contract instrument IDs (UUID) or OSI option symbols to look up directly, bypassing underlier expansion. Mutually exclusive with underlier/underlying_instrument_id; up to 100 values.",
+			Usage:     "Comma-separated contract instrument IDs (UUID) or OSI option symbols to look up directly, bypassing underlier expansion. Mutually exclusive with root/underlying_instrument_id; up to 100 values.",
 			QueryPath: "contract_ids",
 		},
 		&requestflag.Flag[string]{
@@ -133,8 +133,13 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 			QueryPath: "page_token",
 		},
 		&requestflag.Flag[string]{
+			Name:      "root",
+			Usage:     "OSI option root symbol (e.g., AAPL, SPXW). Index roots also include their weekly series (e.g., SPX includes SPXW).",
+			QueryPath: "root",
+		},
+		&requestflag.Flag[string]{
 			Name:      "underlier",
-			Usage:     "Underlier symbol (e.g., AAPL, SPX)",
+			Usage:     "Deprecated: use `root`. If both are sent, the values must match.",
 			QueryPath: "underlier",
 		},
 		&requestflag.Flag[string]{
