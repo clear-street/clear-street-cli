@@ -127,6 +127,7 @@ func init() {
 					&v1InstrumentDataGetInstrumentAnalystConsensus,
 					&v1InstrumentDataGetInstrumentBalanceSheetStatements,
 					&v1InstrumentDataGetInstrumentCashFlowStatements,
+					&v1InstrumentDataGetInstrumentEarningsTranscripts,
 					&v1InstrumentDataGetInstrumentEvents,
 					&v1InstrumentDataGetInstrumentFundamentals,
 					&v1InstrumentDataGetInstrumentIncomeStatements,

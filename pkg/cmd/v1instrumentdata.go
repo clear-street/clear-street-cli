@@ -155,6 +155,75 @@ var v1InstrumentDataGetInstrumentCashFlowStatements = cli.Command{
 	HideHelpCommand: true,
 }
 
+var v1InstrumentDataGetInstrumentEarningsTranscripts = requestflag.WithInnerFlags(cli.Command{
+	Name:    "get-instrument-earnings-transcripts",
+	Usage:   "Retrieves earnings call transcripts for a specific instrument, newest fiscal\nperiod first.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "instrument-id",
+			Usage:     "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
+			Required:  true,
+			PathParam: "instrument_id",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:      "date",
+			QueryPath: "date",
+		},
+		&requestflag.Flag[any]{
+			Name:      "event-date",
+			Usage:     "Return only transcripts whose call date is within one day of this earnings event date (`YYYY-MM-DD`). Use an event's `date` to fetch that event's transcript.",
+			QueryPath: "event_date",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Default:   1,
+			QueryPath: "page_size",
+		},
+		&requestflag.Flag[string]{
+			Name:      "page-token",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
+			QueryPath: "page_token",
+		},
+		&requestflag.Flag[string]{
+			Name:      "period",
+			Usage:     "Only return the transcript for this fiscal quarter.",
+			QueryPath: "period",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "year",
+			Usage:     "Only return the transcript for this fiscal year.",
+			QueryPath: "year",
+		},
+	},
+	Action:          handleV1InstrumentDataGetInstrumentEarningsTranscripts,
+	HideHelpCommand: true,
+}, map[string][]requestflag.HasOuterFlag{
+	"date": {
+		&requestflag.InnerFlag[string]{
+			Name:       "date.gt",
+			Usage:      "Return only rows where `date` is strictly after the given value. A bare `YYYY-MM-DD` date expands to the end of that day (UTC), so this matches from the start of the following day. See [Range filters](https://docs.clearstreet.com/guides/api-fundamentals#range-filters) for accepted formats, bare-date expansion, and combining bounds. Returns 400 if the resulting range is inverted.",
+			InnerField: "gt",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "date.gte",
+			Usage:      "Return only rows where `date` is on or after the given value. A bare `YYYY-MM-DD` date expands to the start of that day (UTC). See [Range filters](https://docs.clearstreet.com/guides/api-fundamentals#range-filters) for accepted formats, bare-date expansion, and combining bounds. Returns 400 if the resulting range is inverted.",
+			InnerField: "gte",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "date.lt",
+			Usage:      "Return only rows where `date` is strictly before the given value. A bare `YYYY-MM-DD` date expands to the start of that day (UTC). See [Range filters](https://docs.clearstreet.com/guides/api-fundamentals#range-filters) for accepted formats, bare-date expansion, and combining bounds. Returns 400 if the resulting range is inverted.",
+			InnerField: "lt",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "date.lte",
+			Usage:      "Return only rows where `date` is on or before the given value. A bare `YYYY-MM-DD` date expands to the end of that day (UTC), so this matches through the end of that day. See [Range filters](https://docs.clearstreet.com/guides/api-fundamentals#range-filters) for accepted formats, bare-date expansion, and combining bounds. Returns 400 if the resulting range is inverted.",
+			InnerField: "lte",
+		},
+	},
+})
+
 var v1InstrumentDataGetInstrumentEvents = cli.Command{
 	Name:    "get-instrument-events",
 	Usage:   "Retrieves corporate events (earnings, dividends, splits, IPO) for an instrument,\ngrouped by event type. Filter to specific types via `event_types`.",
@@ -423,6 +492,55 @@ func handleV1InstrumentDataGetInstrumentCashFlowStatements(ctx context.Context, 
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:instrument-data get-instrument-cash-flow-statements",
+		Transform:      transform,
+	})
+}
+
+func handleV1InstrumentDataGetInstrumentEarningsTranscripts(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("instrument-id") && len(unusedArgs) > 0 {
+		cmd.Set("instrument-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1InstrumentDataGetInstrumentEarningsTranscriptsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.InstrumentData.GetInstrumentEarningsTranscripts(
+		ctx,
+		cmd.Value("instrument-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:instrument-data get-instrument-earnings-transcripts",
 		Transform:      transform,
 	})
 }
