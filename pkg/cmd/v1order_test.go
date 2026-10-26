@@ -115,6 +115,109 @@ func TestV1OrdersGetOrders(t *testing.T) {
 	})
 }
 
+func TestV1OrdersPreviewOrders(t *testing.T) {
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:orders", "preview-orders",
+			"--account-id", "0",
+			"--preview", "{order_type: LIMIT, quantity: '100', side: BUY, time_in_force: DAY, id: preview-1, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: x, limit_offset: '0.50', limit_price: '100.00', position_intent: OPEN, stop_price: '52.00', strategy: {type: SOR}, symbol: AAPL, trailing_offset: '2.00', trailing_offset_type: PRICE}",
+			"--preview", "{order_type: LIMIT, quantity: '10', side: BUY, time_in_force: DAY, id: preview-2, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: x, limit_offset: '0.50', limit_price: '250.00', position_intent: OPEN, stop_price: '52.00', strategy: {type: SOR}, symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
+		)
+	})
+
+	t.Run("inner flags", func(t *testing.T) {
+		// Check that inner flags have been set up correctly
+		requestflag.CheckInnerFlags(v1OrdersPreviewOrders)
+
+		// Alternative argument passing style using inner flags
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:orders", "preview-orders",
+			"--account-id", "0",
+			"--preview.order-type", "LIMIT",
+			"--preview.quantity", "100",
+			"--preview.side", "BUY",
+			"--preview.time-in-force", "DAY",
+			"--preview.id", "preview-1",
+			"--preview.expires-at", "2025-10-15T16:00:00.000000000Z",
+			"--preview.extended-hours=true",
+			"--preview.instrument-id", "x",
+			"--preview.limit-offset", "0.50",
+			"--preview.limit-price", "100.00",
+			"--preview.position-intent", "OPEN",
+			"--preview.stop-price", "52.00",
+			"--preview.strategy", "{type: SOR}",
+			"--preview.symbol", "AAPL",
+			"--preview.trailing-offset", "2.00",
+			"--preview.trailing-offset-type", "PRICE",
+			"--preview.order-type", "LIMIT",
+			"--preview.quantity", "10",
+			"--preview.side", "BUY",
+			"--preview.time-in-force", "DAY",
+			"--preview.id", "preview-2",
+			"--preview.expires-at", "2025-10-15T16:00:00.000000000Z",
+			"--preview.extended-hours=true",
+			"--preview.instrument-id", "x",
+			"--preview.limit-offset", "0.50",
+			"--preview.limit-price", "250.00",
+			"--preview.position-intent", "OPEN",
+			"--preview.stop-price", "52.00",
+			"--preview.strategy", "{type: SOR}",
+			"--preview.symbol", "TSLA",
+			"--preview.trailing-offset", "2.00",
+			"--preview.trailing-offset-type", "PRICE",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"- order_type: LIMIT\n" +
+			"  quantity: '100'\n" +
+			"  side: BUY\n" +
+			"  time_in_force: DAY\n" +
+			"  id: preview-1\n" +
+			"  expires_at: '2025-10-15T16:00:00.000000000Z'\n" +
+			"  extended_hours: true\n" +
+			"  instrument_id: x\n" +
+			"  limit_offset: '0.50'\n" +
+			"  limit_price: '100.00'\n" +
+			"  position_intent: OPEN\n" +
+			"  stop_price: '52.00'\n" +
+			"  strategy:\n" +
+			"    type: SOR\n" +
+			"  symbol: AAPL\n" +
+			"  trailing_offset: '2.00'\n" +
+			"  trailing_offset_type: PRICE\n" +
+			"- order_type: LIMIT\n" +
+			"  quantity: '10'\n" +
+			"  side: BUY\n" +
+			"  time_in_force: DAY\n" +
+			"  id: preview-2\n" +
+			"  expires_at: '2025-10-15T16:00:00.000000000Z'\n" +
+			"  extended_hours: true\n" +
+			"  instrument_id: x\n" +
+			"  limit_offset: '0.50'\n" +
+			"  limit_price: '250.00'\n" +
+			"  position_intent: OPEN\n" +
+			"  stop_price: '52.00'\n" +
+			"  strategy:\n" +
+			"    type: SOR\n" +
+			"  symbol: TSLA\n" +
+			"  trailing_offset: '2.00'\n" +
+			"  trailing_offset_type: PRICE\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:orders", "preview-orders",
+			"--account-id", "0",
+		)
+	})
+}
+
 func TestV1OrdersReplaceOrder(t *testing.T) {
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(

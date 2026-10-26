@@ -16,7 +16,7 @@ import (
 
 var v1LocatesGetLocateByID = cli.Command{
 	Name:    "get-locate-by-id",
-	Usage:   "> **Beta** — this endpoint may change before general availability.",
+	Usage:   "Fetch one locate by id, matched against the locate request id, locate id, and\nclient request id, across all days in force.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{
@@ -36,7 +36,7 @@ var v1LocatesGetLocateByID = cli.Command{
 
 var v1LocatesGetLocateRateByID = cli.Command{
 	Name:    "get-locate-rate-by-id",
-	Usage:   "> **Beta** — this endpoint may change before general availability.",
+	Usage:   "Fetch the cached locate borrow rate for one instrument. Rates refresh\nperiodically; `404` means no rate is currently cached for the instrument.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -52,7 +52,7 @@ var v1LocatesGetLocateRateByID = cli.Command{
 
 var v1LocatesGetLocateRates = cli.Command{
 	Name:    "get-locate-rates",
-	Usage:   "> **Beta** — this endpoint may change before general availability.",
+	Usage:   "Fetch the cached locate borrow rates for up to 1,000 instruments. The response\nreturns one row per requested instrument, in request order. Each row carries\neither the `rate` or an `error` — a `404` when the instrument is unknown or has\nno cached rate. The status is `207` when any row has an error, `200` when every\ninstrument resolved to a rate.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]string]{
@@ -68,7 +68,7 @@ var v1LocatesGetLocateRates = cli.Command{
 
 var v1LocatesGetLocates = cli.Command{
 	Name:    "get-locates",
-	Usage:   "> **Beta** — this endpoint may change before general availability.",
+	Usage:   "List locates for the account on one effective date, which defaults to today's\nNew York calendar date. Filter by comma-separated statuses and instrument ids or\nsymbols.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[int64]{

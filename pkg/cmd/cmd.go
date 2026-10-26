@@ -235,6 +235,7 @@ func init() {
 					&v1OrdersGetExecutions,
 					&v1OrdersGetOrderByID,
 					&v1OrdersGetOrders,
+					&v1OrdersPreviewOrders,
 					&v1OrdersReplaceOrder,
 					&v1OrdersSubmitOrders,
 				},
