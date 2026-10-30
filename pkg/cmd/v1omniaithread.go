@@ -171,7 +171,7 @@ var v1OmniAIThreadsGetThreadByID = cli.Command{
 
 var v1OmniAIThreadsGetThreadResponse = cli.Command{
 	Name:    "get-thread-response",
-	Usage:   "Look up the currently active response without knowing its `response_id`. Use\nthis endpoint when reopening a thread whose assistant turn may still be in\nprogress.",
+	Usage:   "Returns the running response, or else the next queued response. Poll it while a\nthread is open to follow every response in order, including answers that start\nwithout a request: a response with no `user_message_id` presents a background\nresult, such as a subagent's report. Refresh messages when any response ends. An\nidle owned thread returns HTTP 200 with `data: null`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
