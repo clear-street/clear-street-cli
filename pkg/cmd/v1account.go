@@ -128,7 +128,7 @@ var v1AccountsPatchAccountByID = requestflag.WithInnerFlags(cli.Command{
 	"risk": {
 		&requestflag.InnerFlag[*string]{
 			Name:       "risk.max-notional",
-			Usage:      "The maximum notional value available to the account\nWhen a null/undefined value is observed, it indicates that there is no available data.",
+			Usage:      "The maximum notional value available to the account. On update, a value must be 0 or\ngreater, and `null` clears the limit.\nWhen a null/undefined value is observed, it indicates that there is no available data.",
 			InnerField: "max_notional",
 		},
 	},
