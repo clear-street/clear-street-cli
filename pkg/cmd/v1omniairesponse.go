@@ -16,7 +16,7 @@ import (
 
 var v1OmniAIResponsesCancelResponse = cli.Command{
 	Name:    "cancel-response",
-	Usage:   "Cancel a queued or running response. Canceling a running response (Stop) also\ncancels every queued response in the thread that answers a user message.\nCanceling a queued response (withdraw) cancels only that response; the running\nresponse and other queued responses continue. Cancellation is idempotent after\nthe response becomes terminal. Each canceled response still produces a finalized\nassistant message with outcome `canceled` in the thread history. Canceling a\nresponse that ended `steered` or `merged` stops the response that continues its\nwork, with the same effect as Stop.",
+	Usage:   "Cancel a queued or running response. Canceling a running response (Stop) also\ncancels every queued response in the thread that answers a user message.\nCanceling a queued response (withdraw) cancels only that response; the running\nresponse and other queued responses continue. Cancellation is idempotent after\nthe response becomes terminal. Each canceled response still produces a finalized\nassistant message with outcome `canceled` in the thread history. Canceling a\nresponse that ended `steered` or `merged` follows its `continued_in_response_id`\nand stops the response that continues its work, with the same effect as Stop.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -36,7 +36,7 @@ var v1OmniAIResponsesCancelResponse = cli.Command{
 
 var v1OmniAIResponsesGetResponseByID = cli.Command{
 	Name:    "get-response-by-id",
-	Usage:   "Poll the current snapshot of an in-progress or completed assistant response.\nWhile its status is `queued` or `running`, content may be partial and include\nthinking parts. Continue polling until it becomes `succeeded`, `failed`,\n`canceled`, `steered`, or `merged`. Treat an unknown status as terminal. On\n`steered` or `merged`, poll `GET /omni-ai/threads/{thread_id}/response` at once\nfor the response that continues the work.",
+	Usage:   "Poll the current snapshot of an in-progress or completed assistant response.\nWhile its status is `queued` or `running`, content may be partial and include\nthinking parts. Continue polling until it becomes `succeeded`, `failed`,\n`canceled`, `steered`, or `merged`. Treat an unknown status as terminal. On\n`steered` or `merged`, poll the response in `continued_in_response_id` at once:\nit continues the work.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
