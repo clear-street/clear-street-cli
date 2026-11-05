@@ -90,6 +90,7 @@ func TestV1PositionsGetPositions(t *testing.T) {
 			"v1:positions", "get-positions",
 			"--account-id", "0",
 			"--instrument-id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--instrument-type", "COMMON_STOCK",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
 			"--sort-by", "SYMBOL",

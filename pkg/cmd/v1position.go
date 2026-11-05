@@ -120,6 +120,11 @@ var v1PositionsGetPositions = cli.Command{
 			Usage:     "Comma-separated instrument identifiers",
 			QueryPath: "instrument_ids",
 		},
+		&requestflag.Flag[string]{
+			Name:      "instrument-type",
+			Usage:     "Instrument type filter (e.g., COMMON_STOCK, OPTION)",
+			QueryPath: "instrument_type",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
 			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
