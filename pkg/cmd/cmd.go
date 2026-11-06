@@ -96,6 +96,7 @@ func init() {
 					&v1AccountsGetAccountBalances,
 					&v1AccountsGetAccountByID,
 					&v1AccountsGetAccounts,
+					&v1AccountsGetNonTradeActivities,
 					&v1AccountsGetPortfolioHistory,
 					&v1AccountsPatchAccountByID,
 				},

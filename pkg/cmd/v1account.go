@@ -80,6 +80,32 @@ var v1AccountsGetAccounts = cli.Command{
 	HideHelpCommand: true,
 }
 
+var v1AccountsGetNonTradeActivities = cli.Command{
+	Name:    "get-non-trade-activities",
+	Usage:   "Results are paginated.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[int64]{
+			Name:      "account-id",
+			Required:  true,
+			PathParam: "account_id",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "page-size",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Default:   50,
+			QueryPath: "page_size",
+		},
+		&requestflag.Flag[string]{
+			Name:      "page-token",
+			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
+			QueryPath: "page_token",
+		},
+	},
+	Action:          handleV1AccountsGetNonTradeActivities,
+	HideHelpCommand: true,
+}
+
 var v1AccountsGetPortfolioHistory = cli.Command{
 	Name:    "get-portfolio-history",
 	Usage:   "Retrieves daily portfolio history for the specified account.",
@@ -262,6 +288,55 @@ func handleV1AccountsGetAccounts(ctx context.Context, cmd *cli.Command) error {
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:accounts get-accounts",
+		Transform:      transform,
+	})
+}
+
+func handleV1AccountsGetNonTradeActivities(ctx context.Context, cmd *cli.Command) error {
+	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("account-id") && len(unusedArgs) > 0 {
+		cmd.Set("account-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := clearstreet.V1AccountGetNonTradeActivitiesParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Accounts.GetNonTradeActivities(
+		ctx,
+		cmd.Value("account-id").(int64),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:accounts get-non-trade-activities",
 		Transform:      transform,
 	})
 }

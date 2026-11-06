@@ -46,6 +46,19 @@ func TestV1AccountsGetAccounts(t *testing.T) {
 	})
 }
 
+func TestV1AccountsGetNonTradeActivities(t *testing.T) {
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:accounts", "get-non-trade-activities",
+			"--account-id", "0",
+			"--page-size", "1",
+			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
+		)
+	})
+}
+
 func TestV1AccountsGetPortfolioHistory(t *testing.T) {
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
