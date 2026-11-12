@@ -165,6 +165,11 @@ var v1OrdersGetOrders = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Instrument type filter (e.g., COMMON_STOCK, OPTION)",
 			QueryPath: "instrument_type",
 		},
+		&requestflag.Flag[bool]{
+			Name:      "is-multi-leg",
+			Usage:     "> **Alpha** — this parameter is experimental and may change or be removed at any time.\n\nFilter by whether the order is a multileg strategy. Omitted returns all orders; true returns only multileg orders; false excludes them.",
+			QueryPath: "is_multi_leg",
+		},
 		&requestflag.Flag[[]string]{
 			Name:      "order-id",
 			Usage:     "Comma-separated list of order identifiers. Each value may be an order's `id` or its `client_order_id`; only orders matching one of the given identifiers are returned.",
@@ -233,7 +238,7 @@ var v1OrdersGetOrders = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1OrdersPreviewOrders = requestflag.WithInnerFlags(cli.Command{
+var v1OrdersPreviewOrders = cli.Command{
 	Name:    "preview-orders",
 	Usage:   "Preview the impact of orders without submitting them. For each order the engine\nevaluates every pre-trade risk check and projects the account's balances and\npositions as if the order were fully filled — at the limit price for limit\norders and at the current reference price for market orders. Orders are\nevaluated independently: they do not see each other's projected fills. Nothing\nis submitted and no account state changes.",
 	Suggest: true,
@@ -251,90 +256,7 @@ var v1OrdersPreviewOrders = requestflag.WithInnerFlags(cli.Command{
 	},
 	Action:          handleV1OrdersPreviewOrders,
 	HideHelpCommand: true,
-}, map[string][]requestflag.HasOuterFlag{
-	"preview": {
-		&requestflag.InnerFlag[string]{
-			Name:       "preview.order-type",
-			Usage:      "Strict order-type enum for order submission/replacement requests.",
-			InnerField: "order_type",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "preview.quantity",
-			Usage:      "Quantity to trade. For COMMON_STOCK: shares (may be fractional if supported).\nFor OPTION (single-leg): contracts (must be an integer)",
-			InnerField: "quantity",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "preview.side",
-			Usage:      "Side of the order (BUY or SELL).",
-			InnerField: "side",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "preview.time-in-force",
-			Usage:      "Strict time-in-force enum for order submission requests.",
-			InnerField: "time_in_force",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.id",
-			Usage:      "Optional client-provided unique ID (idempotency). Required to be unique per account.",
-			InnerField: "id",
-		},
-		&requestflag.InnerFlag[any]{
-			Name:       "preview.expires-at",
-			Usage:      "The timestamp when the order should expire (UTC). Required when time_in_force is GOOD_TILL_DATE.",
-			InnerField: "expires_at",
-		},
-		&requestflag.InnerFlag[*bool]{
-			Name:       "preview.extended-hours",
-			Usage:      "Allow trading outside regular trading hours. Some brokers disallow options outside RTH.",
-			InnerField: "extended_hours",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.instrument-id",
-			Usage:      "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
-			InnerField: "instrument_id",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.limit-offset",
-			Usage:      "Limit offset for trailing stop-limit orders (signed)",
-			InnerField: "limit_offset",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.limit-price",
-			Usage:      "Limit price (required for LIMIT and STOP_LIMIT orders)",
-			InnerField: "limit_price",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.position-intent",
-			Usage:      "Client-attested open/close intent for an order.",
-			InnerField: "position_intent",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.stop-price",
-			Usage:      "Stop price (required for STOP and STOP_LIMIT orders)",
-			InnerField: "stop_price",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "preview.strategy",
-			Usage:      "Optional execution strategy controlling how the order is worked in the market. Omit to use standard routing. One of `SOR`, `VWAP`, `TWAP`, or `DMA`.",
-			InnerField: "strategy",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.symbol",
-			Usage:      "Trading symbol. For equities, use the ticker symbol (e.g., \"TSLA\").\nFor options, use the OSI symbol (e.g., \"TSLA  250117C00190000\").\nEither `symbol` or `instrument_id` must be provided.",
-			InnerField: "symbol",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.trailing-offset",
-			Usage:      "Trailing offset amount (required for trailing orders)",
-			InnerField: "trailing_offset",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "preview.trailing-offset-type",
-			Usage:      "Trailing offset type for trailing stop orders.",
-			InnerField: "trailing_offset_type",
-		},
-	},
-})
+}
 
 var v1OrdersReplaceOrder = cli.Command{
 	Name:    "replace-order",
@@ -386,7 +308,7 @@ var v1OrdersReplaceOrder = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
+var v1OrdersSubmitOrders = cli.Command{
 	Name:    "submit-orders",
 	Usage:   "Submit new orders",
 	Suggest: true,
@@ -404,90 +326,7 @@ var v1OrdersSubmitOrders = requestflag.WithInnerFlags(cli.Command{
 	},
 	Action:          handleV1OrdersSubmitOrders,
 	HideHelpCommand: true,
-}, map[string][]requestflag.HasOuterFlag{
-	"order": {
-		&requestflag.InnerFlag[string]{
-			Name:       "order.order-type",
-			Usage:      "Strict order-type enum for order submission/replacement requests.",
-			InnerField: "order_type",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "order.quantity",
-			Usage:      "Quantity to trade. For COMMON_STOCK: shares (may be fractional if supported).\nFor OPTION (single-leg): contracts (must be an integer)",
-			InnerField: "quantity",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "order.side",
-			Usage:      "Side of the order (BUY or SELL).",
-			InnerField: "side",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "order.time-in-force",
-			Usage:      "Strict time-in-force enum for order submission requests.",
-			InnerField: "time_in_force",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.id",
-			Usage:      "Optional client-provided unique ID (idempotency). Required to be unique per account.",
-			InnerField: "id",
-		},
-		&requestflag.InnerFlag[any]{
-			Name:       "order.expires-at",
-			Usage:      "The timestamp when the order should expire (UTC). Required when time_in_force is GOOD_TILL_DATE.",
-			InnerField: "expires_at",
-		},
-		&requestflag.InnerFlag[*bool]{
-			Name:       "order.extended-hours",
-			Usage:      "Allow trading outside regular trading hours. Some brokers disallow options outside RTH.",
-			InnerField: "extended_hours",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.instrument-id",
-			Usage:      "Instrument identifier: either an instrument UUID or a symbol (symbol for equities, OSI for options). Non-UUID inputs are resolved server-side.",
-			InnerField: "instrument_id",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.limit-offset",
-			Usage:      "Limit offset for trailing stop-limit orders (signed)",
-			InnerField: "limit_offset",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.limit-price",
-			Usage:      "Limit price (required for LIMIT and STOP_LIMIT orders)",
-			InnerField: "limit_price",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.position-intent",
-			Usage:      "Client-attested open/close intent for an order.",
-			InnerField: "position_intent",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.stop-price",
-			Usage:      "Stop price (required for STOP and STOP_LIMIT orders)",
-			InnerField: "stop_price",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "order.strategy",
-			Usage:      "Optional execution strategy controlling how the order is worked in the market. Omit to use standard routing. One of `SOR`, `VWAP`, `TWAP`, or `DMA`.",
-			InnerField: "strategy",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.symbol",
-			Usage:      "Trading symbol. For equities, use the ticker symbol (e.g., \"TSLA\").\nFor options, use the OSI symbol (e.g., \"TSLA  250117C00190000\").\nEither `symbol` or `instrument_id` must be provided.",
-			InnerField: "symbol",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.trailing-offset",
-			Usage:      "Trailing offset amount (required for trailing orders)",
-			InnerField: "trailing_offset",
-		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "order.trailing-offset-type",
-			Usage:      "Trailing offset type for trailing stop orders.",
-			InnerField: "trailing_offset_type",
-		},
-	},
-})
+}
 
 func handleV1OrdersCancelAllOpenOrders(ctx context.Context, cmd *cli.Command) error {
 	client := clearstreet.NewClient(getDefaultRequestOptions(cmd)...)

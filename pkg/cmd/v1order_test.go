@@ -76,6 +76,7 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--from", "'2019-12-27T18:11:19.117Z'",
 			"--instrument-id", "x",
 			"--instrument-type", "COMMON_STOCK",
+			"--is-multi-leg=true",
 			"--order-id", "string",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
@@ -100,6 +101,7 @@ func TestV1OrdersGetOrders(t *testing.T) {
 			"--from", "'2019-12-27T18:11:19.117Z'",
 			"--instrument-id", "x",
 			"--instrument-type", "COMMON_STOCK",
+			"--is-multi-leg=true",
 			"--order-id", "string",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
@@ -124,51 +126,6 @@ func TestV1OrdersPreviewOrders(t *testing.T) {
 			"--account-id", "0",
 			"--preview", "{order_type: LIMIT, quantity: '100', side: BUY, time_in_force: DAY, id: preview-1, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: x, limit_offset: '0.50', limit_price: '100.00', position_intent: OPEN, stop_price: '52.00', strategy: {type: SOR}, symbol: AAPL, trailing_offset: '2.00', trailing_offset_type: PRICE}",
 			"--preview", "{order_type: LIMIT, quantity: '10', side: BUY, time_in_force: DAY, id: preview-2, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: x, limit_offset: '0.50', limit_price: '250.00', position_intent: OPEN, stop_price: '52.00', strategy: {type: SOR}, symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
-		)
-	})
-
-	t.Run("inner flags", func(t *testing.T) {
-		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1OrdersPreviewOrders)
-
-		// Alternative argument passing style using inner flags
-		mocktest.TestRunMockTestWithFlags(
-			t,
-			"--api-key", "string",
-			"v1:orders", "preview-orders",
-			"--account-id", "0",
-			"--preview.order-type", "LIMIT",
-			"--preview.quantity", "100",
-			"--preview.side", "BUY",
-			"--preview.time-in-force", "DAY",
-			"--preview.id", "preview-1",
-			"--preview.expires-at", "2025-10-15T16:00:00.000000000Z",
-			"--preview.extended-hours=true",
-			"--preview.instrument-id", "x",
-			"--preview.limit-offset", "0.50",
-			"--preview.limit-price", "100.00",
-			"--preview.position-intent", "OPEN",
-			"--preview.stop-price", "52.00",
-			"--preview.strategy", "{type: SOR}",
-			"--preview.symbol", "AAPL",
-			"--preview.trailing-offset", "2.00",
-			"--preview.trailing-offset-type", "PRICE",
-			"--preview.order-type", "LIMIT",
-			"--preview.quantity", "10",
-			"--preview.side", "BUY",
-			"--preview.time-in-force", "DAY",
-			"--preview.id", "preview-2",
-			"--preview.expires-at", "2025-10-15T16:00:00.000000000Z",
-			"--preview.extended-hours=true",
-			"--preview.instrument-id", "x",
-			"--preview.limit-offset", "0.50",
-			"--preview.limit-price", "250.00",
-			"--preview.position-intent", "OPEN",
-			"--preview.stop-price", "52.00",
-			"--preview.strategy", "{type: SOR}",
-			"--preview.symbol", "TSLA",
-			"--preview.trailing-offset", "2.00",
-			"--preview.trailing-offset-type", "PRICE",
 		)
 	})
 
@@ -262,35 +219,6 @@ func TestV1OrdersSubmitOrders(t *testing.T) {
 			"v1:orders", "submit-orders",
 			"--account-id", "0",
 			"--order", "{order_type: LIMIT, quantity: '1', side: BUY, time_in_force: DAY, id: my-ref-id-20251001-002, expires_at: '2025-10-15T16:00:00.000000000Z', extended_hours: true, instrument_id: x, limit_offset: '0.50', limit_price: '48.00', position_intent: OPEN, stop_price: '52.00', strategy: {type: SOR}, symbol: TSLA, trailing_offset: '2.00', trailing_offset_type: PRICE}",
-		)
-	})
-
-	t.Run("inner flags", func(t *testing.T) {
-		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1OrdersSubmitOrders)
-
-		// Alternative argument passing style using inner flags
-		mocktest.TestRunMockTestWithFlags(
-			t,
-			"--api-key", "string",
-			"v1:orders", "submit-orders",
-			"--account-id", "0",
-			"--order.order-type", "LIMIT",
-			"--order.quantity", "1",
-			"--order.side", "BUY",
-			"--order.time-in-force", "DAY",
-			"--order.id", "my-ref-id-20251001-002",
-			"--order.expires-at", "2025-10-15T16:00:00.000000000Z",
-			"--order.extended-hours=true",
-			"--order.instrument-id", "x",
-			"--order.limit-offset", "0.50",
-			"--order.limit-price", "48.00",
-			"--order.position-intent", "OPEN",
-			"--order.stop-price", "52.00",
-			"--order.strategy", "{type: SOR}",
-			"--order.symbol", "TSLA",
-			"--order.trailing-offset", "2.00",
-			"--order.trailing-offset-type", "PRICE",
 		)
 	})
 
