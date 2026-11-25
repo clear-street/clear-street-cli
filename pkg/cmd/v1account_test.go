@@ -53,8 +53,11 @@ func TestV1AccountsGetNonTradeActivities(t *testing.T) {
 			"--api-key", "string",
 			"v1:accounts", "get-non-trade-activities",
 			"--account-id", "0",
+			"--activity-type", "money_movement",
+			"--from", "'2019-12-27T18:11:19.117Z'",
 			"--page-size", "1",
 			"--page-token", "U3RhaW5sZXNzIHJvY2tz",
+			"--to", "'2019-12-27T18:11:19.117Z'",
 		)
 	})
 }

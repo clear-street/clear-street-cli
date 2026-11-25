@@ -90,6 +90,16 @@ var v1AccountsGetNonTradeActivities = cli.Command{
 			Required:  true,
 			PathParam: "account_id",
 		},
+		&requestflag.Flag[[]string]{
+			Name:      "activity-type",
+			Usage:     "Filter by activity type(s). Comma-delimited list. Example: `activity_type=dividend,fee`.",
+			QueryPath: "activity_type",
+		},
+		&requestflag.Flag[any]{
+			Name:      "from",
+			Usage:     "The start date and time for the query range, inclusive (ISO 8601 format)",
+			QueryPath: "from",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
 			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
@@ -100,6 +110,11 @@ var v1AccountsGetNonTradeActivities = cli.Command{
 			Name:      "page-token",
 			Usage:     "Token for retrieving the next or previous page of results. Contains encoded pagination state; when provided, page_size is ignored.",
 			QueryPath: "page_token",
+		},
+		&requestflag.Flag[any]{
+			Name:      "to",
+			Usage:     "The end date and time for the query range, inclusive (ISO 8601 format)",
+			QueryPath: "to",
 		},
 	},
 	Action:          handleV1AccountsGetNonTradeActivities,
