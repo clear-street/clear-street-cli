@@ -159,7 +159,7 @@ var v1AccountsPatchAccountByID = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "risk",
-			Usage:    "Risk settings for an account",
+			Usage:    "Risk settings for the account",
 			BodyPath: "risk",
 		},
 	},
@@ -167,9 +167,14 @@ var v1AccountsPatchAccountByID = requestflag.WithInnerFlags(cli.Command{
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"risk": {
+		&requestflag.InnerFlag[string]{
+			Name:       "risk.margin-multiplier",
+			Usage:      "The leverage of a Reg T margin account.",
+			InnerField: "margin_multiplier",
+		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "risk.max-notional",
-			Usage:      "The maximum notional value available to the account. On update, a value must be 0 or\ngreater, `null` clears the limit, and omitting the field leaves the limit unchanged.\nWhen a null/undefined value is observed, it indicates that there is no available data.",
+			Usage:      "The maximum notional value available to the account: 0 or greater. `null` clears the\nlimit.",
 			InnerField: "max_notional",
 		},
 	},

@@ -82,7 +82,7 @@ func TestV1AccountsPatchAccountByID(t *testing.T) {
 			"--api-key", "string",
 			"v1:accounts", "patch-account-by-id",
 			"--account-id", "0",
-			"--risk", "{max_notional: '5000000.00'}",
+			"--risk", "{margin_multiplier: '1', max_notional: '5000000.00'}",
 		)
 	})
 
@@ -96,6 +96,7 @@ func TestV1AccountsPatchAccountByID(t *testing.T) {
 			"--api-key", "string",
 			"v1:accounts", "patch-account-by-id",
 			"--account-id", "0",
+			"--risk.margin-multiplier", "1",
 			"--risk.max-notional", "5000000.00",
 		)
 	})
@@ -104,6 +105,7 @@ func TestV1AccountsPatchAccountByID(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"risk:\n" +
+			"  margin_multiplier: '1'\n" +
 			"  max_notional: '5000000.00'\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
