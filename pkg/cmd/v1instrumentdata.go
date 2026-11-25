@@ -36,7 +36,7 @@ var v1InstrumentDataGetAllInstrumentEvents = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
@@ -99,7 +99,7 @@ var v1InstrumentDataGetInstrumentBalanceSheetStatements = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
@@ -136,7 +136,7 @@ var v1InstrumentDataGetInstrumentCashFlowStatements = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
@@ -177,7 +177,7 @@ var v1InstrumentDataGetInstrumentEarningsTranscripts = requestflag.WithInnerFlag
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   1,
 			QueryPath: "page_size",
 		},
@@ -289,7 +289,7 @@ var v1InstrumentDataGetInstrumentIncomeStatements = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},

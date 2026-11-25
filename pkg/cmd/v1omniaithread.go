@@ -135,7 +135,7 @@ var v1OmniAIThreadsGetMessages = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   100,
 			QueryPath: "page_size",
 		},
@@ -201,7 +201,7 @@ var v1OmniAIThreadsGetThreads = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   100,
 			QueryPath: "page_size",
 		},

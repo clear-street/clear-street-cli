@@ -46,8 +46,8 @@ var v1InstrumentDataNewsGetNews = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
-			Default:   1000,
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
+			Default:   100,
 			QueryPath: "page_size",
 		},
 		&requestflag.Flag[string]{

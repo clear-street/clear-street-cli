@@ -82,7 +82,7 @@ var v1InstrumentsGetInstruments = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
@@ -123,7 +123,7 @@ var v1InstrumentsGetOptionContracts = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   1000,
 			QueryPath: "page_size",
 		},
@@ -196,7 +196,7 @@ var v1InstrumentsGetPredictionEvents = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   20,
 			QueryPath: "page_size",
 		},
@@ -292,7 +292,7 @@ var v1InstrumentsGetPredictionMarkets = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   100,
 			QueryPath: "page_size",
 		},
@@ -323,7 +323,7 @@ var v1InstrumentsGetPredictionSeries = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 is rejected; a value above the maximum is treated as the maximum.",
 			Default:   100,
 			QueryPath: "page_size",
 		},
@@ -375,7 +375,7 @@ var v1InstrumentsSearchInstruments = cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:      "page-size",
-			Usage:     "The number of items to return per page. Only used when page_token is not provided.",
+			Usage:     "The number of items to return per page. Only used when page_token is not provided. A value of 0 or above the maximum is rejected.",
 			Default:   100,
 			QueryPath: "page_size",
 		},
