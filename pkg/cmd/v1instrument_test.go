@@ -88,6 +88,7 @@ func TestV1InstrumentsGetPredictionEvents(t *testing.T) {
 			"--series-codes", "series_codes",
 			"--sort-by", "OPEN_AT",
 			"--sort-direction", "ASC",
+			"--statuses", "statuses",
 		)
 	})
 
@@ -118,6 +119,7 @@ func TestV1InstrumentsGetPredictionEvents(t *testing.T) {
 			"--series-codes", "series_codes",
 			"--sort-by", "OPEN_AT",
 			"--sort-direction", "ASC",
+			"--statuses", "statuses",
 		)
 	})
 }
