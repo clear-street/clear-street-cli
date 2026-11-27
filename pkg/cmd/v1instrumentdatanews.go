@@ -36,7 +36,7 @@ var v1InstrumentDataNewsGetNews = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "instrument-id",
-			Usage:     "Comma-delimited instrument identifiers to filter by.",
+			Usage:     "Comma-delimited instrument identifiers to filter by. Matches include news tagged to the other share classes and cross-listings of the same issuer.",
 			QueryPath: "instrument_ids",
 		},
 		&requestflag.Flag[string]{
